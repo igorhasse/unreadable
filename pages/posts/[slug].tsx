@@ -38,6 +38,14 @@ export default function PostPage() {
         {post.description && (
           <p className="mt-4 text-lg text-on-surface-variant">{post.description}</p>
         )}
+        {post.coverImage && (
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            className="mt-8 w-full rounded-xl object-cover"
+            loading="lazy"
+          />
+        )}
       </header>
 
       <div

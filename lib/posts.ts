@@ -3,6 +3,7 @@ export interface PostMeta {
   title: string;
   date: string;
   description: string;
+  coverImage?: string;
 }
 
 function parseFrontmatter(raw: string): { attributes: Record<string, string>; body: string } {
@@ -40,6 +41,7 @@ export function getPostBySlug(slug: string): Post | null {
     title: attributes.title || slug,
     date: attributes.date || "",
     description: attributes.description || "",
+    coverImage: attributes.coverImage || undefined,
     content: body,
   };
 }
@@ -56,6 +58,7 @@ export function getAllPosts(): PostMeta[] {
       title: attributes.title || slug,
       date: attributes.date || "",
       description: attributes.description || "",
+      coverImage: attributes.coverImage || undefined,
     });
   }
 
