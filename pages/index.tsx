@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllPosts } from "../lib/posts";
+import Newsletter from "../components/Newsletter";
 
 export default function Home() {
   const posts = getAllPosts();
@@ -27,6 +28,10 @@ export default function Home() {
             </p>
           </Link>
         ))}
+      </div>
+
+      <div className="mt-16">
+        <Newsletter />
       </div>
     </div>
   );

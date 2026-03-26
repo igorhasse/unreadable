@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { getPostBySlug } from "../../lib/posts";
 import { renderMarkdown } from "../../lib/markdown";
+import Newsletter from "../../components/Newsletter";
 
 export default function PostPage() {
   const router = useRouter();
@@ -43,6 +44,10 @@ export default function PostPage() {
         className="prose mt-12"
         dangerouslySetInnerHTML={{ __html: html }}
       />
+
+      <div className="mt-16">
+        <Newsletter />
+      </div>
     </article>
   );
 }
