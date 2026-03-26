@@ -32,3 +32,171 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   color: var(--color-primary);
 }
+
+/* Prose styles for markdown content */
+.prose {
+  color: var(--color-on-surface-variant);
+  line-height: 1.8;
+  font-size: 1.0625rem;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  line-height: 1.3;
+}
+
+.prose h1 { font-size: 2rem; }
+.prose h2 { font-size: 1.5rem; }
+.prose h3 { font-size: 1.25rem; }
+
+.prose p {
+  margin-bottom: 1.25em;
+}
+
+.prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: var(--color-primary-container);
+}
+
+.prose strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-surface-container-highest);
+  padding-left: 1em;
+  margin: 1.5em 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.prose ul,
+.prose ol {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
+}
+
+.prose ul { list-style-type: disc; }
+.prose ol { list-style-type: decimal; }
+
+.prose li {
+  margin-bottom: 0.5em;
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin: 1.5em 0;
+}
+
+.prose pre {
+  background-color: var(--color-surface-container-lowest);
+  border-radius: 0.75rem;
+  padding: 1.25em;
+  overflow-x: auto;
+  margin: 1.5em 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.875em;
+}
+
+.prose :not(pre) > code {
+  background-color: var(--color-surface-container-high);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  color: var(--color-on-surface);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-surface-container-highest);
+  margin: 2em 0;
+}
+
+/* highlight.js dark theme (GitHub Dark Dimmed inspired) */
+.hljs {
+  color: #adbac7;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal {
+  color: #f47067;
+}
+
+.hljs-string,
+.hljs-attr {
+  color: #96d0ff;
+}
+
+.hljs-title,
+.hljs-title.function_,
+.hljs-section {
+  color: #dcbdfb;
+}
+
+.hljs-name,
+.hljs-tag {
+  color: #8ddb8c;
+}
+
+.hljs-variable,
+.hljs-params {
+  color: #f69d50;
+}
+
+.hljs-comment,
+.hljs-doctag {
+  color: #768390;
+  font-style: italic;
+}
+
+.hljs-number {
+  color: #6cb6ff;
+}
+
+.hljs-type,
+.hljs-built_in {
+  color: #6cb6ff;
+}
+
+.hljs-meta {
+  color: #768390;
+}
+
+.hljs-addition {
+  color: #8ddb8c;
+  background-color: rgba(141, 219, 140, 0.1);
+}
+
+.hljs-deletion {
+  color: #f47067;
+  background-color: rgba(244, 112, 103, 0.1);
+}

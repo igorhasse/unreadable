@@ -25,6 +25,25 @@ const postFiles = import.meta.glob("/content/posts/*.md", {
   import: "default",
 }) as Record<string, string>;
 
+export interface Post extends PostMeta {
+  content: string;
+}
+
+export function getPostBySlug(slug: string): Post | null {
+  const path = `/content/posts/${slug}.md`;
+  const raw = postFiles[path];
+  if (!raw) return null;
+
+  const { attributes, body } = parseFrontmatter(raw);
+  return {
+    slug,
+    title: attributes.title || slug,
+    date: attributes.date || "",
+    description: attributes.description || "",
+    content: body,
+  };
+}
+
 export function getAllPosts(): PostMeta[] {
   const posts: PostMeta[] = [];
 
