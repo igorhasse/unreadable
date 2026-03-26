@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "paths": {
+      "next/app": ["./node_modules/vinext/dist/shims/app"],
+      "next/document": ["./node_modules/vinext/dist/shims/document"],
+      "next/head": ["./node_modules/vinext/dist/shims/head"],
+      "next/link": ["./node_modules/vinext/dist/shims/link"],
+      "next/router": ["./node_modules/vinext/dist/shims/router"],
+      "next/image": ["./node_modules/vinext/dist/shims/image"],
+      "next/dynamic": ["./node_modules/vinext/dist/shims/dynamic"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}
