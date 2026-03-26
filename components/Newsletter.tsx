@@ -1,11 +1,11 @@
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
 
-const MAILCHIMP_URL =
-  "https://example.us21.list-manage.com/subscribe/post?u=XXXXXXXX&amp;id=YYYYYYYY";
+const MAILCHIMP_ACTION = import.meta.env.VITE_MAILCHIMP_URL || "";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -15,9 +15,8 @@ export default function Newsletter() {
       return;
     }
 
-    // Open Mailchimp subscription in a new window (standard embed approach)
-    const url = `${MAILCHIMP_URL}&EMAIL=${encodeURIComponent(email)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    // Submit the hidden form via POST to Mailchimp
+    formRef.current?.submit();
 
     setStatus("success");
     setEmail("");
@@ -32,6 +31,20 @@ export default function Newsletter() {
         Subscribe to get notified about new posts. No spam, unsubscribe anytime.
       </p>
 
+      {/* Hidden real Mailchimp form that does POST */}
+      <form
+        ref={formRef}
+        action={MAILCHIMP_ACTION}
+        method="post"
+        target="_blank"
+        style={{ display: "none" }}
+      >
+        <input type="email" name="EMAIL" value={email} readOnly />
+        {/* Honeypot anti-bot field */}
+        <input type="text" name="b_b996de87ad64788a889762e4f_bb87ce3968" tabIndex={-1} defaultValue="" />
+      </form>
+
+      {/* Our styled form */}
       <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3 sm:flex-row">
         <input
           type="email"
