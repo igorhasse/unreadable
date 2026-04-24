@@ -1,5 +1,39 @@
 import { Marked } from "marked";
-import { codeToHtml } from "shiki";
+import { createHighlighterCore, type HighlighterCore } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
+import githubDarkDimmed from "shiki/themes/github-dark-dimmed.mjs";
+import css from "shiki/langs/css.mjs";
+import tsx from "shiki/langs/tsx.mjs";
+import typescript from "shiki/langs/typescript.mjs";
+import yaml from "shiki/langs/yaml.mjs";
+
+/**
+ * Shiki is bundled with only the languages used by our posts.
+ * When a new post uses a new language, add it here:
+ *   1. `import <lang> from "shiki/langs/<lang>.mjs";`
+ *   2. Add to LANGS below
+ *   3. Add to SUPPORTED_LANGS (plus any aliases in normalizeLang)
+ */
+const LANGS = [css, tsx, typescript, yaml];
+const SUPPORTED_LANGS = new Set(["css", "tsx", "typescript", "yaml"]);
+
+let highlighterPromise: Promise<HighlighterCore> | null = null;
+function getHighlighter(): Promise<HighlighterCore> {
+  if (!highlighterPromise) {
+    highlighterPromise = createHighlighterCore({
+      themes: [githubDarkDimmed],
+      langs: LANGS,
+      engine: createJavaScriptRegexEngine(),
+    });
+  }
+  return highlighterPromise;
+}
+
+function normalizeLang(lang: string): string {
+  if (lang === "ts") return "typescript";
+  if (lang === "yml") return "yaml";
+  return SUPPORTED_LANGS.has(lang) ? lang : "plaintext";
+}
 
 function slugifyHeading(text: string): string {
   return text
@@ -52,27 +86,19 @@ function addHeadingIds(html: string): string {
   });
 }
 
-/**
- * Two-pass render:
- *  1. Walk tokens, replace each code block with shiki-highlighted HTML.
- *  2. Parse the remaining markdown via marked with our custom renderer.
- *
- * Shiki's codeToHtml is async, so the whole pipeline is async.
- */
 export async function renderMarkdown(content: string, slug: string): Promise<string> {
   const stripped = content.replace(/^\s*#\s+[^\n]+\n+/, "");
   const marked = makeMarked(slug);
+  const highlighter = await getHighlighter();
 
-  // Pre-highlight code blocks by replacing them with pre-rendered HTML tokens.
   const tokens = marked.lexer(stripped);
   for (const token of tokens) {
     if (token.type === "code") {
-      const lang = token.lang || "plaintext";
-      const highlighted = await codeToHtml(token.text, {
+      const lang = normalizeLang(token.lang || "plaintext");
+      const highlighted = highlighter.codeToHtml(token.text, {
         lang,
         theme: "github-dark-dimmed",
       });
-      // Mark as raw HTML so marked.parser doesn't re-encode it.
       (token as { type: string; raw: string; text: string }).type = "html";
       (token as { type: string; raw: string; text: string }).text = highlighted;
       (token as { type: string; raw: string; text: string }).raw = highlighted;
