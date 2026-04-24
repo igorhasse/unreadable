@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import type { Locale } from "../../../../lib/site-config";
 import { SITE } from "../../../../lib/site-config";
 import { getPostBySlug, getTranslatedSlug } from "../../../../lib/posts";
-import { renderMarkdown } from "../../../../lib/markdown";
+import { renderMarkdown, rewriteAssetPath } from "../../../../lib/markdown";
 import { t } from "../../../../i18n/t";
 import Newsletter from "../../../../components/Newsletter";
 import ProgressBar from "../../../../components/ProgressBar";
@@ -86,11 +86,7 @@ export default async function PostPage({
     mainEntityOfPage: `${SITE.url}/${loc}/posts/${slug}`,
   };
 
-  const coverSrc = post.coverImage
-    ? post.coverImage.startsWith("/") || post.coverImage.startsWith("http")
-      ? post.coverImage
-      : `/posts/${slug}/${post.coverImage.replace(/^\.\//, "")}`
-    : undefined;
+  const coverSrc = post.coverImage ? rewriteAssetPath(post.coverImage, slug) : undefined;
 
   return (
     <>

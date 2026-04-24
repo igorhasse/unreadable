@@ -79,6 +79,7 @@ All personal info (name, email, socials, URLs) lives in `lib/site-config.ts`. Ev
 - **`next/og` only works in prod.** In `vinext dev`, Satori's native modules crash — OG image URLs return 404 locally. Deploy or `vinext build && vinext start` to test.
 - **`require is not defined` in SSR for CJS-only deps.** Prefer ESM-native packages. `shiki` (ESM) instead of `highlight.js` (CJS).
 - **Ambient `next` types** — because vinext doesn't install `next` itself, some type imports from the `"next"` module root aren't automatically resolvable. See `next-env.d.ts` for the declarations we've needed (`Metadata`, `Viewport`, `MetadataRoute`, named font loaders, `ImageResponse`).
+- **`openGraph.alternateLocale` is NOT typed** by vinext's Metadata shim, so we can't currently emit it via `generateMetadata()`. The equivalent SEO signal comes from our `<link rel="alternate" hreflang>` tags via `alternates.languages`, which Google treats as equivalent or stronger. Re-add `alternateLocale` if vinext's shim type ever includes it.
 
 ## Philosophy: "The Digital Curator"
 

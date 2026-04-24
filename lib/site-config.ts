@@ -20,3 +20,11 @@ export const SITE = {
 } as const;
 
 export type Locale = "pt-BR" | "en";
+
+export const LOCALES: readonly Locale[] = ["pt-BR", "en"] as const;
+export const DEFAULT_LOCALE: Locale = "pt-BR";
+
+/** Narrow any unknown value to our Locale union, falling back to DEFAULT_LOCALE. */
+export function normalizeLocale(value: unknown): Locale {
+  return value === "en" ? "en" : "pt-BR";
+}

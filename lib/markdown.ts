@@ -26,7 +26,7 @@ function escapeHtml(s: string): string {
  * non-markdown files from content/posts/<slug>/ to public/posts/<slug>/ at
  * build/dev time, so this path is valid at runtime.
  */
-function rewriteAssetPath(src: string, slug: string): string {
+export function rewriteAssetPath(src: string, slug: string): string {
   if (src.startsWith("./")) return `/posts/${slug}/${src.slice(2)}`;
   if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) return src;
   return `/posts/${slug}/${src}`;

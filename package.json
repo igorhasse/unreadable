@@ -8,7 +8,7 @@
     "start": "vinext start",
     "typecheck": "tsc --noEmit",
     "update:vinext": "npm install vinext@latest --legacy-peer-deps",
-    "update:all": "npm install vinext@latest vite@latest @vitejs/plugin-react@latest tailwindcss@latest @tailwindcss/vite@latest @tailwindcss/postcss@latest marked@latest highlight.js@latest react@latest react-dom@latest --legacy-peer-deps"
+    "update:all": "npm install vinext@latest vite@latest @vitejs/plugin-react@latest tailwindcss@latest @tailwindcss/vite@latest @tailwindcss/postcss@latest marked@latest shiki@latest react@latest react-dom@latest --legacy-peer-deps"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.4",
