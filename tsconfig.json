@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["vitest/globals", "node", "vite/client"],
+    "types": ["vitest/globals", "node", "vite/client", "@cloudflare/workers-types"],
     "paths": {
       "next/app": ["./node_modules/vinext/dist/shims/app"],
       "next/compat/router": ["./node_modules/vinext/dist/shims/compat-router"],
