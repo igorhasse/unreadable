@@ -2,6 +2,7 @@ node_modules/
 dist/
 .vinext/
 .next/
+.worktrees/
 *.tsbuildinfo
 
 # Environment variables
