@@ -26,14 +26,14 @@ describe("getPostBySlug", () => {
   it("produces dateHuman in Portuguese month format for pt-BR", () => {
     const post = getPostBySlug("porque-typescript-importa", "pt-BR");
     expect(post?.dateHuman).toMatch(
-      /\d{2} (Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez) \d{4}/,
+      /\d{2} (Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez) \d{4}/
     );
   });
 
   it("produces dateHuman in English month format for en", () => {
     const post = getPostBySlug("porque-typescript-importa", "en");
     expect(post?.dateHuman).toMatch(
-      /\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}/,
+      /\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}/
     );
   });
 

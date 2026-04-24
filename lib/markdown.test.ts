@@ -7,9 +7,7 @@ describe("rewriteAssetPath", () => {
   });
 
   it("keeps absolute URLs untouched", () => {
-    expect(rewriteAssetPath("https://example.com/x.jpg", "s")).toBe(
-      "https://example.com/x.jpg",
-    );
+    expect(rewriteAssetPath("https://example.com/x.jpg", "s")).toBe("https://example.com/x.jpg");
     expect(rewriteAssetPath("http://cdn.io/a.webp", "s")).toBe("http://cdn.io/a.webp");
   });
 

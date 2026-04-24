@@ -4,16 +4,16 @@ import type { NextRequest } from "next/server";
 const LOCALES = ["pt-BR", "en"] as const;
 const DEFAULT_LOCALE = "pt-BR";
 
-function hasLocalePrefix(pathname: string): boolean {
+export function hasLocalePrefix(pathname: string): boolean {
   return LOCALES.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
 }
 
-function detectLocale(req: NextRequest): string {
-  const cookie = req.cookies.get("NEXT_LOCALE")?.value;
-  if (cookie === "pt-BR" || cookie === "en") return cookie;
-
-  const accept = req.headers.get("accept-language") ?? "";
-  // Simple heuristic: prefer pt if it appears, else en if it appears, else default.
+export function detectLocale(
+  cookieLocale: string | undefined,
+  acceptLanguage: string | null
+): string {
+  if (cookieLocale === "pt-BR" || cookieLocale === "en") return cookieLocale;
+  const accept = acceptLanguage ?? "";
   if (/\bpt\b|pt-BR|pt-PT/i.test(accept)) return "pt-BR";
   if (/\ben\b|en-US|en-GB/i.test(accept)) return "en";
   return DEFAULT_LOCALE;
@@ -26,7 +26,10 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const locale = detectLocale(req);
+  const locale = detectLocale(
+    req.cookies.get("NEXT_LOCALE")?.value,
+    req.headers.get("accept-language")
+  );
   const url = req.nextUrl.clone();
   url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
   return NextResponse.redirect(url.toString(), 307);
@@ -34,7 +37,6 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip: _next internals, public files with extensions, rss.xml, sitemap, robots, favicons, apple-touch-icon
     "/((?!_next|assets|posts/.+\\.[a-z0-9]+|favicon|apple-touch-icon|sitemap|robots|rss\\.xml|en/rss\\.xml).*)",
   ],
 };
