@@ -4,8 +4,8 @@
   "compatibility_date": "2026-04-24",
   "compatibility_flags": ["nodejs_compat"],
   "routes": [
-    { "pattern": "igorhasse.com/*", "zone_name": "igorhasse.com" },
-    { "pattern": "www.igorhasse.com/*", "zone_name": "igorhasse.com" },
+    { "pattern": "igorhasse.com", "custom_domain": true },
+    { "pattern": "www.igorhasse.com", "custom_domain": true },
   ],
   "observability": {
     "enabled": true,
