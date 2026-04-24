@@ -186,4 +186,12 @@ export default defineConfig({
     rssPlugin(),
     assetsPlugin(),
   ],
+  build: {
+    minify: "esbuild",
+  },
+  environments: {
+    client: { build: { minify: "esbuild" } },
+    rsc: { build: { minify: "esbuild" } },
+    ssr: { build: { minify: "esbuild" } },
+  },
 });
