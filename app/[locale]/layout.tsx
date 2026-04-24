@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import "../../styles/globals.css";
 import { SITE, type Locale } from "../../lib/site-config";
 import SiteHeader from "../../components/SiteHeader";
-import SiteFooter from "../../components/SiteFooter";
 
 const serif = Newsreader({
   subsets: ["latin"],
@@ -123,7 +122,6 @@ export default async function RootLayout({
         <div className="shell">
           <SiteHeader locale={loc} />
           <main>{children}</main>
-          <SiteFooter locale={loc} />
         </div>
       </body>
     </html>

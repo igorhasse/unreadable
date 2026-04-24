@@ -2,6 +2,7 @@ import type { Locale } from "../../lib/site-config";
 import { getAllPosts } from "../../lib/posts";
 import PostRow from "../../components/PostRow";
 import Newsletter from "../../components/Newsletter";
+import SiteFooter from "../../components/SiteFooter";
 
 export default async function Home({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
@@ -15,6 +16,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         ))}
       </div>
       <Newsletter variant="full" />
+      <SiteFooter locale={locale} />
     </>
   );
 }
