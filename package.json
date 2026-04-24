@@ -14,10 +14,10 @@
     "@tailwindcss/postcss": "^4.2.4",
     "@tailwindcss/vite": "^4.2.4",
     "@vitejs/plugin-react": "^6.0.1",
-    "highlight.js": "^11.11.1",
     "marked": "^18.0.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "shiki": "^4.0.2",
     "tailwindcss": "^4.2.4",
     "vinext": "latest",
     "vite": "^8.0.10"

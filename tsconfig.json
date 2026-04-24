@@ -13,13 +13,16 @@
     "noEmit": true,
     "paths": {
       "next/app": ["./node_modules/vinext/dist/shims/app"],
+      "next/compat/router": ["./node_modules/vinext/dist/shims/compat-router"],
       "next/document": ["./node_modules/vinext/dist/shims/document"],
       "next/head": ["./node_modules/vinext/dist/shims/head"],
       "next/link": ["./node_modules/vinext/dist/shims/link"],
       "next/router": ["./node_modules/vinext/dist/shims/router"],
-      "next/compat/router": ["./node_modules/vinext/dist/shims/compat-router"],
+      "next/navigation": ["./node_modules/vinext/dist/shims/navigation"],
       "next/image": ["./node_modules/vinext/dist/shims/image"],
-      "next/dynamic": ["./node_modules/vinext/dist/shims/dynamic"]
+      "next/dynamic": ["./node_modules/vinext/dist/shims/dynamic"],
+      "next/og": ["./node_modules/vinext/dist/shims/og"],
+      "next/font/google": ["./node_modules/vinext/dist/shims/font-google"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
