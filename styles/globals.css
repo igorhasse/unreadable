@@ -644,22 +644,6 @@ sup a {
 .site-foot a:hover { color: var(--fg); }
 .site-foot-links { display: flex; gap: 18px; }
 
-/* ──────── highlight.js tokens (GitHub Dark Dimmed) ──────── */
-.hljs { color: #adbac7; }
-.hljs-keyword, .hljs-selector-tag, .hljs-literal { color: #f47067; }
-.hljs-string, .hljs-attr { color: #96d0ff; }
-.hljs-title, .hljs-title.function_, .hljs-section { color: #dcbdfb; }
-.hljs-name, .hljs-tag { color: #8ddb8c; }
-.hljs-variable, .hljs-params { color: #f69d50; }
-.hljs-comment, .hljs-doctag { color: #768390; font-style: italic; }
-.hljs-number { color: #6cb6ff; }
-.hljs-type, .hljs-built_in { color: #6cb6ff; }
-.hljs-meta { color: #768390; }
-.hljs-property { color: #adbac7; }
-.hljs-title.class_ { color: #f69d50; }
-.hljs-addition { color: #8ddb8c; background-color: rgba(141, 219, 140, 0.1); }
-.hljs-deletion { color: #f47067; background-color: rgba(244, 112, 103, 0.1); }
-
 /* ──────── Responsive (layout only — font-sizes scaled via tokens.css) ──────── */
 @media (max-width: 560px) {
   .hero { padding: 40px 0 48px; }

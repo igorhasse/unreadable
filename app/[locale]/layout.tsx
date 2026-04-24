@@ -71,7 +71,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       title: SITE.name,
       description: SITE.description[loc],
       locale: loc === "en" ? "en_US" : "pt_BR",
-      alternateLocale: loc === "en" ? ["pt_BR"] : ["en_US"],
     },
     twitter: {
       card: "summary_large_image",

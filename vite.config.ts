@@ -1,8 +1,16 @@
 import { defineConfig, type Plugin } from "vite";
 import vinext from "vinext";
 import tailwindcss from "@tailwindcss/vite";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+  copyFileSync,
+} from "node:fs";
+import { join, extname } from "node:path";
 
 const SITE_URL = process.env.VITE_SITE_URL || "https://igorhasse.com";
 const SITE_TITLES: Record<Locale, string> = {
@@ -16,6 +24,12 @@ const SITE_DESCS: Record<Locale, string> = {
 
 type Locale = "pt-BR" | "en";
 type PostMeta = { slug: string; title: string; date: string; description: string };
+
+const ASSET_EXTENSIONS = new Set([
+  ".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg",
+  ".mp4", ".webm", ".mov",
+  ".pdf",
+]);
 
 function esc(s: string): string {
   return s
@@ -31,35 +45,36 @@ function rfc822(date: string): string {
 }
 
 function readPosts(locale: Locale): PostMeta[] {
-  const dir = join("content/posts", locale);
+  const dir = "content/posts";
   if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => f.endsWith(".md"))
-    .map((file) => {
-      const slug = file.replace(/\.md$/, "");
-      const raw = readFileSync(join(dir, file), "utf-8");
-      const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-      const attrs: Record<string, string> = {};
-      if (match) {
-        for (const line of match[1].split("\n")) {
-          const idx = line.indexOf(":");
-          if (idx > 0) attrs[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
-        }
+  const results: PostMeta[] = [];
+  for (const slug of readdirSync(dir)) {
+    const bundleDir = join(dir, slug);
+    if (!statSync(bundleDir).isDirectory()) continue;
+    const file = join(bundleDir, `${locale}.md`);
+    if (!existsSync(file)) continue;
+    const raw = readFileSync(file, "utf-8");
+    const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+    const attrs: Record<string, string> = {};
+    if (match) {
+      for (const line of match[1].split("\n")) {
+        const idx = line.indexOf(":");
+        if (idx > 0) attrs[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
       }
-      return {
-        slug,
-        title: attrs.title || slug,
-        date: attrs.date || "",
-        description: attrs.description || "",
-      };
-    })
-    .sort((a, b) => (a.date > b.date ? -1 : 1));
+    }
+    results.push({
+      slug,
+      title: attrs.title || slug,
+      date: attrs.date || "",
+      description: attrs.description || "",
+    });
+  }
+  return results.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 function buildRssXml(posts: PostMeta[], locale: Locale): string {
-  // PT lives at the root; EN at /en. Feed URL and post URLs mirror that.
-  const urlPrefix = locale === "en" ? `${SITE_URL}/en` : SITE_URL;
-  const feedPath = `${urlPrefix}/rss.xml`;
+  const urlPrefix = locale === "en" ? `${SITE_URL}/en` : `${SITE_URL}/pt-BR`;
+  const feedPath = locale === "en" ? `${SITE_URL}/en/rss.xml` : `${SITE_URL}/rss.xml`;
   const lastBuild = rfc822(posts[0]?.date || "");
   const items = posts
     .map(
@@ -90,9 +105,7 @@ function buildRssXml(posts: PostMeta[], locale: Locale): string {
 function writeRss(): void {
   const publicDir = "public";
   if (!existsSync(publicDir)) mkdirSync(publicDir, { recursive: true });
-  // PT feed at the root — /rss.xml
   writeFileSync(join(publicDir, "rss.xml"), buildRssXml(readPosts("pt-BR"), "pt-BR"));
-  // EN feed nested — /en/rss.xml
   const enDir = join(publicDir, "en");
   if (!existsSync(enDir)) mkdirSync(enDir, { recursive: true });
   writeFileSync(join(enDir, "rss.xml"), buildRssXml(readPosts("en"), "en"));
@@ -107,34 +120,56 @@ function rssPlugin(): Plugin {
     configureServer(server) {
       writeRss();
       server.watcher.add("content/posts/**/*.md");
-      server.watcher.on("change", (file) => {
+      const onChange = (file: string) => {
         if (file.includes("content/posts")) writeRss();
-      });
-      server.watcher.on("add", (file) => {
-        if (file.includes("content/posts")) writeRss();
-      });
-      server.watcher.on("unlink", (file) => {
-        if (file.includes("content/posts")) writeRss();
-      });
+      };
+      server.watcher.on("change", onChange);
+      server.watcher.on("add", onChange);
+      server.watcher.on("unlink", onChange);
+    },
+  };
+}
+
+/**
+ * Content-bundle assets plugin.
+ * Copies any non-.md file under content/posts/<slug>/ to public/posts/<slug>/
+ * so markdown references like `./diagram.png` resolve at /posts/<slug>/diagram.png.
+ * Runs at buildStart and reacts to dev-server file changes.
+ */
+function assetsPlugin(): Plugin {
+  function copyAll() {
+    const dir = "content/posts";
+    if (!existsSync(dir)) return;
+    for (const slug of readdirSync(dir)) {
+      const bundleDir = join(dir, slug);
+      if (!statSync(bundleDir).isDirectory()) continue;
+      const targetDir = join("public", "posts", slug);
+      for (const file of readdirSync(bundleDir)) {
+        const ext = extname(file).toLowerCase();
+        if (!ASSET_EXTENSIONS.has(ext)) continue;
+        if (!existsSync(targetDir)) mkdirSync(targetDir, { recursive: true });
+        copyFileSync(join(bundleDir, file), join(targetDir, file));
+      }
+    }
+  }
+
+  return {
+    name: "blog:content-assets",
+    buildStart() {
+      copyAll();
+    },
+    configureServer(server) {
+      copyAll();
+      const onChange = (file: string) => {
+        if (file.includes("content/posts")) copyAll();
+      };
+      server.watcher.on("change", onChange);
+      server.watcher.on("add", onChange);
+      server.watcher.on("unlink", onChange);
     },
   };
 }
 
 export default defineConfig({
-  plugins: [vinext(), tailwindcss(), rssPlugin()],
-  build: {
-    rollupOptions: {
-      output: {
-        // Force a stable filename for the main CSS bundle. _document.tsx
-        // references it explicitly because vinext 0.0.43 doesn't auto-emit
-        // <link rel=stylesheet> for _app.tsx's CSS chunk in Pages Router SSR.
-        // Drop this once vinext collectAssetTags includes _app's assets.
-        assetFileNames: (assetInfo) => {
-          const name = assetInfo.names?.[0] ?? "";
-          if (name.endsWith(".css")) return "assets/app.css";
-          return "assets/[name]-[hash][extname]";
-        },
-      },
-    },
-  },
+  plugins: [vinext(), tailwindcss(), rssPlugin(), assetsPlugin()],
 });

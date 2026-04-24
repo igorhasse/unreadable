@@ -9,22 +9,22 @@
     <atom:link href="https://igorhasse.com/en/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Building a Modern Web Stack in 2026</title>
-      <link>https://igorhasse.com/en/posts/building-a-modern-web-stack</link>
-      <guid>https://igorhasse.com/en/posts/building-a-modern-web-stack</guid>
+      <link>https://igorhasse.com/en/posts/construindo-stack-web-moderna</link>
+      <guid>https://igorhasse.com/en/posts/construindo-stack-web-moderna</guid>
       <pubDate>Thu, 26 Mar 2026 00:00:00 GMT</pubDate>
       <description>A deep dive into the tools and patterns that power modern web development — from bundlers to deployment.</description>
     </item>
     <item>
       <title>Why TypeScript Matters</title>
-      <link>https://igorhasse.com/en/posts/why-typescript-matters</link>
-      <guid>https://igorhasse.com/en/posts/why-typescript-matters</guid>
+      <link>https://igorhasse.com/en/posts/porque-typescript-importa</link>
+      <guid>https://igorhasse.com/en/posts/porque-typescript-importa</guid>
       <pubDate>Wed, 25 Mar 2026 00:00:00 GMT</pubDate>
       <description>Exploring the benefits of TypeScript for modern web development and why you should consider adopting it.</description>
     </item>
     <item>
       <title>Getting Started with React</title>
-      <link>https://igorhasse.com/en/posts/getting-started-with-react</link>
-      <guid>https://igorhasse.com/en/posts/getting-started-with-react</guid>
+      <link>https://igorhasse.com/en/posts/comecando-com-react</link>
+      <guid>https://igorhasse.com/en/posts/comecando-com-react</guid>
       <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
       <description>A beginner's guide to building user interfaces with React, covering components, state, and hooks.</description>
     </item>

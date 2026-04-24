@@ -15,8 +15,8 @@
     "@tailwindcss/vite": "^4.2.4",
     "@vitejs/plugin-react": "^6.0.1",
     "marked": "^18.0.2",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "shiki": "^4.0.2",
     "tailwindcss": "^4.2.4",
     "vinext": "latest",
@@ -26,6 +26,7 @@
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-rsc": "^0.5.24",
     "typescript": "^6.0.2"
   }
 }

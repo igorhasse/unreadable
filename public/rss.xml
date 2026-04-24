@@ -2,29 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>igor hasse</title>
-    <link>https://igorhasse.com</link>
+    <link>https://igorhasse.com/pt-BR</link>
     <description>Notas públicas de Igor Hasse sobre editores, tipos e sistemas.</description>
     <language>pt-BR</language>
     <lastBuildDate>Thu, 26 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://igorhasse.com/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Construindo uma Stack Web Moderna em 2026</title>
-      <link>https://igorhasse.com/posts/building-a-modern-web-stack</link>
-      <guid>https://igorhasse.com/posts/building-a-modern-web-stack</guid>
+      <link>https://igorhasse.com/pt-BR/posts/construindo-stack-web-moderna</link>
+      <guid>https://igorhasse.com/pt-BR/posts/construindo-stack-web-moderna</guid>
       <pubDate>Thu, 26 Mar 2026 00:00:00 GMT</pubDate>
       <description>Um mergulho nas ferramentas e padrões que sustentam o desenvolvimento web moderno — do bundler ao deploy.</description>
     </item>
     <item>
       <title>Por que TypeScript importa</title>
-      <link>https://igorhasse.com/posts/why-typescript-matters</link>
-      <guid>https://igorhasse.com/posts/why-typescript-matters</guid>
+      <link>https://igorhasse.com/pt-BR/posts/porque-typescript-importa</link>
+      <guid>https://igorhasse.com/pt-BR/posts/porque-typescript-importa</guid>
       <pubDate>Wed, 25 Mar 2026 00:00:00 GMT</pubDate>
       <description>Explorando os benefícios do TypeScript pro desenvolvimento web moderno e por que você deveria considerar adotá-lo.</description>
     </item>
     <item>
       <title>Começando com React</title>
-      <link>https://igorhasse.com/posts/getting-started-with-react</link>
-      <guid>https://igorhasse.com/posts/getting-started-with-react</guid>
+      <link>https://igorhasse.com/pt-BR/posts/comecando-com-react</link>
+      <guid>https://igorhasse.com/pt-BR/posts/comecando-com-react</guid>
       <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
       <description>Um guia iniciante pra construir interfaces com React, cobrindo componentes, estado e hooks.</description>
     </item>
