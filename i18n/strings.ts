@@ -1,4 +1,4 @@
-import type { Locale } from "../lib/posts";
+import type { Locale } from "../lib/site-config";
 
 /**
  * All user-facing strings keyed by locale.
