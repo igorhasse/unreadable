@@ -34,7 +34,8 @@ export const STRINGS = {
     about_title_a: "Engenheiro que escreve",
     about_title_em: "antes",
     about_title_b: "de publicar.",
-    about_lede_a: "Oi. Sou Igor — engenheiro de software, brasileiro, atualmente trabalhando com ferramentas para desenvolvedores. Este é meu",
+    about_lede_a:
+      "Oi. Sou Igor — engenheiro de software, brasileiro, atualmente trabalhando com ferramentas para desenvolvedores. Este é meu",
     about_lede_em: "caderno público",
     about_lede_b: ".",
     about_h2_blog: "Sobre o blog",
@@ -105,7 +106,8 @@ export const STRINGS = {
     about_title_a: "Engineer who writes",
     about_title_em: "before",
     about_title_b: "publishing.",
-    about_lede_a: "Hi. I'm Igor — software engineer, Brazilian, currently working on developer tools. This is my",
+    about_lede_a:
+      "Hi. I'm Igor — software engineer, Brazilian, currently working on developer tools. This is my",
     about_lede_em: "public notebook",
     about_lede_b: ".",
     about_h2_blog: "About this blog",

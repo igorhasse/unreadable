@@ -49,6 +49,7 @@ git checkout -b feat/app-router-migration
 **Purpose:** Prepare dependency landscape and centralize identity. No behavior changes yet — app still runs on Pages Router.
 
 **Files:**
+
 - Create: `lib/site-config.ts`
 - Modify: `package.json` (deps)
 - Modify: `tsconfig.json` (paths)
@@ -75,7 +76,7 @@ export const SITE = {
   name: "igor hasse",
   description: {
     "pt-BR": "Notas públicas de Igor Hasse sobre editores, tipos e sistemas.",
-    "en": "Public notes by Igor Hasse on editors, type systems, and software.",
+    en: "Public notes by Igor Hasse on editors, type systems, and software.",
   },
   author: {
     name: "Igor Hasse Santiago",
@@ -137,9 +138,11 @@ git commit -m "feat: install shiki, remove highlight.js, centralize site-config
 **Purpose:** Move from `content/posts/<locale>/<slug>.md` to `content/posts/<slug>/<locale>.md`. Slugs become Portuguese.
 
 **Files:**
+
 - Rename: `content/posts/en/*.md` and `content/posts/pt-BR/*.md`
 
 Current structure:
+
 ```
 content/posts/en/building-a-modern-web-stack.md
 content/posts/en/why-typescript-matters.md
@@ -150,6 +153,7 @@ content/posts/pt-BR/getting-started-with-react.md
 ```
 
 Target structure:
+
 ```
 content/posts/construindo-stack-web-moderna/pt-BR.md
 content/posts/construindo-stack-web-moderna/en.md
@@ -221,6 +225,7 @@ Note: `lib/posts.ts` still uses the old glob pattern — the build WILL fail now
 **Purpose:** Match the new content layout. Keep the API signature (`getPostBySlug`, `getAllPosts`, `getTranslatedSlug`) so consumers don't break.
 
 **Files:**
+
 - Modify: `lib/posts.ts`
 
 - [ ] **Step 3.1: Replace `lib/posts.ts` with this content**
@@ -271,8 +276,34 @@ function parseFrontmatter(raw: string): { attributes: FrontmatterAttrs; body: st
   return { attributes, body: match[2] };
 }
 
-const MONTHS_PT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-const MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS_PT = [
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out",
+  "Nov",
+  "Dez",
+];
+const MONTHS_EN = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function formatDate(iso: string, locale: Locale): string {
   if (!iso) return "";
@@ -357,7 +388,7 @@ export function getAllPosts(locale: Locale): PostMeta[] {
 export function getTranslatedSlug(
   slug: string,
   _fromLocale: Locale,
-  toLocale: Locale,
+  toLocale: Locale
 ): string | null {
   return getPostBySlug(slug, toLocale) ? slug : null;
 }
@@ -369,7 +400,7 @@ export function getTranslatedSlug(
 npm run typecheck
 ```
 
-Expected: passes. Old pages/*.tsx that call `getPostBySlug(slug, locale)` still work with the same API.
+Expected: passes. Old pages/\*.tsx that call `getPostBySlug(slug, locale)` still work with the same API.
 
 - [ ] **Step 3.3: Commit**
 
@@ -389,6 +420,7 @@ the same signatures. Consumer code doesn't change."
 **Purpose:** Render code blocks server-side with shiki (no client-side highlight needed). Rewrite `./foo.png` markdown paths to `/posts/<slug>/foo.png`.
 
 **Files:**
+
 - Modify: `lib/markdown.ts`
 
 - [ ] **Step 4.1: Replace `lib/markdown.ts` with this content**
@@ -506,6 +538,7 @@ git commit -m "refactor(markdown): async renderMarkdown with shiki + asset path 
 **Purpose:** Add a pure `t(key, locale)` function for Server Components, and rewrite `useT()` to use `useParams()` from `next/navigation`.
 
 **Files:**
+
 - Create: `i18n/t.ts`
 - Modify: `i18n/useT.ts`
 
@@ -591,6 +624,7 @@ git commit -m "feat(i18n): server-side t() + client useT via next/navigation
 **Purpose:** Establish the `app/` directory with root layout + home page. Still doesn't fully work (components aren't ready, middleware isn't in place), but typecheck should pass.
 
 **Files:**
+
 - Create: `app/[locale]/layout.tsx`
 - Create: `app/[locale]/page.tsx`
 - Create: `app/not-found.tsx`
@@ -644,7 +678,11 @@ const THEME_BOOTSTRAP = `
 
 const LOCALES: readonly Locale[] = ["pt-BR", "en"] as const;
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   if (!LOCALES.includes(locale as Locale)) return {};
   const loc = locale as Locale;
@@ -660,7 +698,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       canonical: `/${loc}`,
       languages: {
         "pt-BR": "/pt-BR",
-        "en": "/en",
+        en: "/en",
         "x-default": "/pt-BR",
       },
     },
@@ -759,7 +797,9 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
 export default function NotFound() {
   return (
     <html lang="pt-BR">
-      <body style={{ fontFamily: "system-ui", padding: 40, background: "#131313", color: "#ebe8e4" }}>
+      <body
+        style={{ fontFamily: "system-ui", padding: 40, background: "#131313", color: "#ebe8e4" }}
+      >
         <h1>404</h1>
         <p>Page not found.</p>
       </body>
@@ -798,6 +838,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" --no-verif
 **Purpose:** Make `SiteHeader`, `SiteFooter`, `PostRow` work as Server Components that accept `locale` as a prop. Mark `LocaleToggle`, `ThemeToggle`, `Newsletter`, `CopyFeed`, `ProgressBar` as Client. Create `NavLink` (client).
 
 **Files:**
+
 - Modify: `components/SiteHeader.tsx`
 - Modify: `components/SiteFooter.tsx`
 - Modify: `components/PostRow.tsx`
@@ -860,7 +901,11 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
         </div>
         <nav className="site-nav" aria-label={locale === "en" ? "Main" : "Principal"}>
           <NavLink href="/" localizedHref={`/${locale}`} label={t("nav_archive", locale)} />
-          <NavLink href="/about" localizedHref={`/${locale}/about`} label={t("nav_about", locale)} />
+          <NavLink
+            href="/about"
+            localizedHref={`/${locale}/about`}
+            label={t("nav_about", locale)}
+          />
           <NavLink href="/rss" localizedHref={`/${locale}/rss`} label={t("nav_rss", locale)} />
           <LocaleToggle />
           <ThemeToggle />
@@ -887,12 +932,22 @@ export default function SiteFooter({
 }) {
   return (
     <footer className={`site-foot${withRule ? " with-rule" : ""}`}>
-      <span>© {new Date().getFullYear()} {t("foot_copyright", locale)}</span>
+      <span>
+        © {new Date().getFullYear()} {t("foot_copyright", locale)}
+      </span>
       <div className="site-foot-links">
-        <a href={`https://github.com/${SITE.author.github}`} target="_blank" rel="noopener noreferrer">
+        <a
+          href={`https://github.com/${SITE.author.github}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {t("foot_github", locale)}
         </a>
-        <a href={`https://twitter.com/${SITE.author.twitter.replace(/^@/, "")}`} target="_blank" rel="noopener noreferrer">
+        <a
+          href={`https://twitter.com/${SITE.author.twitter.replace(/^@/, "")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {t("foot_twitter", locale)}
         </a>
         <a href={`mailto:${SITE.author.email}`}>{t("foot_email", locale)}</a>
@@ -909,13 +964,7 @@ import Link from "next/link";
 import type { Locale } from "../lib/site-config";
 import type { PostMeta } from "../lib/posts";
 
-export default function PostRow({
-  post,
-  index,
-}: {
-  post: PostMeta;
-  index: number;
-}) {
+export default function PostRow({ post, index }: { post: PostMeta; index: number }) {
   const locale: Locale = post.locale;
   return (
     <Link href={`/${locale}/posts/${post.slug}`} className="post-row">
@@ -966,7 +1015,10 @@ export default function LocaleToggle() {
   const enHref = `/en${bare === "/" ? "" : bare}`;
 
   return (
-    <span className="locale-toggle" aria-label={current === "en" ? "Switch language" : "Trocar idioma"}>
+    <span
+      className="locale-toggle"
+      aria-label={current === "en" ? "Switch language" : "Trocar idioma"}
+    >
       <Link
         href={ptHref}
         onClick={() => setCookie("pt-BR")}
@@ -974,7 +1026,9 @@ export default function LocaleToggle() {
       >
         PT
       </Link>
-      <span className="locale-toggle-sep" aria-hidden="true">|</span>
+      <span className="locale-toggle-sep" aria-hidden="true">
+        |
+      </span>
       <Link
         href={enHref}
         onClick={() => setCookie("en")}
@@ -1034,6 +1088,7 @@ git commit -m "feat(components): Server/Client split for App Router
 ## Task 8: Create About, RSS, Post pages
 
 **Files:**
+
 - Create: `app/[locale]/about/page.tsx`
 - Create: `app/[locale]/rss/page.tsx`
 - Create: `app/[locale]/posts/[slug]/page.tsx`
@@ -1048,7 +1103,11 @@ import { t } from "../../../i18n/t";
 import SiteFooter from "../../../components/SiteFooter";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: t("nav_about", locale),
@@ -1056,7 +1115,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
       canonical: `/${locale}/about`,
       languages: {
         "pt-BR": "/pt-BR/about",
-        "en": "/en/about",
+        en: "/en/about",
         "x-default": "/pt-BR/about",
       },
     },
@@ -1079,7 +1138,8 @@ export default async function About({ params }: { params: Promise<{ locale: stri
 
       <section className="prose" style={{ padding: "8px 0 48px" }}>
         <p className="lede">
-          {t("about_lede_a", loc)} <em>{t("about_lede_em", loc)}</em>{t("about_lede_b", loc)}
+          {t("about_lede_a", loc)} <em>{t("about_lede_em", loc)}</em>
+          {t("about_lede_b", loc)}
         </p>
 
         <h2>{t("about_h2_blog", loc)}</h2>
@@ -1134,7 +1194,11 @@ const READERS_EN = [
   { name: "Miniflux", desc: "Self-hosted, minimal.", href: "https://miniflux.app" },
 ];
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: t("nav_rss", locale),
@@ -1142,7 +1206,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
       canonical: `/${locale}/rss`,
       languages: {
         "pt-BR": "/pt-BR/rss",
-        "en": "/en/rss",
+        en: "/en/rss",
         "x-default": "/pt-BR/rss",
       },
     },
@@ -1153,7 +1217,8 @@ export default async function RssPage({ params }: { params: Promise<{ locale: st
   const { locale } = await params;
   if (locale !== "pt-BR" && locale !== "en") notFound();
   const loc = locale as Locale;
-  const feedUrl = loc === "en" ? "https://igorhasse.com/en/rss.xml" : "https://igorhasse.com/rss.xml";
+  const feedUrl =
+    loc === "en" ? "https://igorhasse.com/en/rss.xml" : "https://igorhasse.com/rss.xml";
   const readers = loc === "en" ? READERS_EN : READERS_PT;
 
   return (
@@ -1161,7 +1226,8 @@ export default async function RssPage({ params }: { params: Promise<{ locale: st
       <section className="hero">
         <div className="hero-eyebrow">{t("rss_eyebrow", loc)}</div>
         <h1 className="t-title">
-          {t("rss_title_a", loc)} <em>{t("rss_title_em", loc)}</em>{t("rss_title_b", loc)}
+          {t("rss_title_a", loc)} <em>{t("rss_title_em", loc)}</em>
+          {t("rss_title_b", loc)}
         </h1>
         <p className="post-subtitle" style={{ marginTop: 20, maxWidth: 560 }}>
           {t("rss_subtitle", loc)}
@@ -1178,7 +1244,13 @@ export default async function RssPage({ params }: { params: Promise<{ locale: st
 
       <div className="reader-grid">
         {readers.map((r) => (
-          <a key={r.name} href={r.href} target="_blank" rel="noopener noreferrer" className="reader-card">
+          <a
+            key={r.name}
+            href={r.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="reader-card"
+          >
             <span className="reader-name">{r.name}</span>
             <span className="reader-desc">{r.desc}</span>
             <span className="reader-cta">{t("rss_reader_cta", loc)}</span>
@@ -1227,7 +1299,7 @@ export async function generateMetadata({
       canonical: `/${locale}/posts/${slug}`,
       languages: {
         "pt-BR": `/pt-BR/posts/${ptSlug}`,
-        "en": `/en/posts/${enSlug}`,
+        en: `/en/posts/${enSlug}`,
         "x-default": `/pt-BR/posts/${ptSlug}`,
       },
     },
@@ -1267,7 +1339,9 @@ export default async function PostPage({
     "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
-    image: post.coverImage ? `${SITE.url}${post.coverImage.startsWith("/") ? "" : "/"}${post.coverImage}` : undefined,
+    image: post.coverImage
+      ? `${SITE.url}${post.coverImage.startsWith("/") ? "" : "/"}${post.coverImage}`
+      : undefined,
     datePublished: post.date,
     author: {
       "@type": "Person",
@@ -1285,7 +1359,9 @@ export default async function PostPage({
   return (
     <>
       <ProgressBar />
-      <Link href={`/${loc}`} className="back">{t("post_back", loc)}</Link>
+      <Link href={`/${loc}`} className="back">
+        {t("post_back", loc)}
+      </Link>
 
       <header className="post-head">
         <div className="post-meta-top">
@@ -1305,7 +1381,15 @@ export default async function PostPage({
 
       <article>
         {post.coverImage && (
-          <img src={post.coverImage.startsWith("/") || post.coverImage.startsWith("http") ? post.coverImage : `/posts/${slug}/${post.coverImage.replace(/^\.\//, "")}`} alt={post.title} loading="lazy" />
+          <img
+            src={
+              post.coverImage.startsWith("/") || post.coverImage.startsWith("http")
+                ? post.coverImage
+                : `/posts/${slug}/${post.coverImage.replace(/^\.\//, "")}`
+            }
+            alt={post.title}
+            loading="lazy"
+          />
         )}
         <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
       </article>
@@ -1416,6 +1500,7 @@ git commit -m "feat(app-router): about, rss, and post pages + PostEnhancements
 ## Task 9: Create middleware + sitemap + robots
 
 **Files:**
+
 - Create: `middleware.ts`
 - Create: `app/sitemap.ts`
 - Create: `app/robots.ts`
@@ -1492,7 +1577,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         alternates: {
           languages: {
             "pt-BR": `${SITE.url}/pt-BR/posts/${post.slug}`,
-            "en": `${SITE.url}/en/posts/${post.slug}`,
+            en: `${SITE.url}/en/posts/${post.slug}`,
           },
         },
       });
@@ -1542,6 +1627,7 @@ git commit -m "feat: middleware for locale redirect, sitemap.xml, robots.txt
 ## Task 10: Dynamic OG images + favicon placeholder
 
 **Files:**
+
 - Create: `app/[locale]/opengraph-image.tsx`
 - Create: `app/[locale]/about/opengraph-image.tsx`
 - Create: `app/[locale]/rss/opengraph-image.tsx`
@@ -1570,43 +1656,41 @@ export function renderOGImage({
   footer: string;
 }) {
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: "#131313",
+        color: "#ebe8e4",
+        display: "flex",
+        flexDirection: "column",
+        padding: "80px",
+        fontFamily: "sans-serif",
+      }}
+    >
+      <div style={{ fontSize: 20, color: "#d4a259", letterSpacing: 3, textTransform: "uppercase" }}>
+        {eyebrow}
+      </div>
       <div
         style={{
-          width: "100%",
-          height: "100%",
-          background: "#131313",
-          color: "#ebe8e4",
-          display: "flex",
-          flexDirection: "column",
-          padding: "80px",
-          fontFamily: "sans-serif",
+          fontSize: 68,
+          fontWeight: 500,
+          lineHeight: 1.15,
+          marginTop: 40,
+          letterSpacing: "-0.02em",
         }}
       >
-        <div style={{ fontSize: 20, color: "#d4a259", letterSpacing: 3, textTransform: "uppercase" }}>
-          {eyebrow}
-        </div>
-        <div
-          style={{
-            fontSize: 68,
-            fontWeight: 500,
-            lineHeight: 1.15,
-            marginTop: 40,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          {title}
-        </div>
-        {subtitle && (
-          <div style={{ fontSize: 28, color: "#8a8680", marginTop: 24, lineHeight: 1.35 }}>
-            {subtitle}
-          </div>
-        )}
-        <div style={{ marginTop: "auto", fontSize: 20, color: "#585551", letterSpacing: "0.04em" }}>
-          {footer}
-        </div>
+        {title}
       </div>
-    ),
+      {subtitle && (
+        <div style={{ fontSize: 28, color: "#8a8680", marginTop: 24, lineHeight: 1.35 }}>
+          {subtitle}
+        </div>
+      )}
+      <div style={{ marginTop: "auto", fontSize: 20, color: "#585551", letterSpacing: "0.04em" }}>
+        {footer}
+      </div>
+    </div>,
     OG_SIZE
   );
 }
@@ -1652,7 +1736,12 @@ export default async function Image({ params }: { params: Promise<{ locale: Loca
   const { locale } = await params;
   return renderOGImage({
     eyebrow: formatOGEyebrow(locale, "ABOUT"),
-    title: t("about_title_a", locale) + " " + t("about_title_em", locale) + " " + t("about_title_b", locale),
+    title:
+      t("about_title_a", locale) +
+      " " +
+      t("about_title_em", locale) +
+      " " +
+      t("about_title_b", locale),
     footer: "igorhasse.com/about",
   });
 }
@@ -1764,6 +1853,7 @@ git commit -m "feat(seo): dynamic OG images per page + favicon placeholder
 ## Task 11: Delete Pages Router + clean up vite.config
 
 **Files:**
+
 - Delete: `pages/` (entire directory)
 - Delete: `next.config.mjs`
 - Modify: `vite.config.ts`
@@ -1796,19 +1886,26 @@ import { join, extname } from "node:path";
 const SITE_URL = process.env.VITE_SITE_URL || "https://igorhasse.com";
 const SITE_TITLES: Record<Locale, string> = {
   "pt-BR": "igor hasse",
-  "en": "igor hasse",
+  en: "igor hasse",
 };
 const SITE_DESCS: Record<Locale, string> = {
   "pt-BR": "Notas públicas de Igor Hasse sobre editores, tipos e sistemas.",
-  "en": "Public notes by Igor Hasse on editors, type systems, and software.",
+  en: "Public notes by Igor Hasse on editors, type systems, and software.",
 };
 
 type Locale = "pt-BR" | "en";
 type PostMeta = { slug: string; title: string; date: string; description: string };
 
 const ASSET_EXTENSIONS = new Set([
-  ".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg",
-  ".mp4", ".webm", ".mov",
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".svg",
+  ".mp4",
+  ".webm",
+  ".mov",
   ".pdf",
 ]);
 
@@ -1866,7 +1963,7 @@ function buildRssXml(posts: PostMeta[], locale: Locale): string {
       <guid>${urlPrefix}/posts/${p.slug}</guid>
       <pubDate>${rfc822(p.date)}</pubDate>
       <description>${esc(p.description)}</description>
-    </item>`,
+    </item>`
     )
     .join("");
 
@@ -2042,7 +2139,7 @@ grep -oE '<meta property="og:[^"]*" content="[^"]*"' /tmp/home-pt.html | head -6
 grep -c "application/ld+json" /tmp/home-pt.html || true
 ```
 
-Expected: `<html lang="pt-BR">`, a stylesheet link is present, canonical and hreflang alternates present, og:* present.
+Expected: `<html lang="pt-BR">`, a stylesheet link is present, canonical and hreflang alternates present, og:\* present.
 
 - [ ] **Step 12.6: Verify post renders with shiki colors**
 
@@ -2083,7 +2180,7 @@ sleep 1
 
 Replace the entire contents of `CLAUDE.md` with:
 
-```markdown
+````markdown
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -2102,6 +2199,7 @@ npm run typecheck       # TypeScript type checking (tsc --noEmit)
 npm run update:vinext   # Upgrade vinext to latest
 npm run update:all      # Upgrade all top-level deps to latest
 ```
+````
 
 No linter or test runner configured.
 
@@ -2119,30 +2217,37 @@ No linter or test runner configured.
 ## Architecture
 
 ### Routing
+
 - **App Router** with `[locale]` dynamic segment.
 - `middleware.ts` redirects locale-less paths using: cookie `NEXT_LOCALE` > `Accept-Language` > fallback `pt-BR`.
 - LocaleToggle sets the cookie on click, so manual preference persists.
 
 ### Content bundles
+
 Each post lives in its own folder:
+
 ```
 content/posts/<slug>/
   pt-BR.md       # Portuguese version
   en.md          # English version
   cover.jpg      # optional media (copied to public/posts/<slug>/ at build/dev time)
 ```
+
 Slugs are Portuguese (audience is Brazilian). Markdown references assets with `./file.ext` — `lib/markdown.ts` rewrites to `/posts/<slug>/file.ext`, and `vite.config.ts`'s `assetsPlugin` copies them to `public/`.
 
 ### Server vs Client
+
 - Default: Server Components.
 - `'use client'` only where needed: toggles (Locale, Theme), forms (Newsletter), clipboard (CopyFeed), scroll (ProgressBar), DOM injection (PostEnhancements — only for anchor links; highlight is server-side shiki), active-state links (NavLink).
 
 ### i18n
+
 - `i18n/strings.ts` — dictionary for pt-BR + en with TypeScript-enforced parity.
 - `i18n/t.ts` — pure function `t(key, locale)` for Server Components.
 - `i18n/useT.ts` — `'use client'` hook reading locale from `useParams()` (next/navigation).
 
 ### CSS
+
 - `styles/tokens.css` — single source of truth for color/type tokens.
 - `styles/globals.css` — layout + component styles, imports tokens.
 - `app/[locale]/layout.tsx` does `import "../../styles/globals.css"` — App Router emits the stylesheet link in SSR natively.
@@ -2150,6 +2255,7 @@ Slugs are Portuguese (audience is Brazilian). Markdown references assets with `.
 - Theme bootstrap inline script reads `localStorage["blog-theme"]` before first paint to avoid a dark→light flicker.
 
 ### SEO
+
 - `app/[locale]/layout.tsx` and each page export `generateMetadata()` — canonical, hreflang, OpenGraph, Twitter.
 - Post pages emit JSON-LD `BlogPosting`.
 - `app/sitemap.ts` generates `/sitemap.xml` for all routes × locales with `hreflang` alternates.
@@ -2157,6 +2263,7 @@ Slugs are Portuguese (audience is Brazilian). Markdown references assets with `.
 - `opengraph-image.tsx` files per route produce dynamic PNG OG images via `next/og`.
 
 ### Identity
+
 All personal info (name, email, socials, URLs) lives in `lib/site-config.ts`. Everything else reads from there.
 
 ## Key vinext gotchas (still present in 0.0.43)
@@ -2168,7 +2275,8 @@ All personal info (name, email, socials, URLs) lives in `lib/site-config.ts`. Ev
 ## Philosophy: "The Digital Curator"
 
 Editorial, minimalist, typography-driven. Zero border-radius. No visible borders — tonal surface shifts for separation. Dark-first; `#131313` charcoal, not pure black.
-```
+
+````
 
 - [ ] **Step 12.11: Commit**
 
@@ -2179,7 +2287,7 @@ git commit -m "docs: rewrite CLAUDE.md for App Router reality
 Reflects the migrated stack: App Router, shiki, next/font/google,
 next/og, content bundles, lib/site-config, middleware-based i18n.
 Documents remaining vinext gotchas for future agents."
-```
+````
 
 - [ ] **Step 12.12: Final clean build + full verification pass**
 

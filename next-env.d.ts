@@ -39,8 +39,18 @@ declare module "next" {
     }>;
     type Robots = {
       rules:
-        | { userAgent?: string | string[]; allow?: string | string[]; disallow?: string | string[]; crawlDelay?: number }
-        | Array<{ userAgent?: string | string[]; allow?: string | string[]; disallow?: string | string[]; crawlDelay?: number }>;
+        | {
+            userAgent?: string | string[];
+            allow?: string | string[];
+            disallow?: string | string[];
+            crawlDelay?: number;
+          }
+        | Array<{
+            userAgent?: string | string[];
+            allow?: string | string[];
+            disallow?: string | string[];
+            crawlDelay?: number;
+          }>;
       sitemap?: string | string[];
       host?: string;
     };
@@ -49,6 +59,9 @@ declare module "next" {
 
 declare module "next/og" {
   export class ImageResponse extends Response {
-    constructor(element: React.ReactElement, options?: { width?: number; height?: number }): ImageResponse;
+    constructor(
+      element: React.ReactElement,
+      options?: { width?: number; height?: number }
+    ): ImageResponse;
   }
 }

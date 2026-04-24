@@ -22,7 +22,10 @@ export default function LocaleToggle() {
   const enHref = `/en${bare === "/" ? "" : bare}`;
 
   return (
-    <span className="locale-toggle" aria-label={current === "en" ? "Switch language" : "Trocar idioma"}>
+    <span
+      className="locale-toggle"
+      aria-label={current === "en" ? "Switch language" : "Trocar idioma"}
+    >
       <Link
         href={ptHref}
         onClick={() => setCookie("pt-BR")}
@@ -30,7 +33,9 @@ export default function LocaleToggle() {
       >
         PT
       </Link>
-      <span className="locale-toggle-sep" aria-hidden="true">|</span>
+      <span className="locale-toggle-sep" aria-hidden="true">
+        |
+      </span>
       <Link
         href={enHref}
         onClick={() => setCookie("en")}

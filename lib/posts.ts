@@ -43,8 +43,34 @@ function parseFrontmatter(raw: string): { attributes: FrontmatterAttrs; body: st
   return { attributes, body: match[2] };
 }
 
-const MONTHS_PT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-const MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS_PT = [
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out",
+  "Nov",
+  "Dez",
+];
+const MONTHS_EN = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function formatDate(iso: string, locale: Locale): string {
   if (!iso) return "";
@@ -129,7 +155,7 @@ export function getAllPosts(locale: Locale): PostMeta[] {
 export function getTranslatedSlug(
   slug: string,
   _fromLocale: Locale,
-  toLocale: Locale,
+  toLocale: Locale
 ): string | null {
   return getPostBySlug(slug, toLocale) ? slug : null;
 }

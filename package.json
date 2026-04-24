@@ -19,10 +19,6 @@
     "update:vinext": "npm install vinext@latest --legacy-peer-deps",
     "update:all": "npm install vinext@latest vite@latest @vitejs/plugin-react@latest tailwindcss@latest @tailwindcss/vite@latest @tailwindcss/postcss@latest marked@latest shiki@latest react@latest react-dom@latest --legacy-peer-deps"
   },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": ["oxlint --fix", "oxfmt"],
-    "*.{json,md,css}": ["oxfmt"]
-  },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.4",
     "@tailwindcss/vite": "^4.2.4",
@@ -47,5 +43,14 @@
     "oxlint": "^1.61.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "oxlint --fix",
+      "oxfmt"
+    ],
+    "*.{json,md,css}": [
+      "oxfmt"
+    ]
   }
 }

@@ -30,7 +30,7 @@ export async function generateMetadata({
       canonical: `/${locale}/posts/${slug}`,
       languages: {
         "pt-BR": `/pt-BR/posts/${ptSlug}`,
-        "en": `/en/posts/${enSlug}`,
+        en: `/en/posts/${enSlug}`,
         "x-default": `/pt-BR/posts/${ptSlug}`,
       },
     },
@@ -91,7 +91,9 @@ export default async function PostPage({
   return (
     <>
       <ProgressBar />
-      <Link href={`/${loc}`} className="back">{t("post_back", loc)}</Link>
+      <Link href={`/${loc}`} className="back">
+        {t("post_back", loc)}
+      </Link>
 
       <header className="post-head">
         <div className="post-meta-top">

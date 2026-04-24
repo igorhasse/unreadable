@@ -4,7 +4,11 @@ import { t } from "../../../i18n/t";
 import SiteFooter from "../../../components/SiteFooter";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: t("nav_about", locale),
@@ -12,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
       canonical: `/${locale}/about`,
       languages: {
         "pt-BR": "/pt-BR/about",
-        "en": "/en/about",
+        en: "/en/about",
         "x-default": "/pt-BR/about",
       },
     },
@@ -35,7 +39,8 @@ export default async function About({ params }: { params: Promise<{ locale: stri
 
       <section className="prose" style={{ padding: "8px 0 48px" }}>
         <p className="lede">
-          {t("about_lede_a", loc)} <em>{t("about_lede_em", loc)}</em>{t("about_lede_b", loc)}
+          {t("about_lede_a", loc)} <em>{t("about_lede_em", loc)}</em>
+          {t("about_lede_b", loc)}
         </p>
 
         <h2>{t("about_h2_blog", loc)}</h2>

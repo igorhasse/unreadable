@@ -15,11 +15,5 @@
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "react/react-in-jsx-scope": "off"
   },
-  "ignorePatterns": [
-    "dist",
-    "node_modules",
-    ".worktrees",
-    "public/assets",
-    "public/posts"
-  ]
+  "ignorePatterns": ["dist", "node_modules", ".worktrees", "public/assets", "public/posts"]
 }

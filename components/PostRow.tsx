@@ -2,13 +2,7 @@ import Link from "next/link";
 import type { Locale } from "../lib/site-config";
 import type { PostMeta } from "../lib/posts";
 
-export default function PostRow({
-  post,
-  index,
-}: {
-  post: PostMeta;
-  index: number;
-}) {
+export default function PostRow({ post, index }: { post: PostMeta; index: number }) {
   const locale: Locale = post.locale;
   return (
     <Link href={`/${locale}/posts/${post.slug}`} className="post-row">

@@ -15,19 +15,26 @@ import { join, extname } from "node:path";
 const SITE_URL = process.env.VITE_SITE_URL || "https://igorhasse.com";
 const SITE_TITLES: Record<Locale, string> = {
   "pt-BR": "igor hasse",
-  "en": "igor hasse",
+  en: "igor hasse",
 };
 const SITE_DESCS: Record<Locale, string> = {
   "pt-BR": "Notas públicas de Igor Hasse sobre editores, tipos e sistemas.",
-  "en": "Public notes by Igor Hasse on editors, type systems, and software.",
+  en: "Public notes by Igor Hasse on editors, type systems, and software.",
 };
 
 type Locale = "pt-BR" | "en";
 type PostMeta = { slug: string; title: string; date: string; description: string };
 
 const ASSET_EXTENSIONS = new Set([
-  ".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg",
-  ".mp4", ".webm", ".mov",
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".svg",
+  ".mp4",
+  ".webm",
+  ".mov",
   ".pdf",
 ]);
 
@@ -85,7 +92,7 @@ function buildRssXml(posts: PostMeta[], locale: Locale): string {
       <guid>${urlPrefix}/posts/${p.slug}</guid>
       <pubDate>${rfc822(p.date)}</pubDate>
       <description>${esc(p.description)}</description>
-    </item>`,
+    </item>`
     )
     .join("");
 

@@ -112,12 +112,14 @@ Public URLs carry no locale prefix when possible. Middleware inspects requests a
 **LocaleToggle** sets `NEXT_LOCALE=<new-locale>` cookie with `Path=/; Max-Age=31536000; SameSite=Lax` when user clicks, so the choice persists across sessions.
 
 **Slug strategy**: slugs are in Portuguese in both locales. `content/posts/porque-typescript-importa/pt-BR.md` and `.../en.md` share the same folder name. URL pattern:
+
 - `igorhasse.com/pt-BR/posts/porque-typescript-importa`
 - `igorhasse.com/en/posts/porque-typescript-importa` (English content, Portuguese URL slug)
 
 This means shared URLs like `igorhasse.com/posts/porque-typescript-importa` redirect cleanly to either locale depending on reader's browser preference.
 
-**Middleware matcher** excludes static assets, rss.xml, _next internals:
+**Middleware matcher** excludes static assets, rss.xml, \_next internals:
+
 ```
 matcher: ['/((?!_next|assets|posts/.+\\.[a-z0-9]+|favicon|apple-touch-icon|sitemap|robots|rss\\.xml).*)'],
 ```
@@ -128,7 +130,7 @@ Canonical Next.js pattern. Zero workaround.
 
 ```tsx
 // app/[locale]/layout.tsx
-import "../../styles/globals.css";  // App Router emits <link rel="stylesheet"> in SSR natively
+import "../../styles/globals.css"; // App Router emits <link rel="stylesheet"> in SSR natively
 ```
 
 **Head additions** (in root layout, render as children of `<head>`):
@@ -136,39 +138,45 @@ import "../../styles/globals.css";  // App Router emits <link rel="stylesheet"> 
 - `<meta name="theme-color">` for mobile browser chrome (dark + light media queries).
 - **Minimal critical inline CSS** — only `color-scheme` per theme, 4 lines, no color duplication:
   ```css
-  html { color-scheme: dark; }
-  html[data-theme="light"] { color-scheme: light; }
+  html {
+    color-scheme: dark;
+  }
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
   ```
   Ensures native scrollbars/form controls render in the right tone before the external CSS loads.
 - **Theme bootstrap inline script** — reads `localStorage['blog-theme']` and sets `data-theme` on `<html>` before body paint. Prevents dark→light flicker for users who picked light mode. Industry-standard pattern.
 
 **Fonts** — `next/font/google` (vinext supports 🟡: CDN runtime load):
+
 ```tsx
 import { Newsreader, Geist, JetBrains_Mono } from "next/font/google";
 ```
+
 Imports become font CSS variables applied to `<body className={...}>`.
 
 ### Server vs Client components
 
 Server by default (zero JS shipped for that component). `'use client'` only where genuinely needed.
 
-| File | Type | Reason |
-|---|---|---|
-| `app/[locale]/layout.tsx` | Server | Static shell |
-| `app/[locale]/page.tsx` (home) | Server | Calls `getAllPosts(locale)` |
-| `app/[locale]/about/page.tsx` | Server | Static content |
-| `app/[locale]/rss/page.tsx` | Server | Static list; `<CopyFeed>` inside is Client |
-| `app/[locale]/posts/[slug]/page.tsx` | Server | async — calls shiki at render time |
-| `components/SiteHeader.tsx` | Server | Markup; Client islands inside |
-| `components/SiteFooter.tsx` | Server | — |
-| `components/PostRow.tsx` | Server | — |
-| `components/NavLink.tsx` | `'use client'` | `usePathname()` for active state |
-| `components/LocaleToggle.tsx` | `'use client'` | Cookie + navigation |
-| `components/ThemeToggle.tsx` | `'use client'` | localStorage + DOM |
-| `components/Newsletter.tsx` | `'use client'` | Form state |
-| `components/CopyFeed.tsx` | `'use client'` | Clipboard API |
-| `components/ProgressBar.tsx` | `'use client'` | Scroll event listener |
-| `components/PostEnhancements.tsx` | `'use client'` | Injects `<a class="anchor">#</a>` into headings |
+| File                                 | Type           | Reason                                          |
+| ------------------------------------ | -------------- | ----------------------------------------------- |
+| `app/[locale]/layout.tsx`            | Server         | Static shell                                    |
+| `app/[locale]/page.tsx` (home)       | Server         | Calls `getAllPosts(locale)`                     |
+| `app/[locale]/about/page.tsx`        | Server         | Static content                                  |
+| `app/[locale]/rss/page.tsx`          | Server         | Static list; `<CopyFeed>` inside is Client      |
+| `app/[locale]/posts/[slug]/page.tsx` | Server         | async — calls shiki at render time              |
+| `components/SiteHeader.tsx`          | Server         | Markup; Client islands inside                   |
+| `components/SiteFooter.tsx`          | Server         | —                                               |
+| `components/PostRow.tsx`             | Server         | —                                               |
+| `components/NavLink.tsx`             | `'use client'` | `usePathname()` for active state                |
+| `components/LocaleToggle.tsx`        | `'use client'` | Cookie + navigation                             |
+| `components/ThemeToggle.tsx`         | `'use client'` | localStorage + DOM                              |
+| `components/Newsletter.tsx`          | `'use client'` | Form state                                      |
+| `components/CopyFeed.tsx`            | `'use client'` | Clipboard API                                   |
+| `components/ProgressBar.tsx`         | `'use client'` | Scroll event listener                           |
+| `components/PostEnhancements.tsx`    | `'use client'` | Injects `<a class="anchor">#</a>` into headings |
 
 **i18n for Server vs Client**:
 
@@ -242,19 +250,23 @@ content/posts/
 ```
 
 **Markdown references assets with relative paths**:
+
 ```markdown
 ![diagrama](./diagram.png)
 <video src="./demo.mp4" controls></video>
 ```
 
 **Build-time asset copy** — `vite.config.ts` gains an `assetsPlugin` (~25 lines) that:
+
 - On `buildStart` + dev server file watcher: walks `content/posts/**`, copies non-`.md` files to `public/posts/<slug>/`.
 - Result: markdown can use `./diagram.png`, browser receives `/posts/porque-typescript-importa/diagram.png`.
 
 **Runtime path rewrite** in `lib/markdown.ts`:
+
 - `renderMarkdown(content, slug)` — slug threaded through, custom marked renderer rewrites `./foo.png` → `/posts/<slug>/foo.png`.
 
 **lib/posts.ts updates**:
+
 - `import.meta.glob("/content/posts/*/*.md", { query: "?raw", eager: true, import: "default" })`
 - Parse keys as `/content/posts/<slug>/<locale>.md`
 - `getPostBySlug(slug, locale)` reads the matching map entry
@@ -265,11 +277,11 @@ content/posts/
 
 The 3 existing placeholder posts get renamed to Portuguese slugs as part of this migration:
 
-| Current (Pages Router layout) | After migration (content bundle) |
-|---|---|
+| Current (Pages Router layout)                                                                             | After migration (content bundle)                                                                              |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `content/posts/pt-BR/building-a-modern-web-stack.md`<br>`content/posts/en/building-a-modern-web-stack.md` | `content/posts/construindo-stack-web-moderna/pt-BR.md`<br>`content/posts/construindo-stack-web-moderna/en.md` |
-| `content/posts/pt-BR/why-typescript-matters.md`<br>`content/posts/en/why-typescript-matters.md` | `content/posts/porque-typescript-importa/pt-BR.md`<br>`content/posts/porque-typescript-importa/en.md` |
-| `content/posts/pt-BR/getting-started-with-react.md`<br>`content/posts/en/getting-started-with-react.md` | `content/posts/comecando-com-react/pt-BR.md`<br>`content/posts/comecando-com-react/en.md` |
+| `content/posts/pt-BR/why-typescript-matters.md`<br>`content/posts/en/why-typescript-matters.md`           | `content/posts/porque-typescript-importa/pt-BR.md`<br>`content/posts/porque-typescript-importa/en.md`         |
+| `content/posts/pt-BR/getting-started-with-react.md`<br>`content/posts/en/getting-started-with-react.md`   | `content/posts/comecando-com-react/pt-BR.md`<br>`content/posts/comecando-com-react/en.md`                     |
 
 Content bodies don't change (they're placeholders anyway). `canonical` frontmatter field is no longer needed since slugs match across locales — safely removed.
 
@@ -283,12 +295,12 @@ export const SITE = {
   name: "igor hasse",
   description: {
     "pt-BR": "Notas públicas de Igor Hasse sobre editores, tipos e sistemas.",
-    "en": "Public notes by Igor Hasse on editors, type systems, and software.",
+    en: "Public notes by Igor Hasse on editors, type systems, and software.",
   },
   author: {
     name: "Igor Hasse Santiago",
     email: "igor.hasse@gmail.com",
-    twitter: "@deserverd",    // temporary, will change when professional handle is created
+    twitter: "@deserverd", // temporary, will change when professional handle is created
     github: "igorhasse",
     linkedin: "https://www.linkedin.com/in/igor-santiago/",
   },
@@ -298,12 +310,15 @@ export const SITE = {
 ## Dependencies
 
 **Removed**:
+
 - `highlight.js` (CJS-first, breaks in Vite 8 SSR)
 
 **Added**:
+
 - `shiki` (ESM-native, designed for RSC, VS Code-quality highlighting via TextMate grammars)
 
 **Kept**:
+
 - `vinext`, `vite`, `@vitejs/plugin-react`, `react`, `react-dom`
 - `tailwindcss`, `@tailwindcss/vite`, `@tailwindcss/postcss`
 - `marked` v18 (ESM-native, no workaround needed for our usage)

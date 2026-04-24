@@ -53,6 +53,7 @@ Expected: both pass.
 **Purpose:** Pull in every runtime needed for the rest of the plan. No behavior change yet.
 
 **Files:**
+
 - Modify: `package.json` (devDependencies)
 - Modify: `package-lock.json` (auto)
 
@@ -96,6 +97,7 @@ git commit -m "chore: install oxlint, oxfmt, vitest, husky, lint-staged" --no-ve
 **Purpose:** Static config files so local commands + CI use the same rules.
 
 **Files:**
+
 - Create: `.oxlintrc.json`
 - Create: `.oxfmtrc.json`
 - Create: `vitest.config.ts`
@@ -121,13 +123,7 @@ git commit -m "chore: install oxlint, oxfmt, vitest, husky, lint-staged" --no-ve
   "rules": {
     "no-console": ["warn", { "allow": ["warn", "error"] }]
   },
-  "ignorePatterns": [
-    "dist",
-    "node_modules",
-    ".worktrees",
-    "public/assets",
-    "public/posts"
-  ]
+  "ignorePatterns": ["dist", "node_modules", ".worktrees", "public/assets", "public/posts"]
 }
 ```
 
@@ -271,6 +267,7 @@ git commit -m "feat: configure oxlint, oxfmt, vitest" --no-verify
 ## Task 3: Add npm scripts
 
 **Files:**
+
 - Modify: `package.json` (scripts)
 
 - [ ] **Step 3.1: Update scripts block in `package.json`**
@@ -331,6 +328,7 @@ git commit -m "feat: add npm scripts for lint/format/test/check" --no-verify
 ## Task 4: Set up husky hooks
 
 **Files:**
+
 - Create: `.husky/pre-commit`
 - Create: `.husky/pre-push`
 
@@ -412,6 +410,7 @@ git commit -m "feat: add husky pre-commit (lint-staged) and pre-push (typecheck+
 ## Task 5: Write unit tests for `lib/posts.ts`
 
 **Files:**
+
 - Create: `lib/posts.test.ts`
 
 - [ ] **Step 5.1: Write `lib/posts.test.ts`**
@@ -444,12 +443,16 @@ describe("getPostBySlug", () => {
 
   it("produces dateHuman in Portuguese month format for pt-BR", () => {
     const post = getPostBySlug("porque-typescript-importa", "pt-BR");
-    expect(post?.dateHuman).toMatch(/\d{2} (Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez) \d{4}/);
+    expect(post?.dateHuman).toMatch(
+      /\d{2} (Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez) \d{4}/
+    );
   });
 
   it("produces dateHuman in English month format for en", () => {
     const post = getPostBySlug("porque-typescript-importa", "en");
-    expect(post?.dateHuman).toMatch(/\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}/);
+    expect(post?.dateHuman).toMatch(
+      /\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}/
+    );
   });
 
   it("readingTime string contains 'min' in pt-BR", () => {
@@ -539,11 +542,12 @@ git commit -m "test(posts): unit tests for getPostBySlug, getAllPosts, getTransl
 ## Task 6: Write unit tests for `lib/markdown.ts`
 
 **Files:**
+
 - Create: `lib/markdown.test.ts`
 
 - [ ] **Step 6.1: Write `lib/markdown.test.ts`**
 
-```ts
+````ts
 import { describe, it, expect } from "vitest";
 import { renderMarkdown, rewriteAssetPath } from "./markdown";
 
@@ -608,7 +612,7 @@ describe("renderMarkdown", () => {
     expect(html).toContain("<pre");
   });
 });
-```
+````
 
 - [ ] **Step 6.2: Run the tests**
 
@@ -630,6 +634,7 @@ git commit -m "test(markdown): unit tests for renderMarkdown + rewriteAssetPath"
 ## Task 7: Write unit tests for `i18n/strings.ts` and `middleware.ts`
 
 **Files:**
+
 - Create: `i18n/strings.test.ts`
 - Create: `middleware.test.ts`
 
@@ -687,7 +692,7 @@ export function hasLocalePrefix(pathname: string): boolean {
 export function detectLocale(
   pathname: string,
   cookieLocale: string | undefined,
-  acceptLanguage: string | null,
+  acceptLanguage: string | null
 ): string {
   if (cookieLocale === "pt-BR" || cookieLocale === "en") return cookieLocale;
   const accept = acceptLanguage ?? "";
@@ -712,7 +717,7 @@ export function hasLocalePrefix(pathname: string): boolean {
 
 export function detectLocale(
   cookieLocale: string | undefined,
-  acceptLanguage: string | null,
+  acceptLanguage: string | null
 ): string {
   if (cookieLocale === "pt-BR" || cookieLocale === "en") return cookieLocale;
   const accept = acceptLanguage ?? "";
@@ -730,7 +735,7 @@ export function middleware(req: NextRequest) {
 
   const locale = detectLocale(
     req.cookies.get("NEXT_LOCALE")?.value,
-    req.headers.get("accept-language"),
+    req.headers.get("accept-language")
   );
   const url = req.nextUrl.clone();
   url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
@@ -860,6 +865,7 @@ extracts request data and delegates to them." --no-verify
 ## Task 8: Write smoke tests
 
 **Files:**
+
 - Create: `tests/smoke.test.ts`
 
 - [ ] **Step 8.1: Create `tests/smoke.test.ts`**
@@ -948,7 +954,7 @@ describe("smoke: HTML head critical tags", () => {
   it("post page has JSON-LD and shiki-colored code", async () => {
     const res = await fetchOk(`${BASE}/pt-BR/posts/porque-typescript-importa`);
     const html = await res.text();
-    expect(html).toContain('application/ld+json');
+    expect(html).toContain("application/ld+json");
     expect(html).toMatch(/style="[^"]*color:#[0-9a-fA-F]{6}/);
   });
 });
@@ -1047,6 +1053,7 @@ git commit -m "test(smoke): HTTP smoke tests for URLs, SEO tags, XML outputs" --
 ## Task 9: Create GitHub Actions CI workflow
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 - [ ] **Step 9.1: Create the workflow**
@@ -1146,6 +1153,7 @@ git commit -m "ci: add GitHub Actions workflow (check + smoke + vuln)" --no-veri
 ## Task 10: Create Dependabot + PR template
 
 **Files:**
+
 - Create: `.github/dependabot.yml`
 - Create: `.github/PULL_REQUEST_TEMPLATE.md`
 
@@ -1207,6 +1215,7 @@ git commit -m "ci: add dependabot + PR template with testing checklist" --no-ver
 **Purpose:** Cloudflare Workers config. `account_id` is a placeholder that the user fills in after Cloudflare setup (Task 14).
 
 **Files:**
+
 - Create: `wrangler.jsonc`
 
 - [ ] **Step 11.1: Install wrangler as a devDep**
@@ -1227,21 +1236,21 @@ npm install --save-dev --legacy-peer-deps wrangler
   "account_id": "REPLACE_WITH_CLOUDFLARE_ACCOUNT_ID",
   "routes": [
     { "pattern": "igorhasse.com/*", "zone_name": "igorhasse.com" },
-    { "pattern": "www.igorhasse.com/*", "zone_name": "igorhasse.com" }
+    { "pattern": "www.igorhasse.com/*", "zone_name": "igorhasse.com" },
   ],
   "assets": {
     "directory": "./dist/client",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
   "env": {
     "preview": {
       "name": "igorhasse-preview",
-      "routes": []
-    }
-  }
+      "routes": [],
+    },
+  },
 }
 ```
 
@@ -1269,6 +1278,7 @@ git commit -m "feat(deploy): wrangler config for Cloudflare Workers" --no-verify
 ## Task 12: Create deploy workflow
 
 **Files:**
+
 - Create: `.github/workflows/deploy.yml`
 
 - [ ] **Step 12.1: Create the deploy workflow**
@@ -1402,6 +1412,7 @@ gh pr checks --watch
 ```
 
 Expected:
+
 - `check`: green
 - `smoke`: green (it builds locally and runs smoke against its own server)
 - `vuln`: green (assuming no high/critical CVEs)
@@ -1471,6 +1482,7 @@ Expected: returns the Cloudflare nameservers. May take 5 minutes to 24 hours dep
 Go to: GitHub repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
 
 Add three secrets:
+
 - `CLOUDFLARE_API_TOKEN` = value from Step 14.4
 - `CLOUDFLARE_ACCOUNT_ID` = value from Step 14.5
 - `VITE_MAILCHIMP_URL` = value from Step 14.6
@@ -1480,6 +1492,7 @@ Add three secrets:
 Go to: GitHub repo → **Settings** → **Environments** → **New environment**
 
 Create two environments (no protection rules for either):
+
 - `preview`
 - `production`
 
@@ -1529,6 +1542,7 @@ Expected: all checks green (`check`, `smoke`, `vuln`, `deploy-preview`).
 The PR should have a sticky comment from `marocchino/sticky-pull-request-comment@v2` with the URL. Click it.
 
 Verify in the browser:
+
 - Home page loads
 - Can toggle locale, navigate to About and a post
 - Post page renders with colored code blocks
@@ -1557,6 +1571,7 @@ curl -sL https://igorhasse.com/pt-BR | grep -oE '<link rel="canonical"[^>]*>'
 ```
 
 Expected:
+
 - `/` returns 307 redirect to `/pt-BR` or `/en` based on Accept-Language
 - `/pt-BR` returns 200
 - Canonical link present
@@ -1574,6 +1589,7 @@ Go to: GitHub repo → **Settings** → **Branches** → **Branch protection rul
 Branch name pattern: `main`
 
 Check:
+
 - ✅ **Require a pull request before merging**
   - Required approvals: `0`
   - Dismiss stale pull request approvals when new commits are pushed: unchecked
@@ -1587,6 +1603,7 @@ Check:
 - ✅ **Do not allow bypassing the above settings**
 
 Do NOT check:
+
 - ❌ Require signed commits
 - ❌ Require linear history
 - ❌ Require deployments to succeed before merging (would block us from merging if Cloudflare is down)
@@ -1621,6 +1638,7 @@ rm -f BRANCH_TEST.md
 - [ ] **Step 16.3: Configure default merge strategy**
 
 GitHub repo → **Settings** → **General** → **Pull Requests** section:
+
 - ✅ **Allow squash merging** (default): keep checked
 - ❌ **Allow merge commits**: uncheck
 - ❌ **Allow rebase merging**: uncheck
@@ -1635,6 +1653,7 @@ Save.
 **Purpose:** Document the new workflow for future agents.
 
 **Files:**
+
 - Modify: `CLAUDE.md`
 
 - [ ] **Step 17.1: Update `CLAUDE.md`**
@@ -1656,11 +1675,13 @@ Insert after the "Key vinext gotchas" section, a new major section:
 ## CI / CD workflow
 
 **On every push / PR**:
+
 - Local hooks (husky): `pre-commit` runs `lint-staged` (oxlint + oxfmt on staged files); `pre-push` runs `tsc --noEmit` + `vitest run`.
 - CI (`.github/workflows/ci.yml`): three parallel-safe jobs — `check` (lint/format/typecheck/test/build), `smoke` (HTTP tests against a live prod server), `vuln` (`npm audit --audit-level=high`).
 - CI must pass for any PR to merge (enforced by branch protection on `main`).
 
 **Deploy** (`.github/workflows/deploy.yml`):
+
 - PR opened/updated → `deploy-preview` job publishes to `igorhasse-preview.<subdomain>.workers.dev`. Bot comments the URL.
 - Merge to `main` → `deploy-prod` job publishes to `igorhasse.com` / `www.igorhasse.com`.
 
@@ -1676,11 +1697,13 @@ When adding a new feature, use this rule to decide if it needs a test:
 - **Always add a smoke test for**: a new route in `app/`, a new XML output, a new middleware handler.
 - **Skip tests for**: pure visual components, CSS tokens, thin hook wrappers, markdown content.
 
-**Decision heuristic**: ask *"If I silently break this logic, will a higher layer catch it?"*
+**Decision heuristic**: ask _"If I silently break this logic, will a higher layer catch it?"_
+
 - Yes (build fails, smoke test fails, typecheck complains) → can skip unit test
 - No (bug reaches prod, only user notices) → write the test
 
 **Test file locations**:
+
 - Unit tests co-located with source (`lib/posts.ts` → `lib/posts.test.ts`)
 - Smoke tests in `tests/smoke.test.ts`
 
@@ -1790,12 +1813,14 @@ Expected: pipeline flows end to end, preview deploy succeeds, prod deploy succee
 **Placeholder check**: only `REPLACE_WITH_CLOUDFLARE_ACCOUNT_ID` in `wrangler.jsonc`, which is replaced as part of Task 14.9 with the real value. Not a plan failure — it's a marker that Task 14 addresses explicitly.
 
 **Type consistency**:
+
 - `detectLocale(cookieLocale, acceptLanguage)` signature stable from Task 7 definition through test and documentation.
 - `hasLocalePrefix(pathname: string)` signature consistent.
 - `getTranslatedSlug`, `getPostBySlug`, `getAllPosts` signatures match `lib/posts.ts` as shipped.
 - `STRINGS` export and `StringKey` type match what's in `i18n/strings.ts`.
 
 **Known planned deviations** (acceptable):
+
 - Middleware gets refactored in Task 7 (helpers extracted for testability). Spec didn't anticipate this explicitly but testing guidelines imply it.
 - Task 13's preview deploy is EXPECTED to fail until Task 14 sets secrets. Called out explicitly.
 
