@@ -1,4 +1,6 @@
-export type Locale = "pt-BR" | "en";
+import type { Locale } from "./site-config";
+
+export type { Locale };
 
 export interface PostMeta {
   slug: string;
@@ -10,12 +12,6 @@ export interface PostMeta {
   description: string;
   tags: string[];
   coverImage?: string;
-  /**
-   * Optional. If set in the EN frontmatter, points to the slug of the PT post
-   * that is the canonical source. Used for rel=canonical and the locale
-   * toggle. If omitted, we assume slugs match across locales.
-   */
-  canonical?: string;
 }
 
 export interface Post extends PostMeta {
@@ -75,20 +71,20 @@ function asArray(v: string | string[] | undefined): string[] {
   return Array.isArray(v) ? v : [];
 }
 
-// Eager-load all markdown under content/posts/<locale>/*.md.
-// Vite rewrites this glob at build time into a static object map.
+// Content bundles: /content/posts/<slug>/<locale>.md
+// Vite rewrites this glob at build time to a static object map.
 const postFiles = import.meta.glob("/content/posts/*/*.md", {
   query: "?raw",
   eager: true,
   import: "default",
 }) as Record<string, string>;
 
-function parsePath(path: string): { locale: Locale; slug: string } | null {
-  const m = path.match(/^\/content\/posts\/([^/]+)\/(.+)\.md$/);
+function parsePath(path: string): { slug: string; locale: Locale } | null {
+  const m = path.match(/^\/content\/posts\/([^/]+)\/([^/]+)\.md$/);
   if (!m) return null;
-  const [, loc, slug] = m;
+  const [, slug, loc] = m;
   if (loc !== "pt-BR" && loc !== "en") return null;
-  return { locale: loc, slug };
+  return { slug, locale: loc };
 }
 
 function buildPost(slug: string, locale: Locale, raw: string): Post {
@@ -104,13 +100,12 @@ function buildPost(slug: string, locale: Locale, raw: string): Post {
     description: asString(attributes.description),
     tags: asArray(attributes.tags),
     coverImage: asString(attributes.coverImage) || undefined,
-    canonical: asString(attributes.canonical) || undefined,
     content: body,
   };
 }
 
 export function getPostBySlug(slug: string, locale: Locale): Post | null {
-  const path = `/content/posts/${locale}/${slug}.md`;
+  const path = `/content/posts/${slug}/${locale}.md`;
   const raw = postFiles[path];
   if (!raw) return null;
   return buildPost(slug, locale, raw);
@@ -128,33 +123,13 @@ export function getAllPosts(locale: Locale): PostMeta[] {
 }
 
 /**
- * Given a post slug in one locale, return the equivalent slug in the other
- * locale. Matches by the `canonical` frontmatter field when present; falls
- * back to assuming the slug is the same across locales (and returns it only
- * if a file with that slug actually exists in the target locale).
+ * With same-slug-across-locales convention, translation is a no-op when the
+ * target file exists, null otherwise.
  */
 export function getTranslatedSlug(
   slug: string,
-  fromLocale: Locale,
+  _fromLocale: Locale,
   toLocale: Locale,
 ): string | null {
-  if (fromLocale === toLocale) return slug;
-
-  // Case 1: moving from a locale to its canonical (PT)
-  if (toLocale === "pt-BR") {
-    // If the source file has `canonical`, that IS the PT slug.
-    const source = getPostBySlug(slug, fromLocale);
-    if (source?.canonical) return source.canonical;
-  }
-
-  // Case 2: moving from PT → another locale
-  if (fromLocale === "pt-BR") {
-    // Find a post in the target locale whose canonical points here.
-    for (const p of getAllPosts(toLocale)) {
-      if (p.canonical === slug) return p.slug;
-    }
-  }
-
-  // Fallback: assume slug is the same across locales (only if it exists).
   return getPostBySlug(slug, toLocale) ? slug : null;
 }
