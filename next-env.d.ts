@@ -46,3 +46,9 @@ declare module "next" {
     };
   }
 }
+
+declare module "next/og" {
+  export class ImageResponse extends Response {
+    constructor(element: React.ReactElement, options?: { width?: number; height?: number }): ImageResponse;
+  }
+}
