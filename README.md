@@ -29,7 +29,6 @@ Source of the site plus the CI/CD that ships it. Public because the stack is opi
 | Layer              | Choice                                                                             |
 | ------------------ | ---------------------------------------------------------------------------------- |
 | Framework          | **vinext** 0.0.43 (Vite 8 + React 19 SSR that reimplements the Next.js API)        |
-| Runtime            | **Cloudflare Workers** (Custom Domains `igorhasse.com` + `www.igorhasse.com`)      |
 | Router             | **App Router** with `[locale]` dynamic segment (`pt-BR` / `en`)                    |
 | Styles             | **Tailwind v4** + tokens in `styles/tokens.css`                                    |
 | Markdown           | **marked** + **shiki** (JavaScript regex engine — see [gotchas](#workers-gotchas)) |
