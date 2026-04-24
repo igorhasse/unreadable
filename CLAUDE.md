@@ -4,59 +4,82 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Blog pessoal (personal blog) built with **Vinext** — a Vite + React SSR framework targeting Cloudflare Workers. Language: Portuguese (pt-BR).
+Personal blog of Igor Hasse Santiago. Bilingual (pt-BR default, en alternate). Built with **vinext** (Vite + React SSR framework targeting Cloudflare Workers) using the **App Router** with a `[locale]` dynamic segment.
 
 ## Commands
 
 ```bash
-npm run dev        # Start dev server
-npm run build      # Production build (Cloudflare Workers)
-npm run start      # Start production server
-npm run typecheck  # TypeScript type checking (tsc --noEmit)
+npm run dev             # Start dev server
+npm run build           # Production build
+npm run start           # Start production server for local testing
+npm run typecheck       # TypeScript type checking (tsc --noEmit)
+npm run update:vinext   # Upgrade vinext to latest
+npm run update:all      # Upgrade all top-level deps to latest
 ```
 
 No linter or test runner configured.
 
 ## Tech Stack
 
-- **Vinext** v0.0.7 (Vite 7 + React 19 SSR) — Pages Router, NOT App Router
-- **TypeScript 6** — strict mode; `baseUrl` is deprecated, use tsconfig `paths` instead
-- **Tailwind CSS v4** — configured via `@theme {}` blocks in `styles/globals.css` (no `tailwind.config.js`)
-- **marked** + **highlight.js** — markdown rendering with syntax highlighting
-- **Cloudflare Workers** — deployment target
+- **vinext** `latest` (currently 0.0.43) — Vite 8 + React 19 SSR, Next.js-compatible API
+- **App Router** (`app/` directory) — not Pages Router
+- **TypeScript 6** strict mode
+- **Tailwind CSS v4** via `@tailwindcss/vite` (tokens in `styles/tokens.css`)
+- **marked** v18 + **shiki** — markdown rendering with server-side syntax highlighting
+- **next/font/google** — Newsreader (serif), Geist (sans), JetBrains Mono (mono)
+- **next/og** — dynamic OG image generation (prod-only, native modules break dev)
+- Cloudflare Workers — deployment target (`vinext deploy`)
 
 ## Architecture
 
-**Routing:** File-based Pages Router under `pages/`. Dynamic routes use bracket syntax (`pages/posts/[slug].tsx`). Route params accessed via `useRouter().query` from the `next/router` vinext shim.
+### Routing
+- **App Router** with `[locale]` dynamic segment.
+- `middleware.ts` redirects locale-less paths using: cookie `NEXT_LOCALE` > `Accept-Language` > fallback `pt-BR`.
+- LocaleToggle sets the cookie on click, so manual preference persists.
 
-**App shell:** `_app.tsx` wraps all pages in `<Layout>` (which includes `<Header>`). `_document.tsx` handles HTML structure and loads Google Fonts.
+### Content bundles
+Each post lives in its own folder:
+```
+content/posts/<slug>/
+  pt-BR.md       # Portuguese version
+  en.md          # English version
+  cover.jpg      # optional media (copied to public/posts/<slug>/ at build/dev time)
+```
+Slugs are Portuguese (audience is Brazilian). Markdown references assets with `./file.ext` — `lib/markdown.ts` rewrites to `/posts/<slug>/file.ext`, and `vite.config.ts`'s `assetsPlugin` copies them to `public/`.
 
-**Content pipeline:**
-1. Markdown files live in `content/posts/` with YAML frontmatter (`title`, `date`, `description`, `coverImage?`)
-2. `lib/posts.ts` uses `import.meta.glob` to load all `.md` files as raw strings at build time
-3. Frontmatter parser is regex-based — supports only simple `key: value` pairs (no nested YAML)
-4. `lib/markdown.ts` renders markdown via `Marked` class (v15+ API — class instantiation, not default export) with custom renderer for syntax highlighting and lazy-loaded images
-5. `getAllPosts()` returns `PostMeta[]` sorted by date descending; `getPostBySlug(slug)` returns full `Post` with raw markdown content
+### Server vs Client
+- Default: Server Components.
+- `'use client'` only where needed: toggles (Locale, Theme), forms (Newsletter), clipboard (CopyFeed), scroll (ProgressBar), DOM injection (PostEnhancements — only for anchor links; highlight is server-side shiki), active-state links (NavLink).
 
-**Vinext shims:** Next.js-like imports (`next/router`, `next/link`, `next/head`) resolve to vinext shims via tsconfig `paths`. This means components use Next.js-style APIs but run on Vinext.
+### i18n
+- `i18n/strings.ts` — dictionary for pt-BR + en with TypeScript-enforced parity.
+- `i18n/t.ts` — pure function `t(key, locale)` for Server Components.
+- `i18n/useT.ts` — `'use client'` hook reading locale from `useParams()` (next/navigation).
 
-## Design System
+### CSS
+- `styles/tokens.css` — single source of truth for color/type tokens.
+- `styles/globals.css` — layout + component styles, imports tokens.
+- `app/[locale]/layout.tsx` does `import "../../styles/globals.css"` — App Router emits the stylesheet link in SSR natively.
+- Critical inline CSS in the layout's head sets `color-scheme` per data-theme (minimal, no color duplication).
+- Theme bootstrap inline script reads `localStorage["blog-theme"]` before first paint to avoid a dark→light flicker.
 
-Philosophy: "The Digital Curator" — editorial, minimalist, typography-driven.
+### SEO
+- `app/[locale]/layout.tsx` and each page export `generateMetadata()` — canonical, hreflang, OpenGraph, Twitter.
+- Post pages emit JSON-LD `BlogPosting`.
+- `app/sitemap.ts` generates `/sitemap.xml` for all routes × locales with `hreflang` alternates.
+- `app/robots.ts` generates `/robots.txt` pointing to the sitemap.
+- `opengraph-image.tsx` files per route produce dynamic PNG OG images via `next/og`.
 
-- **Zero border-radius** everywhere (sharp 90° angles)
-- **No visible borders** — use tonal surface shifts for separation (`surface`, `surface-container-low/high/highest`, `surface-bright`)
-- **Fonts:** Newsreader (serif, display), Inter (sans, body), Space Grotesk (mono/UI labels) — loaded via Google Fonts CDN in `_document.tsx`
-- **Dark mode only** — base surface is `#131313` (deep charcoal, not pure black)
-- All design tokens defined as CSS custom properties inside `@theme {}` in `styles/globals.css`
+### Identity
+All personal info (name, email, socials, URLs) lives in `lib/site-config.ts`. Everything else reads from there.
 
-## Key Vinext/Vite Gotchas
+## Key vinext gotchas (still present in 0.0.43)
 
-- `import.meta.glob` requires `/// <reference types="vite/client" />` in `env.d.ts`
-- `marked` v15+ uses `new Marked()` class instantiation, not a default export function
-- highlight.js: check language availability with `hljs.getLanguage(lang)` before calling `highlight()`
-- Cover images reference external URLs (Unsplash) — no local image pipeline
+- **`next/font/google` = CDN runtime load.** No self-hosting or size-adjust fallbacks (per vinext README known limitations).
+- **`next/og` only works in prod.** In `vinext dev`, Satori's native modules crash — OG image URLs return 404 locally. Deploy or `vinext build && vinext start` to test.
+- **`require is not defined` in SSR for CJS-only deps.** Prefer ESM-native packages. `shiki` (ESM) instead of `highlight.js` (CJS).
+- **Ambient `next` types** — because vinext doesn't install `next` itself, some type imports from the `"next"` module root aren't automatically resolvable. See `next-env.d.ts` for the declarations we've needed (`Metadata`, `Viewport`, `MetadataRoute`, named font loaders, `ImageResponse`).
 
-## Integrations
+## Philosophy: "The Digital Curator"
 
-- **Newsletter:** Mailchimp client-side form (no API key needed). Component at `components/Newsletter.tsx` — URL placeholder needs real Mailchimp list values for production.
+Editorial, minimalist, typography-driven. Zero border-radius. No visible borders — tonal surface shifts for separation. Dark-first; `#131313` charcoal, not pure black.
