@@ -22,3 +22,27 @@ declare module "next/font/google" {
   export const Geist: FontLoader;
   export const JetBrains_Mono: FontLoader;
 }
+
+declare module "next/server" {
+  export type { NextRequest } from "vinext/shims/server";
+  export { NextResponse } from "vinext/shims/server";
+}
+
+declare module "next" {
+  export namespace MetadataRoute {
+    type Sitemap = Array<{
+      url: string;
+      lastModified?: string | Date;
+      changeFrequency?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+      priority?: number;
+      alternates?: { languages?: Record<string, string> };
+    }>;
+    type Robots = {
+      rules:
+        | { userAgent?: string | string[]; allow?: string | string[]; disallow?: string | string[]; crawlDelay?: number }
+        | Array<{ userAgent?: string | string[]; allow?: string | string[]; disallow?: string | string[]; crawlDelay?: number }>;
+      sitemap?: string | string[];
+      host?: string;
+    };
+  }
+}
