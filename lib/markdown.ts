@@ -1,10 +1,7 @@
 import { Marked } from "marked";
-// Syntax highlighting runs client-side (see pages/posts/[slug].tsx). Vite
-// 8's strict ESM SSR evaluator can't load highlight.js (its "ESM" entry just
-// re-exports CJS), so we emit plain <code class="language-X"> here and let
-// the client upgrade it after hydration.
+import { codeToHtml } from "shiki";
 
-function slugify(text: string): string {
+function slugifyHeading(text: string): string {
   return text
     .toLowerCase()
     .normalize("NFD")
@@ -23,28 +20,65 @@ function escapeHtml(s: string): string {
     .replace(/'/g, "&#39;");
 }
 
-const marked = new Marked({
-  renderer: {
-    code({ text, lang }: { text: string; lang?: string }) {
-      const language = lang ?? "plaintext";
-      return `<pre><code class="hljs language-${language}">${escapeHtml(text)}</code></pre>`;
+/**
+ * Rewrite markdown-relative asset paths (./foo.png) to the public URL
+ * (/posts/<slug>/foo.png). The assetsPlugin in vite.config.ts copies
+ * non-markdown files from content/posts/<slug>/ to public/posts/<slug>/ at
+ * build/dev time, so this path is valid at runtime.
+ */
+function rewriteAssetPath(src: string, slug: string): string {
+  if (src.startsWith("./")) return `/posts/${slug}/${src.slice(2)}`;
+  if (src.startsWith("/") || src.startsWith("http://") || src.startsWith("https://")) return src;
+  return `/posts/${slug}/${src}`;
+}
+
+function makeMarked(slug: string): Marked {
+  return new Marked({
+    renderer: {
+      image({ href, title, text }: { href: string; title?: string | null; text: string }) {
+        const resolved = rewriteAssetPath(href, slug);
+        const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
+        return `<img src="${escapeHtml(resolved)}" alt="${escapeHtml(text)}"${titleAttr} loading="lazy" />`;
+      },
     },
-    image({ href, title, text }: { href: string; title?: string | null; text: string }) {
-      const titleAttr = title ? ` title="${title}"` : "";
-      return `<img src="${href}" alt="${text}"${titleAttr} loading="lazy" />`;
-    },
-  },
-});
+  });
+}
 
 function addHeadingIds(html: string): string {
   return html.replace(/<(h[1-6])>([\s\S]*?)<\/\1>/g, (_, tag, inner) => {
     const text = inner.replace(/<[^>]+>/g, "").trim();
-    const slug = slugify(text);
+    const slug = slugifyHeading(text);
     return slug ? `<${tag} id="${slug}">${inner}</${tag}>` : `<${tag}>${inner}</${tag}>`;
   });
 }
 
-export function renderMarkdown(content: string): string {
+/**
+ * Two-pass render:
+ *  1. Walk tokens, replace each code block with shiki-highlighted HTML.
+ *  2. Parse the remaining markdown via marked with our custom renderer.
+ *
+ * Shiki's codeToHtml is async, so the whole pipeline is async.
+ */
+export async function renderMarkdown(content: string, slug: string): Promise<string> {
   const stripped = content.replace(/^\s*#\s+[^\n]+\n+/, "");
-  return addHeadingIds(marked.parse(stripped) as string);
+  const marked = makeMarked(slug);
+
+  // Pre-highlight code blocks by replacing them with pre-rendered HTML tokens.
+  const tokens = marked.lexer(stripped);
+  for (const token of tokens) {
+    if (token.type === "code") {
+      const lang = token.lang || "plaintext";
+      const highlighted = await codeToHtml(token.text, {
+        lang,
+        theme: "github-dark-dimmed",
+      });
+      // Mark as raw HTML so marked.parser doesn't re-encode it.
+      (token as { type: string; raw: string; text: string }).type = "html";
+      (token as { type: string; raw: string; text: string }).text = highlighted;
+      (token as { type: string; raw: string; text: string }).raw = highlighted;
+    }
+  }
+
+  const html = marked.parser(tokens);
+  return addHeadingIds(html);
 }
