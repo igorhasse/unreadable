@@ -9,7 +9,12 @@ export default async function Image({ params }: { params: Promise<{ locale: Loca
   const { locale } = await params;
   return renderOGImage({
     eyebrow: formatOGEyebrow(locale, "ABOUT"),
-    title: t("about_title_a", locale) + " " + t("about_title_em", locale) + " " + t("about_title_b", locale),
+    title:
+      t("about_title_a", locale) +
+      " " +
+      t("about_title_em", locale) +
+      " " +
+      t("about_title_b", locale),
     footer: "igorhasse.com/about",
   });
 }

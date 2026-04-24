@@ -8,7 +8,7 @@ export const SITE = {
   name: "igor hasse",
   description: {
     "pt-BR": "Notas públicas de Igor Hasse sobre editores, tipos e sistemas.",
-    "en": "Public notes by Igor Hasse on editors, type systems, and software.",
+    en: "Public notes by Igor Hasse on editors, type systems, and software.",
   },
   author: {
     name: "Igor Hasse Santiago",

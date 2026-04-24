@@ -33,30 +33,37 @@ No linter or test runner configured.
 ## Architecture
 
 ### Routing
+
 - **App Router** with `[locale]` dynamic segment.
 - `middleware.ts` redirects locale-less paths using: cookie `NEXT_LOCALE` > `Accept-Language` > fallback `pt-BR`.
 - LocaleToggle sets the cookie on click, so manual preference persists.
 
 ### Content bundles
+
 Each post lives in its own folder:
+
 ```
 content/posts/<slug>/
   pt-BR.md       # Portuguese version
   en.md          # English version
   cover.jpg      # optional media (copied to public/posts/<slug>/ at build/dev time)
 ```
+
 Slugs are Portuguese (audience is Brazilian). Markdown references assets with `./file.ext` — `lib/markdown.ts` rewrites to `/posts/<slug>/file.ext`, and `vite.config.ts`'s `assetsPlugin` copies them to `public/`.
 
 ### Server vs Client
+
 - Default: Server Components.
 - `'use client'` only where needed: toggles (Locale, Theme), forms (Newsletter), clipboard (CopyFeed), scroll (ProgressBar), DOM injection (PostEnhancements — only for anchor links; highlight is server-side shiki), active-state links (NavLink).
 
 ### i18n
+
 - `i18n/strings.ts` — dictionary for pt-BR + en with TypeScript-enforced parity.
 - `i18n/t.ts` — pure function `t(key, locale)` for Server Components.
 - `i18n/useT.ts` — `'use client'` hook reading locale from `useParams()` (next/navigation).
 
 ### CSS
+
 - `styles/tokens.css` — single source of truth for color/type tokens.
 - `styles/globals.css` — layout + component styles, imports tokens.
 - `app/[locale]/layout.tsx` does `import "../../styles/globals.css"` — App Router emits the stylesheet link in SSR natively.
@@ -64,6 +71,7 @@ Slugs are Portuguese (audience is Brazilian). Markdown references assets with `.
 - Theme bootstrap inline script reads `localStorage["blog-theme"]` before first paint to avoid a dark→light flicker.
 
 ### SEO
+
 - `app/[locale]/layout.tsx` and each page export `generateMetadata()` — canonical, hreflang, OpenGraph, Twitter.
 - Post pages emit JSON-LD `BlogPosting`.
 - `app/sitemap.ts` generates `/sitemap.xml` for all routes × locales with `hreflang` alternates.
@@ -71,6 +79,7 @@ Slugs are Portuguese (audience is Brazilian). Markdown references assets with `.
 - `opengraph-image.tsx` files per route produce dynamic PNG OG images via `next/og`.
 
 ### Identity
+
 All personal info (name, email, socials, URLs) lives in `lib/site-config.ts`. Everything else reads from there.
 
 ## Key vinext gotchas (still present in 0.0.43)

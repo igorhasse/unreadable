@@ -44,7 +44,11 @@ const THEME_BOOTSTRAP = `
 
 const LOCALES: readonly Locale[] = ["pt-BR", "en"] as const;
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   if (!LOCALES.includes(locale as Locale)) return {};
   const loc = locale as Locale;
@@ -60,7 +64,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       canonical: `/${loc}`,
       languages: {
         "pt-BR": "/pt-BR",
-        "en": "/en",
+        en: "/en",
         "x-default": "/pt-BR",
       },
     },

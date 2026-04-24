@@ -23,7 +23,11 @@ const READERS_EN = [
   { name: "Miniflux", desc: "Self-hosted, minimal.", href: "https://miniflux.app" },
 ];
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: t("nav_rss", locale),
@@ -31,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
       canonical: `/${locale}/rss`,
       languages: {
         "pt-BR": "/pt-BR/rss",
-        "en": "/en/rss",
+        en: "/en/rss",
         "x-default": "/pt-BR/rss",
       },
     },
@@ -42,7 +46,8 @@ export default async function RssPage({ params }: { params: Promise<{ locale: st
   const { locale } = await params;
   if (locale !== "pt-BR" && locale !== "en") notFound();
   const loc = locale as Locale;
-  const feedUrl = loc === "en" ? "https://igorhasse.com/en/rss.xml" : "https://igorhasse.com/rss.xml";
+  const feedUrl =
+    loc === "en" ? "https://igorhasse.com/en/rss.xml" : "https://igorhasse.com/rss.xml";
   const readers = loc === "en" ? READERS_EN : READERS_PT;
 
   return (
@@ -50,7 +55,8 @@ export default async function RssPage({ params }: { params: Promise<{ locale: st
       <section className="hero">
         <div className="hero-eyebrow">{t("rss_eyebrow", loc)}</div>
         <h1 className="t-title">
-          {t("rss_title_a", loc)} <em>{t("rss_title_em", loc)}</em>{t("rss_title_b", loc)}
+          {t("rss_title_a", loc)} <em>{t("rss_title_em", loc)}</em>
+          {t("rss_title_b", loc)}
         </h1>
         <p className="post-subtitle" style={{ marginTop: 20, maxWidth: 560 }}>
           {t("rss_subtitle", loc)}
@@ -67,7 +73,13 @@ export default async function RssPage({ params }: { params: Promise<{ locale: st
 
       <div className="reader-grid">
         {readers.map((r) => (
-          <a key={r.name} href={r.href} target="_blank" rel="noopener noreferrer" className="reader-card">
+          <a
+            key={r.name}
+            href={r.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="reader-card"
+          >
             <span className="reader-name">{r.name}</span>
             <span className="reader-desc">{r.desc}</span>
             <span className="reader-cta">{t("rss_reader_cta", loc)}</span>

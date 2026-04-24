@@ -11,12 +11,22 @@ export default function SiteFooter({
 }) {
   return (
     <footer className={`site-foot${withRule ? " with-rule" : ""}`}>
-      <span>© {new Date().getFullYear()} {t("foot_copyright", locale)}</span>
+      <span>
+        © {new Date().getFullYear()} {t("foot_copyright", locale)}
+      </span>
       <div className="site-foot-links">
-        <a href={`https://github.com/${SITE.author.github}`} target="_blank" rel="noopener noreferrer">
+        <a
+          href={`https://github.com/${SITE.author.github}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {t("foot_github", locale)}
         </a>
-        <a href={`https://twitter.com/${SITE.author.twitter.replace(/^@/, "")}`} target="_blank" rel="noopener noreferrer">
+        <a
+          href={`https://twitter.com/${SITE.author.twitter.replace(/^@/, "")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {t("foot_twitter", locale)}
         </a>
         <a href={`mailto:${SITE.author.email}`}>{t("foot_email", locale)}</a>

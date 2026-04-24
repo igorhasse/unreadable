@@ -16,7 +16,11 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
         </div>
         <nav className="site-nav" aria-label={locale === "en" ? "Main" : "Principal"}>
           <NavLink href="/" localizedHref={`/${locale}`} label={t("nav_archive", locale)} />
-          <NavLink href="/about" localizedHref={`/${locale}/about`} label={t("nav_about", locale)} />
+          <NavLink
+            href="/about"
+            localizedHref={`/${locale}/about`}
+            label={t("nav_about", locale)}
+          />
           <NavLink href="/rss" localizedHref={`/${locale}/rss`} label={t("nav_rss", locale)} />
           <LocaleToggle />
           <ThemeToggle />

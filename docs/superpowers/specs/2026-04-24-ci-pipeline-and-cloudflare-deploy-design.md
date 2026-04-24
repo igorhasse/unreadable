@@ -9,6 +9,7 @@
 ## Context
 
 The blog just finished migrating to App Router on vinext 0.0.43. Today there is no automation:
+
 - No linter configured
 - No test runner
 - No CI workflows
@@ -40,18 +41,18 @@ All listed as phase-2 follow-ups. Pick them up when the pipeline is stable.
 
 ## Stack decisions
 
-| Concern | Tool | Rationale |
-|---|---|---|
-| Lint | `oxlint` | Same linter vinext uses internally. ~50-100x faster than ESLint. Zero-config to start. |
-| Format | `oxfmt` | Companion to oxlint. |
-| Typecheck | `tsc --noEmit` | Already in use. No change. |
-| Unit tests | `vitest` | First-class Vite ecosystem tool, reuses the existing `vite.config.ts`. |
-| Smoke tests | `vitest` (HTTP fetches) | Same runner; keeps test infra single-tool. |
-| Vuln scan | `npm audit` + GitHub Dependabot | Free, built-in, sufficient for a personal blog. |
-| Pre-commit hooks | `husky` + `lint-staged` | Standard; runs lint/format only on staged files. |
-| CI | GitHub Actions | Repo is on GitHub. No other option makes sense. |
-| Deploy target | Cloudflare Workers (free tier) | 100k req/day free, instant rollback, global CDN. Native vinext support. |
-| Deploy tool | `wrangler` via `cloudflare/wrangler-action@v3` | Official, maintained. |
+| Concern          | Tool                                           | Rationale                                                                              |
+| ---------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Lint             | `oxlint`                                       | Same linter vinext uses internally. ~50-100x faster than ESLint. Zero-config to start. |
+| Format           | `oxfmt`                                        | Companion to oxlint.                                                                   |
+| Typecheck        | `tsc --noEmit`                                 | Already in use. No change.                                                             |
+| Unit tests       | `vitest`                                       | First-class Vite ecosystem tool, reuses the existing `vite.config.ts`.                 |
+| Smoke tests      | `vitest` (HTTP fetches)                        | Same runner; keeps test infra single-tool.                                             |
+| Vuln scan        | `npm audit` + GitHub Dependabot                | Free, built-in, sufficient for a personal blog.                                        |
+| Pre-commit hooks | `husky` + `lint-staged`                        | Standard; runs lint/format only on staged files.                                       |
+| CI               | GitHub Actions                                 | Repo is on GitHub. No other option makes sense.                                        |
+| Deploy target    | Cloudflare Workers (free tier)                 | 100k req/day free, instant rollback, global CDN. Native vinext support.                |
+| Deploy tool      | `wrangler` via `cloudflare/wrangler-action@v3` | Official, maintained.                                                                  |
 
 Node version pinned: **22 LTS**.
 
@@ -136,6 +137,7 @@ Two jobs gated on event type:
 - **`deploy-prod`** — triggers on push to main. Uses `wrangler deploy`. Binds to routes `igorhasse.com/*` and `www.igorhasse.com/*`.
 
 GitHub Environments:
+
 - `preview` — no protection rules
 - `production` — no protection rules (solo dev, auto-deploy on merge)
 
@@ -155,18 +157,18 @@ Weekly npm updates grouped into a single PR. Monthly GitHub Actions updates. If 
   "account_id": "<filled in during rollout>",
   "routes": [
     { "pattern": "igorhasse.com/*", "zone_name": "igorhasse.com" },
-    { "pattern": "www.igorhasse.com/*", "zone_name": "igorhasse.com" }
+    { "pattern": "www.igorhasse.com/*", "zone_name": "igorhasse.com" },
   ],
   "assets": {
     "directory": "./dist/client",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "observability": { "enabled": true },
   "env": {
     "preview": {
-      "name": "igorhasse-preview"
-    }
-  }
+      "name": "igorhasse-preview",
+    },
+  },
 }
 ```
 
@@ -179,6 +181,7 @@ Weekly npm updates grouped into a single PR. Monthly GitHub Actions updates. If 
 ### Free tier fit
 
 Cloudflare Workers Free:
+
 - 100k requests/day
 - 10ms CPU per request
 - Unlimited static asset serving
@@ -231,7 +234,7 @@ Code that is cheap to break and cheap to fix visually:
 
 ### Decision rule
 
-Ask: *"If I silently break this logic, will a higher layer catch it?"*
+Ask: _"If I silently break this logic, will a higher layer catch it?"_
 
 - Yes (build fails, smoke test fails, typecheck complains) → you can skip the unit test.
 - No (the bug reaches production and only the user notices) → write the test.
@@ -250,17 +253,19 @@ None enforced in phase 1. Coverage is a side effect of following the rule above,
 
 **GitHub repository secrets:**
 
-| Name | Source |
-|---|---|
-| `CLOUDFLARE_API_TOKEN` | Cloudflare → My Profile → API Tokens → Create Token (template: "Edit Cloudflare Workers") |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard sidebar → Account ID |
-| `VITE_MAILCHIMP_URL` | Mailchimp admin → Audience → Signup forms → Embedded forms → `<form action="...">` |
+| Name                    | Source                                                                                    |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Cloudflare → My Profile → API Tokens → Create Token (template: "Edit Cloudflare Workers") |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard sidebar → Account ID                                                 |
+| `VITE_MAILCHIMP_URL`    | Mailchimp admin → Audience → Signup forms → Embedded forms → `<form action="...">`        |
 
 **GitHub Environments:**
+
 - `preview` (no protection)
 - `production` (no protection)
 
 **Cloudflare dashboard (one-time setup):**
+
 1. Add `igorhasse.com` as a site (Free plan)
 2. Note the 2 nameservers Cloudflare assigns
 3. Change nameservers at the domain registrar

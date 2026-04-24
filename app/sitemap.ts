@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         alternates: {
           languages: {
             "pt-BR": `${SITE.url}/pt-BR/posts/${post.slug}`,
-            "en": `${SITE.url}/en/posts/${post.slug}`,
+            en: `${SITE.url}/en/posts/${post.slug}`,
           },
         },
       });
