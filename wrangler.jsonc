@@ -10,10 +10,4 @@
   "observability": {
     "enabled": true,
   },
-  "env": {
-    "preview": {
-      "name": "igorhasse-preview",
-      "routes": [],
-    },
-  },
 }
