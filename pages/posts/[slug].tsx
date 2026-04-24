@@ -1,23 +1,75 @@
-import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useRouter } from "next/compat/router";
 import Link from "next/link";
+import SiteHeader from "../../components/SiteHeader";
+import SiteFooter from "../../components/SiteFooter";
+import ProgressBar from "../../components/ProgressBar";
+import Newsletter from "../../components/Newsletter";
 import { getPostBySlug } from "../../lib/posts";
 import { renderMarkdown } from "../../lib/markdown";
-import Newsletter from "../../components/Newsletter";
+import { useT, useLocale } from "../../i18n/useT";
 
 export default function PostPage() {
   const router = useRouter();
-  const slug = router.query.slug as string;
-  const post = getPostBySlug(slug);
+  const t = useT();
+  const locale = useLocale();
+  const slug = typeof router?.query.slug === "string" ? router.query.slug : undefined;
+  const post = slug ? getPostBySlug(slug, locale) : null;
+
+  useEffect(() => {
+    if (!post) return;
+    const headings = document.querySelectorAll<HTMLElement>(
+      ".prose h2[id], .prose h3[id]",
+    );
+    headings.forEach((h) => {
+      if (h.querySelector(".anchor")) return;
+      const a = document.createElement("a");
+      a.href = "#" + h.id;
+      a.className = "anchor";
+      a.textContent = "#";
+      a.title = locale === "en" ? "Copy link to this section" : "Copiar link desta seção";
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const url = location.href.split("#")[0] + "#" + h.id;
+        try {
+          navigator.clipboard.writeText(url);
+        } catch {}
+        a.textContent = "✓";
+        setTimeout(() => (a.textContent = "#"), 1200);
+      });
+      h.appendChild(a);
+    });
+  }, [post, locale]);
+
+  // Client-side syntax highlighting. highlight.js is CJS-only under the hood
+  // so we can't run it during SSR with Vite 8; dynamic-import it after hydration.
+  useEffect(() => {
+    if (!post) return;
+    let cancelled = false;
+    (async () => {
+      const { default: hljs } = await import("highlight.js/lib/common");
+      if (cancelled) return;
+      document.querySelectorAll<HTMLElement>(".prose pre code").forEach((el) => {
+        if (el.dataset.highlighted === "yes") return;
+        hljs.highlightElement(el);
+      });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [post]);
 
   if (!post) {
     return (
-      <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-        <h1 className="font-display text-4xl font-bold text-primary">
-          Post not found
-        </h1>
-        <Link href="/" className="mt-6 inline-block text-muted hover:text-on-surface-variant transition-colors">
-          &larr; Back to home
-        </Link>
+      <div className="shell">
+        <SiteHeader />
+        <section className="hero">
+          <h1 className="t-title">{t("post_not_found_title")}</h1>
+          <div className="hero-meta">
+            <Link href="/">{t("post_not_found_back")}</Link>
+          </div>
+        </section>
+        <SiteFooter />
       </div>
     );
   }
@@ -25,37 +77,40 @@ export default function PostPage() {
   const html = renderMarkdown(post.content);
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-24">
-      <Link href="/" className="font-meta text-sm text-muted hover:text-on-surface-variant transition-colors">
-        &larr; Back to home
-      </Link>
+    <>
+      <ProgressBar />
+      <div className="shell">
+        <SiteHeader />
 
-      <header className="mt-8">
-        <time className="font-meta text-sm text-muted">{post.date}</time>
-        <h1 className="mt-2 font-display text-4xl font-bold leading-tight text-primary sm:text-5xl">
-          {post.title}
-        </h1>
-        {post.description && (
-          <p className="mt-4 text-lg text-on-surface-variant">{post.description}</p>
-        )}
-        {post.coverImage && (
-          <img
-            src={post.coverImage}
-            alt={post.title}
-            className="mt-8 w-full rounded-xl object-cover"
-            loading="lazy"
-          />
-        )}
-      </header>
+        <Link href="/" className="back">{t("post_back")}</Link>
 
-      <div
-        className="prose mt-12"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+        <header className="post-head">
+          <div className="post-meta-top">
+            <time>{post.dateHuman}</time>
+            <span className="dot" />
+            <span>{post.readingTime}</span>
+            {post.tags[0] && (
+              <>
+                <span className="dot" />
+                <span className="tag">{post.tags[0]}</span>
+              </>
+            )}
+          </div>
 
-      <div className="mt-16">
-        <Newsletter />
+          <h1 className="post-title-big">{post.title}</h1>
+
+          {post.description && <p className="post-subtitle">{post.description}</p>}
+        </header>
+
+        <article>
+          {post.coverImage && <img src={post.coverImage} alt={post.title} loading="lazy" />}
+          <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+        </article>
+
+        <Newsletter variant="compact" />
+
+        <SiteFooter withRule />
       </div>
-    </article>
+    </>
   );
 }

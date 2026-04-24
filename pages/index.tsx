@@ -1,33 +1,27 @@
-import Link from "next/link";
-import { getAllPosts } from "../lib/posts";
+import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
+import PostRow from "../components/PostRow";
 import Newsletter from "../components/Newsletter";
+import { getAllPosts } from "../lib/posts";
+import { useLocale } from "../i18n/useT";
 
 export default function Home() {
-  const posts = getAllPosts();
+  const locale = useLocale();
+  const posts = getAllPosts(locale);
 
   return (
-    <div className="mx-auto max-w-3xl px-6">
-      <div className="mt-16 flex flex-col gap-8">
-        {posts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/posts/${post.slug}`}
-            className="group block rounded-2xl bg-surface-container-low p-6 transition-colors hover:bg-surface-container"
-          >
-            <time className="font-meta text-sm text-muted">{post.date}</time>
-            <h2 className="mt-2 font-display text-2xl font-semibold text-primary group-hover:text-primary-container transition-colors">
-              {post.title}
-            </h2>
-            <p className="mt-2 text-on-surface-variant leading-relaxed">
-              {post.description}
-            </p>
-          </Link>
+    <div className="shell">
+      <SiteHeader />
+
+      <div className="posts">
+        {posts.map((p, i) => (
+          <PostRow key={p.slug} post={p} index={i} />
         ))}
       </div>
 
-      <div className="mt-16">
-        <Newsletter />
-      </div>
+      <Newsletter variant="full" />
+
+      <SiteFooter />
     </div>
   );
 }

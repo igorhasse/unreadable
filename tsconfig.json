@@ -17,6 +17,7 @@
       "next/head": ["./node_modules/vinext/dist/shims/head"],
       "next/link": ["./node_modules/vinext/dist/shims/link"],
       "next/router": ["./node_modules/vinext/dist/shims/router"],
+      "next/compat/router": ["./node_modules/vinext/dist/shims/compat-router"],
       "next/image": ["./node_modules/vinext/dist/shims/image"],
       "next/dynamic": ["./node_modules/vinext/dist/shims/dynamic"]
     }

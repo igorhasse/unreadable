@@ -1,0 +1,159 @@
+/* ================================================================
+   Design system tokens
+   Single source of truth: fonts, type scale, sizing, theme colors.
+   Consumed via var(--*) from styles/globals.css.
+   ================================================================ */
+
+:root {
+  /* ── Fonts ── */
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
+  --font-sans:  "Geist", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Shell / layout ── */
+  --shell-max: 760px;
+  --shell-pad: 24px;
+
+  /* ── Type scale (desktop base) ── */
+  --text-body:   19px;
+  --text-small:  14px;
+  --text-micro:  12px;
+
+  --text-brand:     28px;
+  --text-brand-sub: 11px;
+
+  --text-hero:         36px;
+  --text-hero-eyebrow: 12px;
+
+  --text-post-row:  30px;
+  --text-post-desc: 16px;
+  --text-post-big:  56px;
+  --text-post-sub:  24px;
+  --text-t-title:   56px;
+
+  --text-prose-p:  19px;
+  --text-prose-h2: 34px;
+  --text-prose-h3: 24px;
+  --text-lede:     24px;
+
+  --text-newsletter:      26px;
+  --text-newsletter-foot: 22px;
+  --text-newsletter-copy: 16px;
+
+  --text-reader-name: 19px;
+  --text-reader-desc: 14px;
+  --text-footer:      13px;
+  --text-code:        14px;
+
+  /* ── Line heights ── */
+  --lh-body:  1.75;
+  --lh-prose: 1.85;
+  --lh-tight: 1.1;
+  --lh-snug:  1.3;
+  --lh-relax: 1.55;
+}
+
+/* ──────── Theme: Dark ──────── */
+:root[data-theme="dark"] {
+  --bg: #131313;
+  --bg-1: #1a1a1a;
+  --bg-2: #201f1f;
+  --bg-3: #2a2929;
+  --bg-4: #353534;
+
+  --fg: #ebe8e4;
+  --fg-1: #c8c4be;
+  --fg-2: #8a8680;
+  --fg-3: #585551;
+
+  --accent: #d4a259;
+  --accent-soft: #24190a;
+  --selection: #4a3418;
+
+  --rule: #2a2828;
+  --rule-strong: #3a3836;
+
+  --code-bg: #0e0e0e;
+  --code-border: #242323;
+
+  --callout-info-bg: #181e22;
+  --callout-info-bar: #6b8a9a;
+  --callout-info-fg: #b8d0dc;
+  --callout-warn-bg: #221d15;
+  --callout-warn-bar: #b89060;
+  --callout-warn-fg: #ddc291;
+
+  --progress-bg: #232222;
+}
+
+/* ──────── Theme: Light ──────── */
+:root[data-theme="light"] {
+  --bg: #f7f4ef;
+  --bg-1: #efeae3;
+  --bg-2: #e7e2da;
+  --bg-3: #ddd7cd;
+  --bg-4: #c9c3b8;
+
+  --fg: #1a1814;
+  --fg-1: #3a372f;
+  --fg-2: #6b675e;
+  --fg-3: #9a958a;
+
+  --accent: #8c5a1a;
+  --accent-soft: #f1e5cc;
+  --selection: #e8d4ab;
+
+  --rule: #dcd6cb;
+  --rule-strong: #b9b3a7;
+
+  --code-bg: #1a1814;
+  --code-border: #2c2a24;
+
+  --callout-info-bg: #e8edf0;
+  --callout-info-bar: #4b6978;
+  --callout-info-fg: #2a404c;
+  --callout-warn-bg: #f0e7d4;
+  --callout-warn-bar: #8c6a30;
+  --callout-warn-fg: #5a441f;
+
+  --progress-bg: #ddd7cd;
+}
+
+/* ──────── Responsive token overrides ──────── */
+@media (max-width: 560px) {
+  :root {
+    --shell-max: 100%;
+    --shell-pad: 20px;
+
+    --text-body: 17px;
+
+    --text-brand: 24px;
+
+    --text-hero: 26px;
+
+    --text-post-row: 24px;
+    --text-post-big: 36px;
+    --text-post-sub: 19px;
+    --text-t-title: 36px;
+
+    --text-prose-p: 17px;
+    --text-prose-h2: 26px;
+    --text-prose-h3: 20px;
+    --text-lede: 20px;
+
+    --text-newsletter: 22px;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --shell-pad: 16px;
+
+    --text-body: 16px;
+    --text-brand: 22px;
+    --text-hero: 22px;
+    --text-t-title: 30px;
+    --text-post-big: 30px;
+    --text-prose-p: 16px;
+  }
+}
