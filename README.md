@@ -1,6 +1,6 @@
-# igor hasse
+# unreadable
 
-> Personal blog and public notebook by Igor Hasse Santiago. Bilingual (pt-BR / en), typography-driven, deployed on Cloudflare Workers.
+> Source of [**igor hasse**](https://igorhasse.com) — personal blog and public notebook by Igor Hasse Santiago. Bilingual (pt-BR / en), typography-driven, deployed on Cloudflare Workers.
 
 **Live:** [igorhasse.com](https://igorhasse.com) · **RSS:** [pt](https://igorhasse.com/rss.xml) / [en](https://igorhasse.com/en/rss.xml)
 
