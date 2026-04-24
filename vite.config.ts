@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from "vite";
 import vinext from "vinext";
+import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import {
   existsSync,
@@ -178,5 +179,11 @@ function assetsPlugin(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [vinext(), tailwindcss(), rssPlugin(), assetsPlugin()],
+  plugins: [
+    vinext(),
+    cloudflare({ viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] } }),
+    tailwindcss(),
+    rssPlugin(),
+    assetsPlugin(),
+  ],
 });

@@ -1,7 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "igorhasse",
-  "main": "./dist/server/index.js",
   "compatibility_date": "2026-04-24",
   "compatibility_flags": ["nodejs_compat"],
   "account_id": "REPLACE_WITH_CLOUDFLARE_ACCOUNT_ID",
@@ -9,10 +8,6 @@
     { "pattern": "igorhasse.com/*", "zone_name": "igorhasse.com" },
     { "pattern": "www.igorhasse.com/*", "zone_name": "igorhasse.com" },
   ],
-  "assets": {
-    "directory": "./dist/client",
-    "binding": "ASSETS",
-  },
   "observability": {
     "enabled": true,
   },
