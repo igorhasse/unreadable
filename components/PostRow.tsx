@@ -1,13 +1,21 @@
 import Link from "next/link";
+import type { Locale } from "../lib/site-config";
 import type { PostMeta } from "../lib/posts";
 
-export default function PostRow({ post, index }: { post: PostMeta; index: number }) {
+export default function PostRow({
+  post,
+  index,
+}: {
+  post: PostMeta;
+  index: number;
+}) {
+  const locale: Locale = post.locale;
   return (
-    <Link href={`/posts/${post.slug}`} className="post-row">
+    <Link href={`/${locale}/posts/${post.slug}`} className="post-row">
       <div className="post-row-top">
         <span className="post-num">{String(index + 1).padStart(2, "0")}</span>
         <span className="post-dot" />
-        <time>{post.dateHuman}</time>
+        <time dateTime={post.date}>{post.dateHuman}</time>
         <span className="post-dot" />
         <span>{post.readingTime}</span>
         {post.tags[0] && (

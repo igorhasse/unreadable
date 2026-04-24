@@ -1,14 +1,25 @@
-import { useT } from "../i18n/useT";
+import type { Locale } from "../lib/site-config";
+import { SITE } from "../lib/site-config";
+import { t } from "../i18n/t";
 
-export default function SiteFooter({ withRule = false }: { withRule?: boolean }) {
-  const t = useT();
+export default function SiteFooter({
+  locale,
+  withRule = false,
+}: {
+  locale: Locale;
+  withRule?: boolean;
+}) {
   return (
     <footer className={`site-foot${withRule ? " with-rule" : ""}`}>
-      <span>© {new Date().getFullYear()} {t("foot_copyright")}</span>
+      <span>© {new Date().getFullYear()} {t("foot_copyright", locale)}</span>
       <div className="site-foot-links">
-        <a href="https://github.com/" target="_blank" rel="noopener noreferrer">{t("foot_github")}</a>
-        <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">{t("foot_twitter")}</a>
-        <a href="mailto:igor@example.com">{t("foot_email")}</a>
+        <a href={`https://github.com/${SITE.author.github}`} target="_blank" rel="noopener noreferrer">
+          {t("foot_github", locale)}
+        </a>
+        <a href={`https://twitter.com/${SITE.author.twitter.replace(/^@/, "")}`} target="_blank" rel="noopener noreferrer">
+          {t("foot_twitter", locale)}
+        </a>
+        <a href={`mailto:${SITE.author.email}`}>{t("foot_email", locale)}</a>
       </div>
     </footer>
   );
