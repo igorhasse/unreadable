@@ -3,6 +3,18 @@ name: Deploy
 on:
   push:
     branches: [main]
+    # Skip deploys for changes that don't affect the Worker bundle.
+    # content/posts/*.md is runtime content (loaded by lib/posts.ts), so it
+    # is intentionally NOT in this list — post edits must redeploy.
+    paths-ignore:
+      - "README.md"
+      - "CLAUDE.md"
+      - "docs/**"
+      - ".github/**"
+      - ".husky/**"
+      - "tests/**"
+      - ".gitignore"
+      - "LICENSE"
 
 concurrency:
   group: deploy-${{ github.ref }}
