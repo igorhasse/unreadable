@@ -1787,7 +1787,7 @@ __metadata:
     shiki: "npm:^4.0.2"
     tailwindcss: "npm:^4.2.4"
     typescript: "npm:^6.0.3"
-    vinext: "npm:latest"
+    vinext: "npm:^0.0.44"
     vite: "npm:^8.0.10"
     vitest: "npm:^4.1.5"
     wrangler: "npm:^4.84.1"
@@ -3765,7 +3765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vinext@npm:latest":
+"vinext@npm:^0.0.44":
   version: 0.0.44
   resolution: "vinext@npm:0.0.44"
   dependencies:

@@ -2,6 +2,10 @@
    Design system tokens
    Single source of truth: fonts, type scale, sizing, theme colors.
    Consumed via var(--*) from styles/globals.css.
+
+   JetBrains Mono is self-hosted (latin subset, /fonts/...woff2) and
+   declared via inline @font-face in app/[locale]/layout.tsx — keeping
+   it out of this bundle so the main CSS chunk stays small.
    ================================================================ */
 
 :root {
