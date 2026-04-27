@@ -21,7 +21,7 @@ jobs:
           cache: yarn
       - run: yarn install --immutable
       - name: Deploy to Cloudflare Workers
-        run: yarn dlx vinext deploy
+        run: yarn vinext deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

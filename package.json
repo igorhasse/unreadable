@@ -15,10 +15,10 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:smoke": "vitest run --config vitest.smoke.config.ts",
-    "check": "npm run lint && npm run format && npm run typecheck && npm run test",
+    "check": "yarn run lint && yarn run format && yarn run typecheck && yarn run test",
     "prepare": "husky",
-    "update:vinext": "npm install vinext@latest --legacy-peer-deps",
-    "update:all": "npm install vinext@latest vite@latest @vitejs/plugin-react@latest tailwindcss@latest @tailwindcss/vite@latest @tailwindcss/postcss@latest marked@latest shiki@latest react@latest react-dom@latest --legacy-peer-deps"
+    "update:vinext": "yarn up vinext@latest",
+    "update:all": "yarn up vinext@latest vite@latest @vitejs/plugin-react@latest tailwindcss@latest @tailwindcss/vite@latest @tailwindcss/postcss@latest marked@latest shiki@latest react@latest react-dom@latest"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.4",
