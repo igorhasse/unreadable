@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { hasLocalePrefix, detectLocale } from "./middleware";
+import { hasLocalePrefix, detectLocale } from "./proxy";
 
 describe("hasLocalePrefix", () => {
   it("matches /pt-BR exact", () => {

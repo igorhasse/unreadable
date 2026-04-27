@@ -6,24 +6,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal blog of Igor Hasse Santiago. Bilingual (pt-BR default, en alternate). Built with **vinext** (Vite + React SSR framework targeting Cloudflare Workers) using the **App Router** with a `[locale]` dynamic segment.
 
+## Package manager
+
+This project uses **Yarn 4 (Berry)**, not npm. The version is pinned via the `packageManager` field in `package.json` and resolved by Corepack — running `yarn` inside this directory will automatically use the pinned version. **Never use `npm` here**: there is no `package-lock.json`, only `yarn.lock`. To bump yarn itself: `corepack use yarn@stable`.
+
 ## Commands
 
 ```bash
-npm run dev             # Start dev server
-npm run build           # Production build
-npm run start           # Start production server for local testing
-npm run typecheck       # TypeScript type checking (tsc --noEmit)
-npm run lint            # oxlint .
-npm run lint:fix        # oxlint . --fix
-npm run format          # oxfmt --check .
-npm run format:fix      # oxfmt .
-npm run test            # vitest run (unit)
-npm run test:watch      # vitest (watch mode)
-npm run test:coverage   # vitest run --coverage
-npm run test:smoke      # vitest run --config vitest.smoke.config.ts (needs local server)
-npm run check           # lint + format + typecheck + test (what pre-push + CI runs)
-npm run update:vinext   # Upgrade vinext to latest
-npm run update:all      # Upgrade all top-level deps to latest
+yarn dev                # Start dev server
+yarn build              # Production build
+yarn start              # Start production server for local testing
+yarn typecheck          # TypeScript type checking (tsc --noEmit)
+yarn lint               # oxlint .
+yarn lint:fix           # oxlint . --fix
+yarn format             # oxfmt --check .
+yarn format:fix         # oxfmt .
+yarn test               # vitest run (unit)
+yarn test:watch         # vitest (watch mode)
+yarn test:coverage      # vitest run --coverage
+yarn test:smoke         # vitest run --config vitest.smoke.config.ts (needs local server)
+yarn check              # lint + format + typecheck + test (what pre-push + CI runs)
+yarn update:vinext      # Upgrade vinext to latest
+yarn update:all         # Upgrade all top-level deps to latest
 ```
 
 ## Tech Stack
@@ -38,14 +42,14 @@ npm run update:all      # Upgrade all top-level deps to latest
 - **Cloudflare Workers** — deployment target (`vinext deploy` invoked via CI)
 - **oxlint + oxfmt** — linter and formatter (Rust-based, ~50× faster than ESLint/Prettier)
 - **vitest** v4 — unit + smoke test runner
-- **husky + lint-staged** — pre-commit (lint-staged) and pre-push (`npm run check`) hooks
+- **husky + lint-staged** — pre-commit (lint-staged) and pre-push (`yarn run check`) hooks
 
 ## Architecture
 
 ### Routing
 
 - **App Router** with `[locale]` dynamic segment.
-- `middleware.ts` redirects locale-less paths using: cookie `NEXT_LOCALE` > `Accept-Language` > fallback `pt-BR`. Helpers `hasLocalePrefix` and `detectLocale` are exported for unit tests.
+- `proxy.ts` redirects locale-less paths using: cookie `NEXT_LOCALE` > `Accept-Language` > fallback `pt-BR`. Helpers `hasLocalePrefix` and `detectLocale` are exported for unit tests. (Renamed from `middleware.ts` per the Next.js 16 / vinext rename — function is now exported as `proxy`.)
 - LocaleToggle sets the cookie on click, so manual preference persists.
 
 ### Content bundles
@@ -115,17 +119,17 @@ All personal info (name, email, socials, URLs) lives in `lib/site-config.ts`. Ev
 **Every commit and push is gated locally by husky:**
 
 - `pre-commit` → `lint-staged` (oxlint + oxfmt) on staged files only
-- `pre-push` → `npm run check` (lint + format + typecheck + test) on the whole tree
+- `pre-push` → `yarn run check` (lint + format + typecheck + test) on the whole tree
 
 **CI** (`.github/workflows/ci.yml`) runs three jobs on every PR + push to `main`:
 
 - `check` — `lint`, `format`, `typecheck`, `test -- --coverage`, `build`
 - `smoke` — builds, starts `vinext start` in background, runs `test:smoke` against HTTP
-- `vuln` — `npm audit --audit-level=high`
+- `vuln` — `yarn npm audit --severity high --recursive`
 
 **Deploy** (`.github/workflows/deploy.yml`) runs on push to `main` only: `npx vinext deploy` publishes the Worker to Cloudflare.
 
-**Dependabot** (`.github/dependabot.yml`): weekly grouped npm PR, monthly GitHub Actions updates.
+**Dependabot** (`.github/dependabot.yml`): weekly grouped npm-ecosystem PR (also covers yarn-managed deps via `package.json`), monthly GitHub Actions updates.
 
 **Day-to-day workflow is commands-free**: edit, `git commit` (hooks run), `git push` (hooks run), CI confirms, merge after green. Deploy is automatic.
 

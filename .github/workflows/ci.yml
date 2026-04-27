@@ -18,13 +18,13 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci --legacy-peer-deps
-      - run: npm run lint
-      - run: npm run format
-      - run: npm run typecheck
-      - run: npm run test -- --coverage
-      - run: npm run build
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn run lint
+      - run: yarn run format
+      - run: yarn run typecheck
+      - run: yarn run test --coverage
+      - run: yarn run build
 
   smoke:
     runs-on: ubuntu-latest
@@ -34,12 +34,12 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci --legacy-peer-deps
-      - run: npm run build
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn run build
       - name: Start prod server
         run: |
-          npm run start > /tmp/prod.log 2>&1 &
+          yarn run start > /tmp/prod.log 2>&1 &
           for i in {1..30}; do
             if curl -sf http://localhost:3000/pt-BR > /dev/null; then
               echo "Server ready"
@@ -48,7 +48,7 @@ jobs:
             echo "Waiting for server... ($i/30)"
             sleep 1
           done
-      - run: npm run test:smoke
+      - run: yarn run test:smoke
       - name: Server log (on failure)
         if: failure()
         run: cat /tmp/prod.log
@@ -60,4 +60,5 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: npm audit --audit-level=high --legacy-peer-deps
+      - run: corepack enable
+      - run: yarn npm audit --severity high --recursive
