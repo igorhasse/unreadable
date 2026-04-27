@@ -29,7 +29,7 @@
     "react-dom": "^19.2.5",
     "shiki": "^4.0.2",
     "tailwindcss": "^4.2.4",
-    "vinext": "latest",
+    "vinext": "^0.0.44",
     "vite": "^8.0.10"
   },
   "devDependencies": {

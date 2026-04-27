@@ -62,6 +62,14 @@ describe("smoke: locale redirect", () => {
     const loc = res.headers.get("location") ?? "";
     expect(loc.endsWith("/en")).toBe(true);
   });
+
+  it("/fonts/* is excluded from locale redirect", async () => {
+    const res = await fetch(`${BASE}/fonts/jetbrains-mono-latin.woff2`, {
+      redirect: "manual",
+    });
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toContain("font");
+  });
 });
 
 describe("smoke: HTML head critical tags", () => {
