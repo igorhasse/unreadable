@@ -15,10 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - run: corepack enable
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: corepack enable
+          cache: yarn
       - run: yarn install --immutable
       - run: yarn run lint
       - run: yarn run format
@@ -31,10 +32,11 @@ jobs:
     needs: check
     steps:
       - uses: actions/checkout@v6
+      - run: corepack enable
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: corepack enable
+          cache: yarn
       - run: yarn install --immutable
       - run: yarn run build
       - name: Start prod server
@@ -57,8 +59,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - run: corepack enable
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: corepack enable
+          cache: yarn
+      - run: yarn install --immutable
       - run: yarn npm audit --severity high --recursive
