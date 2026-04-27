@@ -5,6 +5,15 @@ dist/
 .worktrees/
 *.tsbuildinfo
 
+# Yarn 4 (Berry) — keep only releases/patches/plugins/sdks/versions
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
 # Environment variables
 .env
 .env.local
@@ -30,3 +39,4 @@ Thumbs.db
 coverage/
 .vitest/
 .wrangler/
+texts-training/

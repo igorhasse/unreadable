@@ -19,7 +19,7 @@ export function detectLocale(
   return DEFAULT_LOCALE;
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (hasLocalePrefix(pathname)) {

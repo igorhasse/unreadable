@@ -8,10 +8,10 @@
 
 ## Testing checklist
 
-- [ ] Feature has unit tests for pure logic (functions in `lib/`, `i18n/`, `middleware`)
-- [ ] Smoke test updated if a new route, XML output, or middleware handler was added
+- [ ] Feature has unit tests for pure logic (functions in `lib/`, `i18n/`, `proxy`)
+- [ ] Smoke test updated if a new route, XML output, or proxy handler was added
 - [ ] Or: no tests needed (explain why — e.g., "pure visual component, smoke test catches render")
-- [ ] `npm run check` passes locally
+- [ ] `yarn check` passes locally
 - [ ] Preview deploy URL opened and manually verified
 
 ## Follow-ups (optional)
