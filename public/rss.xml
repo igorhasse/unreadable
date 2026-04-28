@@ -9,10 +9,10 @@
     <atom:link href="https://igorhasse.com/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Eu escrevo, a IA edita</title>
-      <link>https://igorhasse.com/pt-BR/posts/o-igor-falando</link>
-      <guid>https://igorhasse.com/pt-BR/posts/o-igor-falando</guid>
+      <link>https://igorhasse.com/pt-BR/posts/eu-escrevo-ia-edita</link>
+      <guid>https://igorhasse.com/pt-BR/posts/eu-escrevo-ia-edita</guid>
       <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
-      <description>&quot;Como otimizei a criação de posts sem perder a voz: a divisão é simples. Eu escrevo, a IA edita, as escolhas continuam sendo minhas.&quot;</description>
+      <description>Como otimizei a criação de posts sem perder a voz — a divisão é simples. Eu escrevo, a IA edita, as escolhas continuam sendo minhas.</description>
     </item>
   </channel>
 </rss>

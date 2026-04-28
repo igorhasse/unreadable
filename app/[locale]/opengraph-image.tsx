@@ -11,6 +11,6 @@ export default async function Image({ params }: { params: Promise<{ locale: Loca
     eyebrow: formatOGEyebrow(locale),
     title: SITE.name,
     subtitle: SITE.description[locale],
-    footer: "igorhasse.com",
+    footer: SITE.domain,
   });
 }

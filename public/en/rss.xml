@@ -8,11 +8,11 @@
     <lastBuildDate>Tue, 28 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://igorhasse.com/en/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Deletei dois posts</title>
-      <link>https://igorhasse.com/en/posts/o-igor-falando</link>
-      <guid>https://igorhasse.com/en/posts/o-igor-falando</guid>
+      <title>I Write, AI Edits</title>
+      <link>https://igorhasse.com/en/posts/eu-escrevo-ia-edita</link>
+      <guid>https://igorhasse.com/en/posts/eu-escrevo-ia-edita</guid>
       <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Por que apaguei dois posts inteiros antes de publicar este, e por que daqui pra frente o blog é só eu, sem IA escrevendo nem editando.</description>
+      <description>How I sped up post creation without losing my voice — the split is simple, I write, AI edits, the choices stay mine throughout.</description>
     </item>
   </channel>
 </rss>

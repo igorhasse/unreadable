@@ -1,4 +1,5 @@
 import type { Locale } from "../../../../lib/site-config";
+import { SITE } from "../../../../lib/site-config";
 import { getPostBySlug } from "../../../../lib/posts";
 import { renderOGImage, OG_SIZE, OG_CONTENT_TYPE, formatOGEyebrow } from "../../../og-template";
 
@@ -16,7 +17,7 @@ export default async function Image({
     return renderOGImage({
       eyebrow: formatOGEyebrow(locale),
       title: "Post",
-      footer: "igorhasse.com",
+      footer: SITE.domain,
     });
   }
 
@@ -24,6 +25,6 @@ export default async function Image({
     eyebrow: formatOGEyebrow(locale),
     title: post.title,
     subtitle: post.description,
-    footer: `igorhasse.com · ${post.dateHuman}`,
+    footer: `${SITE.domain} · ${post.dateHuman}`,
   });
 }

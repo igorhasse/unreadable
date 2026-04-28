@@ -26,7 +26,7 @@ export async function generateMetadata({
   const enSlug = getTranslatedSlug(slug, locale, "en") ?? slug;
 
   return {
-    title: post.title,
+    title: { absolute: post.title },
     description: post.description,
     alternates: {
       canonical: `/${locale}/posts/${slug}`,

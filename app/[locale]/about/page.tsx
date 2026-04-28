@@ -12,7 +12,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: t("nav_about", locale),
+    title: locale === "pt-BR" ? "Sobre" : "About",
     alternates: {
       canonical: `/${locale}/about`,
       languages: {
@@ -44,7 +44,9 @@ export default async function About({ params }: { params: Promise<{ locale: stri
   return (
     <>
       <section className="hero">
-        <div className="hero-eyebrow">{t("about_eyebrow", loc)}</div>
+        <div className="hero-eyebrow">
+          {t("nav_about", loc)} · {SITE.name}
+        </div>
         <h1 className="t-title">
           {loc === "pt-BR" ? (
             <>
@@ -71,7 +73,7 @@ function PtBR() {
   return (
     <>
       <p className="lede">
-        Igor Hasse Santiago. Senior Frontend / Full Stack engineer há 10+ anos. Hoje no Grupo RD
+        {SITE.author.name}. Senior Frontend / Full Stack engineer há 10+ anos. Hoje no Grupo RD
         Saúde, mexendo nos sites das duas maiores redes de farmácia do Brasil —{" "}
         <a href="https://www.drogaraia.com.br" target="_blank" rel="noopener noreferrer">
           drogaraia.com.br
@@ -209,7 +211,7 @@ function PtBR() {
         <li>
           linkedin —{" "}
           <a href={SITE.author.linkedin} target="_blank" rel="noopener noreferrer">
-            linkedin.com/in/igor-santiago
+            {SITE.author.linkedinHandle}
           </a>
         </li>
         <li>
@@ -242,7 +244,7 @@ function En() {
   return (
     <>
       <p className="lede">
-        Igor Hasse Santiago. Senior Frontend / Full Stack engineer with 10+ years of experience.
+        {SITE.author.name}. Senior Frontend / Full Stack engineer with 10+ years of experience.
         Currently at Grupo RD Saúde, working on the websites of Brazil&apos;s two largest pharmacy
         chains —{" "}
         <a href="https://www.drogaraia.com.br" target="_blank" rel="noopener noreferrer">
@@ -378,7 +380,7 @@ function En() {
         <li>
           linkedin —{" "}
           <a href={SITE.author.linkedin} target="_blank" rel="noopener noreferrer">
-            linkedin.com/in/igor-santiago
+            {SITE.author.linkedinHandle}
           </a>
         </li>
         <li>

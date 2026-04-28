@@ -12,7 +12,7 @@ export default function SiteFooter({
   return (
     <footer className={`site-foot${withRule ? " with-rule" : ""}`}>
       <span>
-        © {new Date().getFullYear()} {t("foot_copyright", locale)}
+        © {new Date().getFullYear()} {SITE.author.displayName}
       </span>
       <div className="site-foot-links">
         <a

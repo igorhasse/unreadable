@@ -12,16 +12,14 @@ import {
   copyFileSync,
 } from "node:fs";
 import { join, extname } from "node:path";
+import { SITE } from "./lib/site-config";
 
-const SITE_URL = process.env.VITE_SITE_URL || "https://igorhasse.com";
+const SITE_URL = process.env.VITE_SITE_URL || SITE.url;
 const SITE_TITLES: Record<Locale, string> = {
-  "pt-BR": "igor hasse",
-  en: "igor hasse",
+  "pt-BR": SITE.name,
+  en: SITE.name,
 };
-const SITE_DESCS: Record<Locale, string> = {
-  "pt-BR": "Notas públicas de Igor Hasse sobre editores, tipos e sistemas.",
-  en: "Public notes by Igor Hasse on editors, type systems, and software.",
-};
+const SITE_DESCS: Record<Locale, string> = SITE.description;
 
 type Locale = "pt-BR" | "en";
 type PostMeta = { slug: string; title: string; date: string; description: string };
