@@ -1,6 +1,6 @@
 ---
 title: Unreadable: Construído em Par com IA
-date: 2026-04-28
+date: 2026-04-29
 description: Como construí o Unreadable em par com IA. 92/100 no Lighthouse, stack experimental (vinext), pipeline auditável, open source.
 ---
 

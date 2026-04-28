@@ -75,7 +75,10 @@ function readPosts(locale: Locale): PostMeta[] {
       description: attrs.description || "",
     });
   }
-  return results.sort((a, b) => (a.date > b.date ? -1 : 1));
+  return results.sort((a, b) => {
+    if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+    return b.slug.localeCompare(a.slug);
+  });
 }
 
 function buildRssXml(posts: PostMeta[], locale: Locale): string {
