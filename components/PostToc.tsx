@@ -22,21 +22,31 @@ export default function PostToc() {
     );
     setActiveId(els[0].id);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort(
-            (a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top
-          );
-        if (visible.length > 0) {
-          setActiveId(visible[0].target.id);
-        }
-      },
-      { rootMargin: "0px 0px -70% 0px", threshold: 0 }
-    );
+    // Position-based "current section" detection. Instead of relying on an
+    // entry being `isIntersecting` at the moment of the observer fire, we
+    // re-evaluate every fire by querying live DOM positions: the active
+    // heading is the last one whose top has crossed above the trigger line.
+    // This survives smooth-scroll-after-click without getting stuck.
+    const TRIGGER_OFFSET = 100;
+    function update() {
+      const positions = els.map((el) => ({
+        id: el.id,
+        top: el.getBoundingClientRect().top,
+      }));
+      const above = positions.filter((p) => p.top < TRIGGER_OFFSET);
+      if (above.length > 0) {
+        setActiveId(above[above.length - 1].id);
+      } else {
+        setActiveId(els[0].id);
+      }
+    }
 
+    const observer = new IntersectionObserver(update, {
+      rootMargin: `-${TRIGGER_OFFSET}px 0px 0px 0px`,
+      threshold: [0, 1],
+    });
     els.forEach((el) => observer.observe(el));
+
     return () => observer.disconnect();
   }, []);
 
