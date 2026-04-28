@@ -1,5 +1,5 @@
 ---
-title: Unreadable: Construído em Par com IA
+title: "Unreadable: Como esse blog foi feito"
 date: 2026-04-29
 description: Como construí o Unreadable em par com IA. 92/100 no Lighthouse, stack experimental (vinext), pipeline auditável, open source.
 ---
@@ -68,18 +68,18 @@ Praticamente tudo no estado-da-arte. E praticamente tudo recente. vinext na 0.0.
 
 Três portões entre editar e servir.
 
-**Local (husky):**
+**Local** (husky):
 
 - pre-commit: `oxlint --fix` + `oxfmt` em staged files
 - pre-push: `yarn check` (lint + format + typecheck + tests)
 
-**CI (`.github/workflows/ci.yml`):**
+**CI** (`.github/workflows/ci.yml`):
 
 - check: lint, format, typecheck, test --coverage, build
 - smoke: builds, sobe `vinext start`, roda HTTP tests em todas as rotas
 - vuln: `yarn npm audit --severity high`
 
-**Deploy (`.github/workflows/deploy.yml`):**
+**Deploy** (`.github/workflows/deploy.yml`):
 
 - Roda só em push pra main
 - `npx vinext deploy` → `vite build` + `wrangler deploy`
