@@ -21,6 +21,18 @@ export async function generateMetadata({
         "x-default": "/pt-BR/about",
       },
     },
+    openGraph: {
+      images: [
+        {
+          url: `/${locale}/about/opengraph-image`,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      images: [`/${locale}/about/opengraph-image`],
+    },
   };
 }
 
