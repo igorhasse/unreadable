@@ -5,42 +5,14 @@
     <link>https://igorhasse.com/en</link>
     <description>Public notes by Igor Hasse on editors, type systems, and software.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://igorhasse.com/en/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>&quot;Quem Tá Fazendo o Trabalho? LLMs e Harnesses em 2026&quot;</title>
-      <link>https://igorhasse.com/en/posts/llms-e-harnesses</link>
-      <guid>https://igorhasse.com/en/posts/llms-e-harnesses</guid>
-      <pubDate>Sat, 25 Apr 2026 00:00:00 GMT</pubDate>
-      <description>&quot;Quem tá fazendo o trabalho quando o Cursor edita um arquivo: o modelo ou o editor? Spoiler: na maior parte do que parece inteligência, não é o modelo.&quot;</description>
-    </item>
-    <item>
-      <title>&quot;Spec-Driven Development: Moda, Método, ou Armadilha?&quot;</title>
-      <link>https://igorhasse.com/en/posts/spec-driven-development</link>
-      <guid>https://igorhasse.com/en/posts/spec-driven-development</guid>
-      <pubDate>Sat, 25 Apr 2026 00:00:00 GMT</pubDate>
-      <description>Preparei uma tech talk sobre Spec-Driven Development e fui obrigado a responder em voz alta: isso é método, moda, ou armadilha?</description>
-    </item>
-    <item>
-      <title>Building a Modern Web Stack in 2026</title>
-      <link>https://igorhasse.com/en/posts/construindo-stack-web-moderna</link>
-      <guid>https://igorhasse.com/en/posts/construindo-stack-web-moderna</guid>
-      <pubDate>Thu, 26 Mar 2026 00:00:00 GMT</pubDate>
-      <description>A deep dive into the tools and patterns that power modern web development — from bundlers to deployment.</description>
-    </item>
-    <item>
-      <title>Why TypeScript Matters</title>
-      <link>https://igorhasse.com/en/posts/porque-typescript-importa</link>
-      <guid>https://igorhasse.com/en/posts/porque-typescript-importa</guid>
-      <pubDate>Wed, 25 Mar 2026 00:00:00 GMT</pubDate>
-      <description>Exploring the benefits of TypeScript for modern web development and why you should consider adopting it.</description>
-    </item>
-    <item>
-      <title>Getting Started with React</title>
-      <link>https://igorhasse.com/en/posts/comecando-com-react</link>
-      <guid>https://igorhasse.com/en/posts/comecando-com-react</guid>
-      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
-      <description>A beginner's guide to building user interfaces with React, covering components, state, and hooks.</description>
+      <title>Deletei dois posts</title>
+      <link>https://igorhasse.com/en/posts/o-igor-falando</link>
+      <guid>https://igorhasse.com/en/posts/o-igor-falando</guid>
+      <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Por que apaguei dois posts inteiros antes de publicar este, e por que daqui pra frente o blog é só eu, sem IA escrevendo nem editando.</description>
     </item>
   </channel>
 </rss>
