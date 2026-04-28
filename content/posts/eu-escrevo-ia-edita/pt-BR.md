@@ -63,9 +63,9 @@ Cheguei nessa divisão depois de tropeçar. Duas vezes, em dois posts que apague
 
 ## A Escolha Mais Provável
 
-Ted Chiang publicou no New Yorker um ensaio chamado [Why A.I. Isn't Going to Make Art](https://www.newyorker.com/culture/the-weekend-essay/why-ai-isnt-going-to-make-art) que ficou na minha cabeça. Escrever, ele diz, é fazer escolhas que não são as default. A IA, por construção, entrega a mais provável.
+Tem um ensaio do Ted Chiang no New Yorker — [Why A.I. Isn't Going to Make Art](https://www.newyorker.com/culture/the-weekend-essay/why-ai-isnt-going-to-make-art) — que ficou martelando na minha cabeça. A tese: escrever é fazer escolhas que fogem do óbvio. E o óbvio é exatamente o que a IA, por construção, te entrega — a opção mais provável.
 
-Aí caiu a ficha de qual era a divisão certa. Se a escolha (a palavra, o argumento, a hesitação, a virada) é o que define a voz, então a escolha é exatamente o que NÃO pode ser delegado. Tudo o resto pode.
+Aí a divisão ficou óbvia. Se a escolha — a palavra, o argumento, a hesitação, a virada — é o que define a voz, então a escolha é justamente o que não dá pra delegar. Todo o resto, dá.
 
 Veredicto: a IA não me empurra mais pro centro estatístico do que um texto "bom" parece. Ela lapida o que sai do meu centro. E o meu centro continua sendo o Igor.
 
