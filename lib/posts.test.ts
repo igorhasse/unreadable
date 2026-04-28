@@ -3,9 +3,9 @@ import { getAllPosts, getPostBySlug, getTranslatedSlug } from "./posts";
 
 describe("getPostBySlug", () => {
   it("returns a post when slug + locale match a file", () => {
-    const post = getPostBySlug("porque-typescript-importa", "pt-BR");
+    const post = getPostBySlug("o-igor-falando", "pt-BR");
     expect(post).not.toBeNull();
-    expect(post?.slug).toBe("porque-typescript-importa");
+    expect(post?.slug).toBe("o-igor-falando");
     expect(post?.locale).toBe("pt-BR");
     expect(post?.title).toBeTruthy();
   });
@@ -16,34 +16,34 @@ describe("getPostBySlug", () => {
   });
 
   it("returns different content for different locales of the same slug", () => {
-    const pt = getPostBySlug("porque-typescript-importa", "pt-BR");
-    const en = getPostBySlug("porque-typescript-importa", "en");
+    const pt = getPostBySlug("o-igor-falando", "pt-BR");
+    const en = getPostBySlug("o-igor-falando", "en");
     expect(pt).not.toBeNull();
     expect(en).not.toBeNull();
     expect(pt!.content).not.toBe(en!.content);
   });
 
   it("produces dateHuman in Portuguese month format for pt-BR", () => {
-    const post = getPostBySlug("porque-typescript-importa", "pt-BR");
+    const post = getPostBySlug("o-igor-falando", "pt-BR");
     expect(post?.dateHuman).toMatch(
       /\d{2} (Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez) \d{4}/
     );
   });
 
   it("produces dateHuman in English month format for en", () => {
-    const post = getPostBySlug("porque-typescript-importa", "en");
+    const post = getPostBySlug("o-igor-falando", "en");
     expect(post?.dateHuman).toMatch(
       /\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}/
     );
   });
 
   it("readingTime string contains 'min' in pt-BR", () => {
-    const post = getPostBySlug("porque-typescript-importa", "pt-BR");
+    const post = getPostBySlug("o-igor-falando", "pt-BR");
     expect(post?.readingTime).toMatch(/\d+ min de leitura/);
   });
 
   it("readingTime string contains 'min read' in en", () => {
-    const post = getPostBySlug("porque-typescript-importa", "en");
+    const post = getPostBySlug("o-igor-falando", "en");
     expect(post?.readingTime).toMatch(/\d+ min read/);
   });
 });
@@ -88,8 +88,8 @@ describe("getAllPosts", () => {
 
 describe("getTranslatedSlug", () => {
   it("returns the same slug when target locale has the file", () => {
-    const result = getTranslatedSlug("porque-typescript-importa", "pt-BR", "en");
-    expect(result).toBe("porque-typescript-importa");
+    const result = getTranslatedSlug("o-igor-falando", "pt-BR", "en");
+    expect(result).toBe("o-igor-falando");
   });
 
   it("returns null when target locale doesn't have the file", () => {
@@ -98,7 +98,7 @@ describe("getTranslatedSlug", () => {
   });
 
   it("returns the same slug when source and target are the same", () => {
-    const result = getTranslatedSlug("porque-typescript-importa", "pt-BR", "pt-BR");
-    expect(result).toBe("porque-typescript-importa");
+    const result = getTranslatedSlug("o-igor-falando", "pt-BR", "pt-BR");
+    expect(result).toBe("o-igor-falando");
   });
 });

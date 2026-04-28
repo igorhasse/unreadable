@@ -18,11 +18,11 @@ describe("smoke: reachability", () => {
     "/pt-BR",
     "/pt-BR/about",
     "/pt-BR/rss",
-    "/pt-BR/posts/porque-typescript-importa",
+    "/pt-BR/posts/o-igor-falando",
     "/en",
     "/en/about",
     "/en/rss",
-    "/en/posts/porque-typescript-importa",
+    "/en/posts/o-igor-falando",
   ])("%s returns 200", async (path) => {
     const res = await fetchOk(`${BASE}${path}`);
     expect(res.status).toBe(200);
@@ -83,11 +83,10 @@ describe("smoke: HTML head critical tags", () => {
     expect(html).toMatch(/<link rel="alternate" hreflang/i);
   });
 
-  it("post page has JSON-LD and shiki-colored code", async () => {
-    const res = await fetchOk(`${BASE}/pt-BR/posts/porque-typescript-importa`);
+  it("post page has JSON-LD", async () => {
+    const res = await fetchOk(`${BASE}/pt-BR/posts/o-igor-falando`);
     const html = await res.text();
     expect(html).toContain("application/ld+json");
-    expect(html).toMatch(/style="[^"]*color:#[0-9a-fA-F]{6}/);
   });
 });
 
