@@ -19,14 +19,10 @@ export const STRINGS = {
     // Newsletter
     nl_title_pre: "Receba novos ensaios",
     nl_title_em: "por e-mail",
-    nl_copy_full:
-      'Uma newsletter ocasional. Sem resumos, sem "5 tendências", só o post completo quando sair — geralmente uma vez por mês.',
-    nl_copy_compact: "Se gostou, assine pra receber o próximo no seu e-mail.",
     nl_placeholder: "seu@email.com",
     nl_submit: "Assinar →",
     nl_loading: "enviando…",
     nl_done: "obrigado ✓",
-    nl_fineprint: "Cancele em um clique. Sem spam, nunca.",
     nl_error_config: "Configure VITE_MAILCHIMP_URL no .env para ativar.",
 
     // About page
@@ -75,6 +71,16 @@ export const STRINGS = {
     // Post row
     post_list_count: "ensaios",
     post_list_count_singular: "ensaio",
+
+    // Share buttons
+    share_label: "Compartilhar",
+    share_copy: "Copiar link",
+    share_copied: "Copiado",
+    share_more: "Mais",
+
+    // Post TOC
+    toc_label: "Nesta página",
+    toc_back_to_top: "Voltar ao início",
   },
 
   en: {
@@ -91,14 +97,10 @@ export const STRINGS = {
     // Newsletter
     nl_title_pre: "Get new essays",
     nl_title_em: "by email",
-    nl_copy_full:
-      'An occasional newsletter. No roundups, no "5 trends," just the full post when it drops — usually once a month.',
-    nl_copy_compact: "If you enjoyed this, subscribe to get the next one in your inbox.",
     nl_placeholder: "your@email.com",
     nl_submit: "Subscribe →",
     nl_loading: "sending…",
     nl_done: "thanks ✓",
-    nl_fineprint: "One-click unsubscribe. No spam, ever.",
     nl_error_config: "Set VITE_MAILCHIMP_URL in .env to enable this.",
 
     // About page
@@ -147,6 +149,16 @@ export const STRINGS = {
     // Post row
     post_list_count: "essays",
     post_list_count_singular: "essay",
+
+    // Share buttons
+    share_label: "Share",
+    share_copy: "Copy link",
+    share_copied: "Copied",
+    share_more: "More",
+
+    // Post TOC
+    toc_label: "On this page",
+    toc_back_to_top: "Back to top",
   },
 } as const satisfies Record<Locale, Record<string, string>>;
 

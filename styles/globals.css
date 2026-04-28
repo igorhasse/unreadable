@@ -76,6 +76,17 @@ a:hover {
   max-width: var(--shell-max);
   margin: 0 auto;
   padding: 0 var(--shell-pad);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.shell > main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.shell > main > .newsletter-foot {
+  margin-top: auto;
 }
 
 /* ──────── Reading progress bar ──────── */
@@ -371,7 +382,7 @@ a:hover {
 
 /* ──────── Post header (article) ──────── */
 .post-head {
-  padding: 36px 0 48px;
+  padding: 18px 0 48px;
 }
 .post-meta-top {
   display: flex;
@@ -440,22 +451,35 @@ a:hover {
 }
 
 /* ──────── Prose (markdown) ──────── */
-article {
-  padding-bottom: 64px;
+article > img {
+  width: 100%;
+  height: auto;
+  margin: 0 0 32px;
 }
 .prose {
   font-size: var(--text-prose-p);
   line-height: var(--lh-prose);
   color: var(--fg-1);
 }
-.prose > * + * {
-  margin-top: 1.1em;
+
+/* Uniform vertical rhythm: every direct child gets bottom margin only.
+   Specific elements (h2, h3, hr, blockquote, pre) override with extra
+   top margin where they need more breathing room. */
+.prose > * {
+  margin: 0 0 1.25em;
+}
+.prose > *:last-child {
+  margin-bottom: 0;
 }
 .prose p,
 .prose li {
   text-wrap: pretty;
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
+}
+.prose li > p {
+  margin: 0;
+}
+.prose li > p + p {
+  margin-top: 0.6em;
 }
 
 .prose .lede {
@@ -468,24 +492,28 @@ article {
   margin-bottom: 1.5em;
 }
 
-.prose h2 {
+.prose > h2 {
   font-family: var(--font-serif);
   font-weight: 500;
   font-size: var(--text-prose-h2);
   line-height: 1.2;
   letter-spacing: -0.015em;
   color: var(--fg);
-  margin: 2.2em 0 0.6em;
+  margin: 2em 0 0.5em;
   position: relative;
 }
-.prose h3 {
+.prose > h3 {
   font-family: var(--font-serif);
   font-weight: 500;
   font-size: var(--text-prose-h3);
   line-height: 1.3;
   color: var(--fg);
-  margin: 1.8em 0 0.5em;
+  margin: 1.6em 0 0.4em;
   font-style: italic;
+}
+.prose > h2:first-child,
+.prose > h3:first-child {
+  margin-top: 0;
 }
 
 /* anchor links on headings */
@@ -535,62 +563,64 @@ article {
 /* lists */
 .prose ul,
 .prose ol {
-  padding-left: 1.3em;
-  margin: 1em 0;
-}
-.prose ul {
+  padding-left: 1.4em;
   list-style: none;
 }
-.prose ul li {
+.prose ol {
+  counter-reset: ol;
+}
+.prose ul li,
+.prose ol li {
   position: relative;
   padding-left: 4px;
 }
 .prose ul li::before {
   content: "";
   position: absolute;
-  left: -18px;
-  top: 0.75em;
-  width: 6px;
+  left: -16px;
+  top: 0.85em;
+  width: 8px;
   height: 1px;
   background: var(--fg-3);
 }
-.prose ol {
-  list-style: none;
-  counter-reset: ol;
-}
 .prose ol li {
   counter-increment: ol;
-  position: relative;
-  padding-left: 4px;
 }
 .prose ol li::before {
   content: counter(ol, decimal-leading-zero);
   position: absolute;
-  left: -32px;
-  top: 0;
+  left: -2em;
+  top: 0.45em;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 0.65em;
   color: var(--fg-3);
-  line-height: 1.9;
+  letter-spacing: 0.04em;
+  line-height: 1;
 }
 .prose li + li {
-  margin-top: 6px;
+  margin-top: 0.45em;
 }
 
-.prose blockquote {
+.prose > blockquote {
   border-left: 2px solid var(--accent);
-  padding: 2px 0 2px 24px;
-  margin: 1.5em 0;
+  padding: 4px 0 4px 24px;
+  margin: 1.75em 0;
   color: var(--fg);
   font-style: italic;
   font-family: var(--font-serif);
-  font-size: 19px;
+  font-size: var(--text-lede);
   line-height: 1.5;
 }
+.prose > blockquote p {
+  margin: 0;
+}
+.prose > blockquote p + p {
+  margin-top: 0.6em;
+}
 
-.prose hr {
+.prose > hr {
   border: none;
-  margin: 3em 0;
+  margin: 2.5em 0;
   height: 1px;
   background: none;
   text-align: center;
@@ -613,18 +643,19 @@ article {
 /* code */
 .prose :not(pre) > code {
   font-family: var(--font-mono);
-  font-size: 0.86em;
+  font-size: 0.84em;
   background: var(--bg-2);
-  padding: 2px 6px;
+  padding: 0.15em 0.45em;
   color: var(--fg);
   border: 1px solid var(--rule);
+  word-break: break-word;
 }
-.prose pre {
+.prose > pre {
   background: var(--code-bg);
   color: var(--code-fg);
   padding: 20px 22px;
   overflow-x: auto;
-  margin: 1.6em 0;
+  margin: 1.75em 0;
   font-size: var(--text-code);
   line-height: 1.65;
   font-family: var(--font-mono);
@@ -639,9 +670,12 @@ article {
   border: none;
 }
 
-/* images */
-.prose img {
-  margin: 1.5em 0;
+/* images inside prose */
+.prose > img,
+.prose > p > img {
+  width: 100%;
+  height: auto;
+  margin: 1.75em 0;
 }
 
 /* callouts */
@@ -740,39 +774,158 @@ sup a {
   padding: 0 2px;
 }
 
-/* ──────── Newsletter ──────── */
-.newsletter {
-  margin-top: 96px;
-  padding: 48px 0 40px;
-  border-top: 1px solid var(--rule-strong);
-  border-bottom: 1px solid var(--rule-strong);
+/* ──────── Post TOC (right sidebar) ──────── */
+.post-toc {
+  position: fixed;
+  top: 120px;
+  left: calc(50% + var(--shell-max) / 2 + 32px);
+  width: 200px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  z-index: 5;
 }
-.post-foot.newsletter,
-.post-foot {
-  border-top: 1px solid var(--rule-strong);
-  padding: 48px 0;
+.post-toc-label {
+  display: block;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 12px;
+}
+.post-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--rule);
+}
+.post-toc li {
+  padding: 4px 0 4px 12px;
+  line-height: 1.5;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.post-toc li.active {
+  border-left-color: var(--accent);
+}
+.post-toc a {
+  color: var(--fg-2);
+  transition: color 0.15s ease;
+}
+.post-toc li.active a,
+.post-toc a:hover {
+  color: var(--fg);
+}
+.post-toc li.active a {
+  color: var(--accent);
+}
+.post-toc li.post-toc-top {
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  border-left-color: transparent;
+}
+.post-toc li.post-toc-top button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--fg-3);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.post-toc li.post-toc-top button:hover {
+  color: var(--accent);
+}
+@media (max-width: 1180px) {
+  .post-toc {
+    display: none;
+  }
+}
+
+/* Smooth-scroll + offset under fixed progress bar when jumping to anchors. */
+html {
+  scroll-behavior: smooth;
+}
+.prose h2[id],
+.prose h3[id] {
+  scroll-margin-top: 24px;
+}
+
+/* ──────── Share buttons ──────── */
+.share-buttons {
+  margin: 56px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+.share-buttons .share-label {
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+}
+.share-buttons ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.share-buttons a,
+.share-buttons button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--fg-1);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.share-buttons a:hover,
+.share-buttons button:hover {
+  color: var(--accent);
+}
+
+/* ──────── Newsletter ──────── */
+.newsletter-foot {
+  border-top: 1px solid var(--rule);
+  padding-top: 24px;
   margin-top: 48px;
+}
+/* When share-buttons sits directly above the newsletter, share-buttons already
+   provides the section separator — drop the newsletter's duplicate border. */
+.share-buttons + .newsletter-foot {
+  border-top: none;
+  margin-top: 24px;
 }
 .newsletter-title {
   font-family: var(--font-serif);
-  font-size: var(--text-newsletter);
+  font-size: var(--text-newsletter-foot);
   font-weight: 500;
   color: var(--fg);
-  margin: 0 0 10px;
+  margin: 0 0 24px;
   letter-spacing: -0.01em;
-}
-.post-foot .newsletter-title {
-  font-size: var(--text-newsletter-foot);
 }
 .newsletter-title em {
   font-style: italic;
   color: var(--accent);
-}
-.newsletter-copy {
-  font-size: var(--text-newsletter-copy);
-  color: var(--fg-1);
-  margin: 0 0 24px;
-  max-width: 480px;
 }
 .newsletter-form {
   display: flex;
@@ -958,14 +1111,42 @@ sup a {
     font-size: 12px;
   }
 
+  .post-head {
+    padding: 24px 0 36px;
+  }
   .post-meta-top {
     gap: 10px;
     flex-wrap: wrap;
     font-size: 11px;
+    margin-bottom: 20px;
   }
   .post-row-top {
     gap: 10px 12px;
     flex-wrap: wrap;
+  }
+
+  /* Tighter list indent so dashes/numbers don't kiss the viewport edge */
+  .prose ul,
+  .prose ol {
+    padding-left: 1.1em;
+  }
+  .prose ol li::before {
+    left: -1.7em;
+  }
+
+  /* Blockquote: reduce intrusion so text keeps a comfortable measure */
+  .prose > blockquote {
+    padding-left: 18px;
+    margin: 1.5em 0;
+  }
+
+  /* Code blocks bleed to the screen edges — full-width feel on phones */
+  .prose > pre {
+    margin-left: calc(var(--shell-pad) * -1);
+    margin-right: calc(var(--shell-pad) * -1);
+    padding: 18px var(--shell-pad);
+    border-left: none;
+    border-right: none;
   }
 
   .reader-grid {
@@ -979,13 +1160,26 @@ sup a {
     padding-left: 0;
   }
 
-  .newsletter {
-    margin-top: 64px;
-    padding: 40px 0 32px;
-  }
-  .post-foot {
+  .newsletter-foot {
     margin-top: 40px;
-    padding: 40px 0;
+    padding-top: 24px;
+  }
+
+  /* Share buttons on mobile: label stacks above, buttons stay in a single
+     wrap-friendly row with comfortable spacing. */
+  .share-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 40px;
+    padding-top: 20px;
+  }
+  .share-buttons ul {
+    gap: 22px;
+  }
+  .share-buttons a,
+  .share-buttons button {
+    font-size: 13px;
   }
 }
 

@@ -5,10 +5,9 @@ import { useT } from "../i18n/useT";
 
 const MAILCHIMP_ACTION = import.meta.env.VITE_MAILCHIMP_URL || "";
 
-type Variant = "full" | "compact";
 type State = "idle" | "loading" | "done" | "error";
 
-export default function Newsletter({ variant = "full" }: { variant?: Variant }) {
+export default function Newsletter() {
   const t = useT();
   const [email, setEmail] = useState("");
   const [state, setState] = useState<State>("idle");
@@ -26,13 +25,10 @@ export default function Newsletter({ variant = "full" }: { variant?: Variant }) 
   const disabled = state === "loading" || state === "done";
 
   return (
-    <section className={variant === "full" ? "newsletter" : "post-foot"}>
+    <section className="newsletter-foot">
       <h3 className="newsletter-title">
         {t("nl_title_pre")} <em>{t("nl_title_em")}</em>
       </h3>
-      <p className="newsletter-copy">
-        {variant === "full" ? t("nl_copy_full") : t("nl_copy_compact")}
-      </p>
       <form
         className="newsletter-form"
         action={MAILCHIMP_ACTION}
@@ -61,11 +57,7 @@ export default function Newsletter({ variant = "full" }: { variant?: Variant }) 
           {state === "done" ? t("nl_done") : state === "loading" ? t("nl_loading") : t("nl_submit")}
         </button>
       </form>
-      {variant === "full" && (
-        <p className="newsletter-fineprint">
-          {state === "error" ? t("nl_error_config") : t("nl_fineprint")}
-        </p>
-      )}
+      {state === "error" && <p className="newsletter-fineprint">{t("nl_error_config")}</p>}
     </section>
   );
 }

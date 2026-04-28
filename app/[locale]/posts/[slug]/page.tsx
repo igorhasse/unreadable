@@ -8,8 +8,10 @@ import { renderMarkdown, rewriteAssetPath } from "../../../../lib/markdown";
 import { t } from "../../../../i18n/t";
 import Newsletter from "../../../../components/Newsletter";
 import ProgressBar from "../../../../components/ProgressBar";
+import ShareButtons from "../../../../components/ShareButtons";
 import SiteFooter from "../../../../components/SiteFooter";
 import PostEnhancements from "../../../../components/PostEnhancements";
+import PostToc from "../../../../components/PostToc";
 
 export async function generateMetadata({
   params,
@@ -91,6 +93,7 @@ export default async function PostPage({
   return (
     <>
       <ProgressBar />
+      <PostToc />
       <Link href={`/${loc}`} className="back">
         {t("post_back", loc)}
       </Link>
@@ -123,8 +126,9 @@ export default async function PostPage({
 
       <PostEnhancements />
 
-      <Newsletter variant="compact" />
-      <SiteFooter locale={loc} withRule />
+      <ShareButtons url={`${SITE.url}/${loc}/posts/${slug}`} title={post.title} />
+      <Newsletter />
+      <SiteFooter locale={loc} />
     </>
   );
 }
