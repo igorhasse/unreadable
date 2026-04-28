@@ -18,11 +18,11 @@ describe("smoke: reachability", () => {
     "/pt-BR",
     "/pt-BR/about",
     "/pt-BR/rss",
-    "/pt-BR/posts/o-igor-falando",
+    "/pt-BR/posts/eu-escrevo-ia-edita",
     "/en",
     "/en/about",
     "/en/rss",
-    "/en/posts/o-igor-falando",
+    "/en/posts/eu-escrevo-ia-edita",
   ])("%s returns 200", async (path) => {
     const res = await fetchOk(`${BASE}${path}`);
     expect(res.status).toBe(200);
@@ -84,7 +84,7 @@ describe("smoke: HTML head critical tags", () => {
   });
 
   it("post page has JSON-LD", async () => {
-    const res = await fetchOk(`${BASE}/pt-BR/posts/o-igor-falando`);
+    const res = await fetchOk(`${BASE}/pt-BR/posts/eu-escrevo-ia-edita`);
     const html = await res.text();
     expect(html).toContain("application/ld+json");
   });
