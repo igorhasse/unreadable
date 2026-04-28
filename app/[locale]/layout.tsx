@@ -121,6 +121,13 @@ export default async function RootLayout({
       className={`${serif.variable} ${sans.variable}`}
     >
       <head>
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/fonts/jetbrains-mono-latin.woff2"
+          crossOrigin="anonymous"
+        />
         <style dangerouslySetInnerHTML={{ __html: CRITICAL_CSS }} />
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
       </head>
