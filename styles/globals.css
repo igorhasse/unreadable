@@ -261,7 +261,6 @@ a:hover {
   letter-spacing: -0.015em;
   max-width: 620px;
   margin: 0;
-  text-wrap: pretty;
 }
 .hero-text em {
   font-style: italic;
@@ -377,7 +376,6 @@ a:hover {
   color: var(--fg-1);
   margin: 0;
   max-width: 620px;
-  text-wrap: pretty;
 }
 
 /* ──────── Post header (article) ──────── */
@@ -434,7 +432,6 @@ a:hover {
   font-weight: 500;
   letter-spacing: -0.025em;
   color: var(--fg);
-  text-wrap: pretty;
 }
 .t-title em {
   font-style: italic;
@@ -473,7 +470,6 @@ article > img {
 }
 .prose p,
 .prose li {
-  text-wrap: pretty;
 }
 .prose li > p {
   margin: 0;
