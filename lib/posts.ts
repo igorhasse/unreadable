@@ -145,7 +145,12 @@ export function getAllPosts(locale: Locale): PostMeta[] {
     const { content: _content, ...meta } = buildPost(parsed.slug, parsed.locale, raw);
     posts.push(meta);
   }
-  return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
+  // Newest first. Fall back to slug comparison (descending) when dates tie,
+  // so the order is deterministic between builds and locales.
+  return posts.sort((a, b) => {
+    if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+    return b.slug.localeCompare(a.slug);
+  });
 }
 
 /**

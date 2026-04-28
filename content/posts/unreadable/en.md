@@ -1,6 +1,6 @@
 ---
 title: Unreadable: Built in Pair with AI
-date: 2026-04-28
+date: 2026-04-29
 description: How I built Unreadable in pair with AI. 92/100 on Lighthouse, experimental stack (vinext), auditable pipeline, open source.
 ---
 
