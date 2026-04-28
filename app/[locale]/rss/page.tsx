@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "../../../lib/site-config";
+import { SITE } from "../../../lib/site-config";
 import { t } from "../../../i18n/t";
 import CopyFeed from "../../../components/CopyFeed";
 import SiteFooter from "../../../components/SiteFooter";
@@ -30,7 +31,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: t("nav_rss", locale),
+    title: "RSS",
     alternates: {
       canonical: `/${locale}/rss`,
       languages: {
@@ -46,8 +47,7 @@ export default async function RssPage({ params }: { params: Promise<{ locale: st
   const { locale } = await params;
   if (locale !== "pt-BR" && locale !== "en") notFound();
   const loc = locale as Locale;
-  const feedUrl =
-    loc === "en" ? "https://igorhasse.com/en/rss.xml" : "https://igorhasse.com/rss.xml";
+  const feedUrl = loc === "en" ? `${SITE.url}/en/rss.xml` : `${SITE.url}/rss.xml`;
   const readers = loc === "en" ? READERS_EN : READERS_PT;
 
   return (

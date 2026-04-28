@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Locale } from "../lib/site-config";
+import { SITE } from "../lib/site-config";
 import { t } from "../i18n/t";
 import NavLink from "./NavLink";
 import LocaleToggle from "./LocaleToggle";
@@ -11,7 +12,8 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
       <div className="site-head-row">
         <div className="brand">
           <Link href={`/${locale}`} className="brand-mark">
-            igor hasse<span className="dot">.</span>
+            {SITE.name}
+            <span className="dot">.</span>
           </Link>
         </div>
         <nav className="site-nav" aria-label={locale === "en" ? "Main" : "Principal"}>

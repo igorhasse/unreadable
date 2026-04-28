@@ -51,7 +51,10 @@ export async function generateMetadata({
     authors: [{ name: SITE.author.name, url: SITE.url }],
     creator: SITE.author.name,
     publisher: SITE.author.name,
-    title: { default: SITE.name, template: `%s · ${SITE.name}` },
+    title: {
+      default: `${loc === "pt-BR" ? "Início" : "Home"} | ${SITE.author.displayName}`,
+      template: `%s | ${SITE.author.displayName}`,
+    },
     description: SITE.description[loc],
     alternates: {
       canonical: `/${loc}`,

@@ -1,4 +1,5 @@
 import type { Locale } from "../../../lib/site-config";
+import { SITE } from "../../../lib/site-config";
 import { renderOGImage, OG_SIZE, OG_CONTENT_TYPE, formatOGEyebrow } from "../../og-template";
 
 export const size = OG_SIZE;
@@ -9,6 +10,6 @@ export default async function Image({ params }: { params: Promise<{ locale: Loca
   return renderOGImage({
     eyebrow: formatOGEyebrow(locale, "ABOUT"),
     title: locale === "pt-BR" ? "Engenheiro antes de blogueiro." : "Engineer before blogger.",
-    footer: "igorhasse.com/about",
+    footer: `${SITE.domain}/about`,
   });
 }

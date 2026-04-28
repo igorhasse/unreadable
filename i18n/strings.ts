@@ -25,9 +25,6 @@ export const STRINGS = {
     nl_done: "obrigado ✓",
     nl_error_config: "Configure VITE_MAILCHIMP_URL no .env para ativar.",
 
-    // About page
-    about_eyebrow: "sobre · igor hasse",
-
     // RSS page
     rss_eyebrow: "assinar · rss",
     rss_title_a: "Um feed",
@@ -42,7 +39,6 @@ export const STRINGS = {
     rss_copied: "COPIADO",
 
     // Footer
-    foot_copyright: "Igor Hasse",
     foot_github: "github",
     foot_twitter: "twitter",
     foot_email: "email",
@@ -85,9 +81,6 @@ export const STRINGS = {
     nl_done: "thanks ✓",
     nl_error_config: "Set VITE_MAILCHIMP_URL in .env to enable this.",
 
-    // About page
-    about_eyebrow: "about · igor hasse",
-
     // RSS page
     rss_eyebrow: "subscribe · rss",
     rss_title_a: "A feed",
@@ -102,7 +95,6 @@ export const STRINGS = {
     rss_copied: "COPIED",
 
     // Footer
-    foot_copyright: "Igor Hasse",
     foot_github: "github",
     foot_twitter: "twitter",
     foot_email: "email",
