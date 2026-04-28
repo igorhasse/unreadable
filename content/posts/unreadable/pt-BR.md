@@ -1,10 +1,10 @@
 ---
-title: "Unreadable: Construído em Par com IA"
+title: Unreadable: Construído em Par com IA
 date: 2026-04-28
-description: Como construí o Unreadable em par com IA. 99/100 no Lighthouse, stack experimental (vinext), pipeline auditável, open source.
+description: Como construí o Unreadable em par com IA. 92/100 no Lighthouse, stack experimental (vinext), pipeline auditável, open source.
 ---
 
-Construí esse blog com IA. Cada componente, cada pipeline, cada decisão de stack passou pelo loop "eu pergunto, ela propõe, eu critico, a gente itera". E o Lighthouse bate 100 em A11y, Best Practices e SEO em mobile e desktop. Performance fica em 99 no mobile e 100 no desktop.
+Construí esse blog com IA. Cada componente, cada pipeline, cada decisão de stack passou pelo loop "eu pergunto, ela propõe, eu critico, a gente itera". E o Lighthouse bate 100 em A11y, Best Practices e SEO em mobile e desktop. Performance fica em 92 no mobile e 100 no desktop.
 
 Tem gente que vai franzir a testa lendo isso. Vibe coding em produção, com stack experimental, deployado em Cloudflare Workers, escrito em par com IA. Cada uma dessas decisões parece arriscada isolada. Junto, soa quase irresponsável.
 
@@ -93,11 +93,9 @@ Total: nada chega em produção sem passar por automação.
 
 ## As Métricas
 
-![Lighthouse mobile + desktop](./metrics.png)
-
 | Métrica        | Home M | Home D | Post M | Post D |
 | -------------- | ------ | ------ | ------ | ------ |
-| Performance    | 99     | 100    | 99     | 100    |
+| Performance    | 92     | 100    | 92     | 100    |
 | Accessibility  | 100    | 100    | 100    | 100    |
 | Best Practices | 100    | 100    | 100    | 100    |
 | SEO            | 100    | 100    | 100    | 100    |

@@ -1,10 +1,10 @@
 ---
-title: "Unreadable: Built in Pair with AI"
+title: Unreadable: Built in Pair with AI
 date: 2026-04-28
-description: How I built Unreadable in pair with AI. 99/100 on Lighthouse, experimental stack (vinext), auditable pipeline, open source.
+description: How I built Unreadable in pair with AI. 92/100 on Lighthouse, experimental stack (vinext), auditable pipeline, open source.
 ---
 
-I built this blog with AI. Every component, every pipeline, every stack decision passed through the loop "I ask, it proposes, I critique, we iterate." And Lighthouse hits 100 on A11y, Best Practices, and SEO across mobile and desktop. Performance lands at 99 on mobile, 100 on desktop.
+I built this blog with AI. Every component, every pipeline, every stack decision passed through the loop "I ask, it proposes, I critique, we iterate." And Lighthouse hits 100 on A11y, Best Practices, and SEO across mobile and desktop. Performance lands at 92 on mobile, 100 on desktop.
 
 Some people will side-eye this. Vibe coding in production, on an experimental stack, deployed on Cloudflare Workers, written in pair with AI. Each one sounds risky on its own. Together, almost reckless.
 
@@ -93,11 +93,9 @@ Bottom line: nothing reaches production without passing through automation.
 
 ## The Metrics
 
-![Lighthouse mobile + desktop](./metrics.png)
-
 | Metric         | Home M | Home D | Post M | Post D |
 | -------------- | ------ | ------ | ------ | ------ |
-| Performance    | 99     | 100    | 99     | 100    |
+| Performance    | 92     | 100    | 92     | 100    |
 | Accessibility  | 100    | 100    | 100    | 100    |
 | Best Practices | 100    | 100    | 100    | 100    |
 | SEO            | 100    | 100    | 100    | 100    |

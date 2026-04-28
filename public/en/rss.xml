@@ -14,5 +14,12 @@
       <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
       <description>How I sped up post creation without losing my voice — the split is simple, I write, AI edits, the choices stay mine throughout.</description>
     </item>
+    <item>
+      <title>&quot;Unreadable: Built in Pair with AI&quot;</title>
+      <link>https://igorhasse.com/en/posts/unreadable</link>
+      <guid>https://igorhasse.com/en/posts/unreadable</guid>
+      <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+      <description>How I built Unreadable in pair with AI. 92/100 on Lighthouse, experimental stack (vinext), auditable pipeline, open source.</description>
+    </item>
   </channel>
 </rss>

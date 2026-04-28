@@ -40,3 +40,6 @@ coverage/
 .vitest/
 .wrangler/
 texts-training/
+
+# Build-time generated post assets (assetsPlugin copies content/posts/<slug>/*.{jpg,png,...} here)
+public/posts/
