@@ -601,6 +601,14 @@ article {
   letter-spacing: 0.8em;
   font-size: 12px;
 }
+/* When HR precedes H2 (our editorial pattern), collapse the duplicate breathing
+   room so the divider feels attached to the section title instead of floating. */
+.prose > hr:has(+ h2) {
+  margin-bottom: 0.75em;
+}
+.prose > hr + h2 {
+  margin-top: 0;
+}
 
 /* code */
 .prose :not(pre) > code {
@@ -613,7 +621,7 @@ article {
 }
 .prose pre {
   background: var(--code-bg);
-  color: #adbac7;
+  color: var(--code-fg);
   padding: 20px 22px;
   overflow-x: auto;
   margin: 1.6em 0;

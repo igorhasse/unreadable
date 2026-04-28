@@ -37,11 +37,23 @@ describe("renderMarkdown", () => {
     expect(html).toContain('id="ola-mundo-ja"');
   });
 
-  it("wraps code blocks with shiki-highlighted spans", async () => {
+  it("wraps code blocks with shiki-highlighted spans using blog tokens", async () => {
     const html = await renderMarkdown("```ts\nconst x = 1;\n```", "s");
     expect(html).toContain("<pre");
     expect(html).toContain("<code");
-    expect(html).toMatch(/style="[^"]*color:#[0-9a-fA-F]{6}/);
+    expect(html).toMatch(/style="[^"]*color:var\(--code-/);
+  });
+
+  it("opens external http(s) links in a new tab with secure rel", async () => {
+    const html = await renderMarkdown("[NYer](https://www.newyorker.com/foo)", "s");
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
+  });
+
+  it("does not add target=_blank to internal links or anchors", async () => {
+    const html = await renderMarkdown("[home](/) and [section](#x)", "s");
+    expect(html).not.toContain('target="_blank"');
+    expect(html).not.toContain('rel="noopener');
   });
 
   it("rewrites relative image paths in markdown to /posts/<slug>/", async () => {
