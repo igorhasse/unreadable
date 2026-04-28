@@ -28,7 +28,14 @@ export function renderOGImage({
         fontFamily: "sans-serif",
       }}
     >
-      <div style={{ fontSize: 20, color: "#d4a259", letterSpacing: 3, textTransform: "uppercase" }}>
+      <div
+        style={{
+          fontSize: 20,
+          color: "#d4a259",
+          letterSpacing: 3,
+          textTransform: "uppercase",
+        }}
+      >
         {eyebrow}
       </div>
       <div
@@ -43,11 +50,25 @@ export function renderOGImage({
         {title}
       </div>
       {subtitle && (
-        <div style={{ fontSize: 28, color: "#8a8680", marginTop: 24, lineHeight: 1.35 }}>
+        <div
+          style={{
+            fontSize: 28,
+            color: "#8a8680",
+            marginTop: 24,
+            lineHeight: 1.35,
+          }}
+        >
           {subtitle}
         </div>
       )}
-      <div style={{ marginTop: "auto", fontSize: 20, color: "#585551", letterSpacing: "0.04em" }}>
+      <div
+        style={{
+          marginTop: "auto",
+          fontSize: 20,
+          color: "#585551",
+          letterSpacing: "0.04em",
+        }}
+      >
         {footer}
       </div>
     </div>,

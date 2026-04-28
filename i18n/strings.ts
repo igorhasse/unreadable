@@ -27,24 +27,6 @@ export const STRINGS = {
 
     // About page
     about_eyebrow: "sobre · igor hasse",
-    about_title_a: "Engenheiro que escreve",
-    about_title_em: "antes",
-    about_title_b: "de publicar.",
-    about_lede_a:
-      "Oi. Sou Igor — engenheiro de software, brasileiro, atualmente trabalhando com ferramentas para desenvolvedores. Este é meu",
-    about_lede_em: "caderno público",
-    about_lede_b: ".",
-    about_h2_blog: "Sobre o blog",
-    about_blog:
-      "A primeira regra é simples: nada sai daqui antes de eu reler por inteiro depois de pelo menos sete dias parado. Escrevo aqui quando uma ideia já passou semanas no rascunho e ainda sobrevive.",
-    about_h2_now: "O que estou fazendo agora",
-    about_now: "Trabalho, side projects, livros. Preencha como quiser.",
-    about_h2_contact: "Contato",
-    about_contact_a: "Melhor canal:",
-    about_contact_email: "email",
-    about_contact_b: ". Também leio DMs no",
-    about_contact_twitter: "twitter",
-    about_contact_c: ".",
 
     // RSS page
     rss_eyebrow: "assinar · rss",
@@ -105,24 +87,6 @@ export const STRINGS = {
 
     // About page
     about_eyebrow: "about · igor hasse",
-    about_title_a: "Engineer who writes",
-    about_title_em: "before",
-    about_title_b: "publishing.",
-    about_lede_a:
-      "Hi. I'm Igor — software engineer, Brazilian, currently working on developer tools. This is my",
-    about_lede_em: "public notebook",
-    about_lede_b: ".",
-    about_h2_blog: "About this blog",
-    about_blog:
-      "The first rule is simple: nothing ships until I reread it end to end after at least seven days of rest. I write here when an idea has already sat in drafts for weeks and still survives.",
-    about_h2_now: "What I'm doing now",
-    about_now: "Work, side projects, books. Fill in the rest as you like.",
-    about_h2_contact: "Contact",
-    about_contact_a: "Best channel:",
-    about_contact_email: "email",
-    about_contact_b: ". I also read DMs on",
-    about_contact_twitter: "twitter",
-    about_contact_c: ".",
 
     // RSS page
     rss_eyebrow: "subscribe · rss",

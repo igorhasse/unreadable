@@ -491,6 +491,21 @@ article > img {
   letter-spacing: -0.005em;
   margin-bottom: 1.5em;
 }
+/* Quick-links row used on the /about page right under the lede. */
+.prose .about-links {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  margin-top: -0.8em;
+  margin-bottom: 2.4em;
+}
+.prose .about-links a {
+  color: var(--fg-1);
+}
+.prose .about-links a:hover {
+  color: var(--accent);
+}
 
 .prose > h2 {
   font-family: var(--font-serif);
