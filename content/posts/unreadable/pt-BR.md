@@ -118,13 +118,13 @@ Como cada métrica saiu desses números:
 
 Stack experimental cobra preço. Os principais que a gente tropeçou:
 
-- `next/font/google` é runtime CDN load. Não self-hospeda como no Next.js real. Pra fonte que precisa estar inline no critical CSS, tem que self-hostar manualmente.
-- `next/og` só funciona em prod. Satori native modules crash Vite RSC dev. Tem que `vinext build && vinext start` pra testar OG images.
-- `WebAssembly.instantiate()` de bytes é bloqueado em Workers. Shiki default crash com erro 1101. Solução: `createJavaScriptRegexEngine`.
-- Vite NÃO minifica SSR/Worker bundles por default. Tem que setar `build.minify: "esbuild"` per environment. Sem isso, ~40% mais JS no Worker.
-- Use `vinext deploy`, NÃO `wrangler deploy` raw. Sem o vinext deploy, vite-plugin-cloudflare não wire-up o `main` do Worker. Resultado: assets-only deploy que 404 em rotas dinâmicas.
-- `opengraph-image.tsx` não é auto-linkado no metadata. Diferente do Next.js, vinext não injeta automaticamente. Precisa setar `openGraph.images` explícito em cada `generateMetadata`.
-- Ambient `next` types não estão automatically resolvable. vinext não instala `next`, então alguns type imports do `"next"` precisam de declarações em `next-env.d.ts`.
+- `next/font/google` baixa a fonte da CDN em runtime. Não hospeda localmente como o Next.js de verdade. Pra fonte que precisa estar inline no CSS crítico, tem que hospedar na mão.
+- `next/og` só roda em produção. Os módulos nativos do Satori quebram em dev. Pra testar OG image, só com `vinext build && vinext start`.
+- `WebAssembly.instantiate()` a partir de bytes é bloqueado em Workers. O shiki padrão quebra com erro 1101. Solução: `createJavaScriptRegexEngine`.
+- Vite NÃO minifica bundle de SSR/Worker por padrão. Tem que definir `build.minify: "esbuild"` em cada environment. Sem isso, ~40% mais JS no Worker.
+- Use `vinext deploy`, NÃO `wrangler deploy` direto. Sem o vinext deploy, o vite-plugin-cloudflare não conecta o `main` do Worker. Resultado: deploy só de assets, que retorna 404 em rotas dinâmicas.
+- `opengraph-image.tsx` não é vinculado ao metadata automaticamente. Diferente do Next.js, vinext não injeta sozinho. Tem que declarar `openGraph.images` explícito em cada `generateMetadata`.
+- Os tipos ambient do `next` não resolvem sozinhos. Como vinext não instala `next`, alguns imports de tipo do módulo `"next"` precisam de declaração em `next-env.d.ts`.
 
 Cada uma dessas pegadinhas custou de 30 minutos a 2 horas pra resolver. A maioria não tá nos docs do vinext. Tive que ler issues do GitHub, code da própria lib, às vezes só descobrir testando.
 
