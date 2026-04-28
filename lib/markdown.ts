@@ -1,7 +1,7 @@
 import { Marked } from "marked";
 import { createHighlighterCore, type HighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
-import githubDarkDimmed from "shiki/themes/github-dark-dimmed.mjs";
+import { blogTheme } from "./shiki-blog-theme";
 import css from "shiki/langs/css.mjs";
 import tsx from "shiki/langs/tsx.mjs";
 import typescript from "shiki/langs/typescript.mjs";
@@ -21,7 +21,7 @@ let highlighterPromise: Promise<HighlighterCore> | null = null;
 function getHighlighter(): Promise<HighlighterCore> {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighterCore({
-      themes: [githubDarkDimmed],
+      themes: [blogTheme],
       langs: LANGS,
       engine: createJavaScriptRegexEngine(),
     });
@@ -74,6 +74,15 @@ function makeMarked(slug: string): Marked {
         const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
         return `<img src="${escapeHtml(resolved)}" alt="${escapeHtml(text)}"${titleAttr} loading="lazy" />`;
       },
+      link({ href, title, tokens }: { href: string; title?: string | null; tokens: unknown[] }) {
+        const text = (
+          this as unknown as { parser: { parseInline: (t: unknown[]) => string } }
+        ).parser.parseInline(tokens);
+        const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
+        const isExternal = /^https?:\/\//i.test(href);
+        const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
+        return `<a href="${escapeHtml(href)}"${titleAttr}${targetAttr}>${text}</a>`;
+      },
     },
   });
 }
@@ -97,7 +106,7 @@ export async function renderMarkdown(content: string, slug: string): Promise<str
       const lang = normalizeLang(token.lang || "plaintext");
       const highlighted = highlighter.codeToHtml(token.text, {
         lang,
-        theme: "github-dark-dimmed",
+        theme: "unreadable",
       });
       (token as { type: string; raw: string; text: string }).type = "html";
       (token as { type: string; raw: string; text: string }).text = highlighted;

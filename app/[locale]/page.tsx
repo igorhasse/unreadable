@@ -15,7 +15,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
           <PostRow key={p.slug} post={p} index={i} />
         ))}
       </div>
-      <Newsletter variant="full" />
+      <Newsletter />
       <SiteFooter locale={locale} />
     </>
   );

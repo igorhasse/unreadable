@@ -19,7 +19,7 @@
   --shell-pad: 24px;
 
   /* ── Type scale (desktop base) ── */
-  --text-body: 19px;
+  --text-body: 14px;
   --text-small: 14px;
   --text-micro: 12px;
 
@@ -79,6 +79,10 @@
 
   --code-bg: #0e0e0e;
   --code-border: #242323;
+  --code-fg: #c8c4be;
+  --code-fg-strong: #ebe8e4;
+  --code-fg-muted: #888480;
+  --code-accent: #d4a259;
 
   --callout-info-bg: #181e22;
   --callout-info-bar: #6b8a9a;
@@ -112,6 +116,10 @@
 
   --code-bg: #1a1814;
   --code-border: #2c2a24;
+  --code-fg: #c8c4be;
+  --code-fg-strong: #ebe8e4;
+  --code-fg-muted: #888480;
+  --code-accent: #d4a259;
 
   --callout-info-bg: #e8edf0;
   --callout-info-bar: #4b6978;
@@ -127,7 +135,7 @@
 @media (max-width: 560px) {
   :root {
     --shell-max: 100%;
-    --shell-pad: 20px;
+    --shell-pad: 24px;
 
     --text-body: 17px;
 
@@ -151,7 +159,7 @@
 
 @media (max-width: 380px) {
   :root {
-    --shell-pad: 16px;
+    --shell-pad: 20px;
 
     --text-body: 16px;
     --text-brand: 22px;
