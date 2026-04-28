@@ -65,7 +65,20 @@ function readPosts(locale: Locale): PostMeta[] {
     if (match) {
       for (const line of match[1].split("\n")) {
         const idx = line.indexOf(":");
-        if (idx > 0) attrs[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
+        if (idx > 0) {
+          const key = line.slice(0, idx).trim();
+          let value = line.slice(idx + 1).trim();
+          // Strip surrounding quotes if both ends match (handles
+          // `title: "X: Y"` style YAML where quotes are delimiters,
+          // not part of the value).
+          if (
+            (value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))
+          ) {
+            value = value.slice(1, -1);
+          }
+          attrs[key] = value;
+        }
       }
     }
     results.push({
