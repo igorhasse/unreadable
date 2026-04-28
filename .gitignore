@@ -43,3 +43,7 @@ texts-training/
 
 # Build-time generated post assets (assetsPlugin copies content/posts/<slug>/*.{jpg,png,...} here)
 public/posts/
+
+# Build artifacts written by vite plugins (regenerated every build/dev start)
+public/rss.xml
+public/en/rss.xml
