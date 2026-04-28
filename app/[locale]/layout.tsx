@@ -68,11 +68,20 @@ export async function generateMetadata({
       title: SITE.name,
       description: SITE.description[loc],
       locale: loc === "en" ? "en_US" : "pt_BR",
+      images: [
+        {
+          url: `/${loc}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: SITE.name,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       creator: SITE.author.twitter,
       site: SITE.author.twitter,
+      images: [`/${loc}/opengraph-image`],
     },
     icons: {
       icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],

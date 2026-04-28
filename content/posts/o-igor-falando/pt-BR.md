@@ -1,7 +1,7 @@
 ---
 title: Eu escrevo, a IA edita
 date: 2026-04-28
-description: "Como otimizei a criação de posts sem perder a voz: a divisão é simples. Eu escrevo, a IA edita, as escolhas continuam sendo minhas."
+description: Como otimizei a criação de posts sem perder a voz — a divisão é simples. Eu escrevo, a IA edita, as escolhas continuam sendo minhas.
 ---
 
 Eu escrevo, a IA edita. Essa é a divisão que fechou pra mim. Quero publicar mais sem que cada post deixe de parecer meu, com meu ritmo, com minhas escolhas, com minha voz.
